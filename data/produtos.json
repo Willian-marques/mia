@@ -1,0 +1,39 @@
+{
+    "1": {
+        "id": 1,
+        "slug": "bolsa-zephira",
+        "title": "Bolsa Zephira",
+        "category": "acessorios",
+        "price": 299,
+        "oldPrice": null,
+        "discount": null,
+        "tags": [
+            "dia-a-dia"
+        ],
+        "images": [
+            "uploads\/1759004922_0_504289588_18375789208192396_4827431109246341412_n.jpg",
+            "uploads\/1759005804_0_78209787-d2a3-435e-aa50-e26f7fd43ff5.png",
+            "uploads\/1759005804_1_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+            "uploads\/1759005804_2_imagem_2025-09-27_174313487.png"
+        ],
+        "colors": [
+            {
+                "name": "marrom",
+                "color": "#92400E",
+                "title": "Marrom"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Bolsa inteiramente em couro legítimo, personalizada com suas iniciais e acompanhada de alça regulável, adaptando-se a diferentes ocasiões. Seu design atemporal faz dela uma peça versátil, que transita com elegância do dia a dia às produções da noite.",
+        "specifications": "Altura: 13cm|Largura: 23cm|Profundidade: 6cm|Tamanho da alça: 60cm a 120cm|Material: 100% Couro Legítimo|Personalização: Gravação de iniciais disponível",
+        "status": "ativo",
+        "stock": 25,
+        "sales": 47,
+        "isFeatured": true,
+        "isBestseller": false,
+        "created_at": "2025-09-26",
+        "updated_at": "2025-09-29 03:11:41"
+    }
+}

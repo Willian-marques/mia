@@ -1,0 +1,121 @@
+/* Fallbacks para imagens e otimizações adicionais */
+
+/* Garantir que todas as imagens sejam responsivas por padrão */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Estilos para imagens que falharem ao carregar */
+img::after {
+    content: attr(alt);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0f0f0;
+    color: #666;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Loading placeholder para imagens */
+.image-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Otimizações específicas para diferentes tipos de imagem */
+.product-image img,
+.category-item img,
+.instagram-gallery img {
+    object-fit: cover;
+    object-position: center;
+}
+
+.logo img,
+.footer-logo {
+    object-fit: contain;
+}
+
+/* Preload de imagens críticas */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FCF8F1;
+    opacity: 0;
+    z-index: -1;
+}
+
+/* Estilos para imagens com aspect ratio específico */
+.aspect-ratio-container {
+    position: relative;
+    width: 100%;
+}
+
+.aspect-ratio-container::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+    /* 1:1 aspect ratio */
+}
+
+.aspect-ratio-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Lazy loading support */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* High DPI display optimization */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .logo img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Print styles para imagens */
+@media print {
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .hero {
+        background: none !important;
+        height: auto !important;
+    }
+}
