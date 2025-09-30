@@ -6,6 +6,13 @@ DirectoryIndex index.php
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(.+)\.php[\s?] [NC]
 RewriteRule ^ /%1? [R=301,L]
 
+# Ignorar arquivos estáticos (não reescrever)
+RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js)$ [NC]
+RewriteRule .* - [L]
+
+# Exceção: /admin ou /admin/ deve cair em admin.php (sem loop)
+RewriteRule ^admin/?$ admin.php [L]
+
 # Se a URL não tem .php e o arquivo .php existe, carrega o arquivo .php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -19,10 +26,10 @@ RewriteRule ^produto-case-notebook\.html$ produto-unico.php?id=4 [R=301,L]
 RewriteRule ^produto-porta-cartao\.html$ produto-unico.php?id=3 [R=301,L]
 RewriteRule ^produto-porta-vinho\.html$ produto-unico.php?id=5 [R=301,L]
 
-# URLs amigáveis para produtos - Corrigido
+# URLs amigáveis para produtos
 RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
 
-# Cache de arquivos estáticos - Evitar problemas de navegação
+# Cache de arquivos estáticos
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/css "access plus 1 month"
@@ -36,11 +43,11 @@ RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
 
 # Headers para melhorar navegação
 <IfModule mod_headers.c>
-    # Permitir navegação de volta
+    # Evitar cache em .php
     Header always set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{REQUEST_URI} =~ /\.php$/"
     Header always set Pragma "no-cache" "expr=%{REQUEST_URI} =~ /\.php$/"
     Header always set Expires "0" "expr=%{REQUEST_URI} =~ /\.php$/"
-    
+
     # Segurança básica
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-Content-Type-Options "nosniff"

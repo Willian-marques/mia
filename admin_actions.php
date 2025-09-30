@@ -1,13 +1,16 @@
 <?php
-// Habilitar exibição de erros para debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-// Headers para CORS e JSON
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__.'/php-error.log');
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+
+$action = $_POST['action'] ?? $_GET['action'] ?? null;
+if ($action === 'test') {
+    header('Content-Type: application/json');
+    echo json_encode(['success'=>true]);
+    exit;
+}
 
 session_start();
 

@@ -1,7 +1,27 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+declare(strict_types=1);
+
+error_reporting(E_ALL);ini_set('display_errors', '0');
+ini_set('log_errors', '1');ini_set('error_log', __DIR__ . '/php-error.log');
+
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+$BASE = __DIR__;
+
+// caminhos ABSOLUTOS para tudo que era relativo
+require_once $BASE . '/config/produtos.php';
+
+$arquivo_mensagens  = $BASE . '/data/mensagens.json';
+$arquivo_destaque   = $BASE . '/data/produto-destaque.json';
+$arquivo_avaliacoes = $BASE . '/data/avaliacoes.json';
+
+// garante que a pasta data exista (evita 500 em file_put_contents)
+if (!is_dir($BASE . '/data')) {
+    mkdir($BASE . '/data', 0777, true);
+}
+
 
 // Configurações de login simples (em produção, use hash de senha e banco de dados)
 $admin_user = 'admin';
@@ -9,47 +29,60 @@ $admin_pass = 'mia2025';
 
 // Verificar login
 if (isset($_POST['login'])) {
-    if ($_POST['username'] === $admin_user && $_POST['password'] === $admin_pass) {
+    if (($_POST['username'] ?? '') === $admin_user && ($_POST['password'] ?? '') === $admin_pass) {
         $_SESSION['admin_logged'] = true;
-        header('Location: admin');
+        header('Location: /admin.php');
         exit;
     } else {
         $error = 'Usuário ou senha incorretos';
     }
 }
 
-// Logout
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: admin');
+    header('Location: /admin.php');
     exit;
 }
 
 // Verificar se está logado
+// Verificar se está logado
 $logged_in = isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'];
 
+// Se não estiver logado e tentar acessar outra rota (ex: /admin/mensagens),
+// redireciona de volta para /admin/ (onde aparece a tela de login).
+if (!$logged_in) {
+    if ($_SERVER['REQUEST_URI'] !== '/admin/' && $_SERVER['REQUEST_URI'] !== '/admin/index.php') {
+        header('Location: /admin.php');
+        exit;
+    }
+}
+
+// ========================
+// Conteúdo restrito (só se logado)
+// ========================
 if ($logged_in) {
-    // Incluir base de dados
-    require_once 'config/produtos.php';
-    
-    // Carregar estatísticas das mensagens
+    $hoje = date('Y-m-d'); // define antes de usar no closure
+
+    // --- Mensagens ---
     $mensagens_stats = ['total' => 0, 'novas' => 0, 'hoje' => 0];
-    $arquivo_mensagens = 'data/mensagens.json';
+
     if (file_exists($arquivo_mensagens)) {
-        $conteudo = file_get_contents($arquivo_mensagens);
+        $conteudo  = file_get_contents($arquivo_mensagens);
         $mensagens = json_decode($conteudo, true) ?: [];
-        
+
         $mensagens_stats['total'] = count($mensagens);
-        $mensagens_stats['novas'] = count(array_filter($mensagens, function($m) { 
-            return $m['status'] === 'nova'; 
+
+        $mensagens_stats['novas'] = count(array_filter($mensagens, function ($m) {
+            return (($m['status'] ?? '') === 'nova');
         }));
-        $mensagens_stats['hoje'] = count(array_filter($mensagens, function($m) { 
-            return date('Y-m-d', strtotime($m['data_envio'])) === date('Y-m-d'); 
+
+        $mensagens_stats['hoje'] = count(array_filter($mensagens, function ($m) use ($hoje) {
+            $ts = strtotime($m['data_envio'] ?? '');
+            return $ts !== false && date('Y-m-d', $ts) === $hoje;
         }));
     }
-    
-    // Carregar configurações do produto destacado
-    $arquivo_destaque = 'data/produto-destaque.json';
+
+    // --- Produto destacado ---
     $produto_destaque = [
         'ativo' => false,
         'titulo' => 'Produto Especial',
@@ -60,40 +93,16 @@ if ($logged_in) {
         'cor_texto' => '#ffffff',
         'posicao' => 'antes'
     ];
-    
+
     if (file_exists($arquivo_destaque)) {
-        $conteudo_destaque = file_get_contents($arquivo_destaque);
-        $dados_destaque = json_decode($conteudo_destaque, true);
-        if ($dados_destaque) {
+        $dados_destaque = json_decode(file_get_contents($arquivo_destaque), true);
+        if (is_array($dados_destaque)) {
             $produto_destaque = array_merge($produto_destaque, $dados_destaque);
         }
     }
-    
-    // Processar ações
-    if (isset($_POST['action'])) {
-        switch ($_POST['action']) {
-            case 'save_destaque':
-                $produto_destaque['ativo'] = isset($_POST['destaque_ativo']) ? true : false;
-                $produto_destaque['titulo'] = $_POST['destaque_titulo'] ?? '';
-                $produto_destaque['descricao'] = $_POST['destaque_descricao'] ?? '';
-                $produto_destaque['produto_id'] = $_POST['destaque_produto_id'] ?? '';
-                $produto_destaque['data_atualizacao'] = date('Y-m-d H:i:s');
-                
-                file_put_contents($arquivo_destaque, json_encode($produto_destaque, JSON_PRETTY_PRINT));
-                $success_message = "Seção destacada atualizada com sucesso!";
-                break;
-            case 'add':
-                // Lógica para adicionar produto (implementar depois)
-                break;
-            case 'edit':
-                // Lógica para editar produto (implementar depois)
-                break;
-            case 'delete':
-                // Lógica para deletar produto (implementar depois)
-                break;
-        }
-    }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -1920,8 +1929,7 @@ if ($logged_in) {
                 </h3>
                 <p>Promoções Ativas</p>
             </div>
-            <?php
-            // Carregar stats das avaliações
+            <?php           
             $avaliacoes_stats = ['total' => 0, 'ativas' => 0];
             if (file_exists('data/avaliacoes.json')) {
                 $conteudo_avaliacoes = file_get_contents('data/avaliacoes.json');
@@ -2037,15 +2045,13 @@ if ($logged_in) {
             </div>
 
             <?php if ($mensagens_stats['total'] > 0): ?>
-                <?php
-                // Carregar últimas 5 mensagens
+                <?php               
                 $arquivo_mensagens = 'data/mensagens.json';
                 $mensagens_recentes = [];
                 if (file_exists($arquivo_mensagens)) {
                     $conteudo = file_get_contents($arquivo_mensagens);
                     $todas_mensagens = json_decode($conteudo, true) ?: [];
-                    
-                    // Ordenar por data e pegar as 5 mais recentes
+                                       
                     usort($todas_mensagens, function($a, $b) {
                         return strtotime($b['data_envio']) - strtotime($a['data_envio']);
                     });
@@ -2281,23 +2287,19 @@ if ($logged_in) {
                 </div>
             </div>
 
-            <?php
-            // Carregar avaliações
+            <?php           
             $arquivo_avaliacoes = 'data/avaliacoes.json';
             $avaliacoes = [];
             if (file_exists($arquivo_avaliacoes)) {
                 $conteudo = file_get_contents($arquivo_avaliacoes);
                 $avaliacoes = json_decode($conteudo, true) ?: [];
             }
-
-            // Processar ações das avaliações
+           
             if (isset($_POST['action']) && $_POST['action'] == 'save_review') {
                 $tipo_foto = $_POST['review_tipo_foto'] ?? 'iniciais';
                 $foto_data = $_POST['review_foto'];
-                
-                // Processar dados da foto
-                if ($tipo_foto === 'iniciais') {
-                    // Gerar iniciais automaticamente
+                               
+                if ($tipo_foto === 'iniciais') {                   
                     $nome_partes = explode(' ', trim($_POST['review_nome']));
                     $iniciais = '';
                     if (count($nome_partes) >= 2) {
@@ -2308,8 +2310,7 @@ if ($logged_in) {
                     
                     $cor_inicial = $_POST['cor_inicial'] ?? '#e91e63';
                     $foto_final = 'iniciais';
-                } else {
-                    // Foto carregada
+                } else {                   
                     $foto_final = $foto_data;
                     $iniciais = '';
                     $cor_inicial = '';
@@ -2329,14 +2330,12 @@ if ($logged_in) {
                     'ordem' => count($avaliacoes) + 1
                 ];
 
-                if (!empty($_POST['review_id'])) {
-                    // Editar avaliação existente
+                if (!empty($_POST['review_id'])) {                   
                     $review_id = $_POST['review_id'];
                     $review_data['id'] = intval($review_id);
                     $avaliacoes[$review_id] = $review_data;
                     $success_message = "Avaliação atualizada com sucesso!";
-                } else {
-                    // Nova avaliação
+                } else {                   
                     $new_id = count($avaliacoes) + 1;
                     while (isset($avaliacoes[$new_id])) {
                         $new_id++;
@@ -2348,8 +2347,7 @@ if ($logged_in) {
 
                 file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT));
             }
-
-            // Deletar avaliação
+           
             if (isset($_POST['action']) && $_POST['action'] == 'delete_review') {
                 $review_id = $_POST['review_id'];
                 if (isset($avaliacoes[$review_id])) {
@@ -2358,8 +2356,7 @@ if ($logged_in) {
                     $success_message = "Avaliação excluída com sucesso!";
                 }
             }
-
-            // Recarregar após alterações
+           
             if (isset($success_message)) {
                 if (file_exists($arquivo_avaliacoes)) {
                     $conteudo = file_get_contents($arquivo_avaliacoes);
@@ -2889,12 +2886,10 @@ if ($logged_in) {
         </div>
     </div>
 
-    <script>
-    // Variáveis globais
+    <script>   
     let currentProductId = null;
     let selectedImages = [];
-
-    // Sistema de Notificações Moderno
+   
     class NotificationSystem {
         constructor() {
             this.container = document.getElementById('notificationContainer');
@@ -2905,13 +2900,11 @@ if ($logged_in) {
             const notification = this.createNotification(type, title, message);
             this.container.appendChild(notification);
             this.notifications.push(notification);
-
-            // Animação de entrada
+           
             setTimeout(() => {
                 notification.classList.add('show');
             }, 10);
-
-            // Auto-remover após o tempo especificado
+           
             if (duration > 0) {
                 setTimeout(() => {
                     this.hide(notification);
@@ -2982,11 +2975,9 @@ if ($logged_in) {
             });
         }
     }
-
-    // Instanciar sistema de notificações
+   
     const notifications = new NotificationSystem();
-
-    // Função para mostrar/ocultar campo de desconto
+   
     function toggleDiscountField() {
         const hasDiscount = document.getElementById('hasDiscount').checked;
         const discountSection = document.getElementById('discountSection');
@@ -3002,37 +2993,30 @@ if ($logged_in) {
             document.getElementById('discountPreview').value = '';
         }
     }
-
-    // Função para gerenciar seleção de cores (múltipla seleção)
+   
     function initColorSelection() {
         const colorOptions = document.querySelectorAll('.color-option');
 
         colorOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                // Toggle da cor clicada (permite múltiplas seleções)
+            option.addEventListener('click', function() {               
                 this.classList.toggle('active');
-
-                // Garantir que pelo menos uma cor está selecionada
+               
                 const activeColors = document.querySelectorAll('.color-option.active');
-                if (activeColors.length === 0) {
-                    // Se nenhuma cor selecionada, selecionar marrom por padrão
+                if (activeColors.length === 0) {                   
                     document.querySelector('.color-option[data-color="marrom"]').classList.add(
                     'active');
                 }
-
-                // Feedback visual
+               
                 this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 150);
-
-                // Atualizar contador visual
+               
                 updateColorCounter();
             });
         });
     }
-
-    // Função para atualizar contador de cores selecionadas
+   
     function updateColorCounter() {
         const activeColors = document.querySelectorAll('.color-option.active');
         const counter = document.querySelector('.colors-counter');
@@ -3041,8 +3025,7 @@ if ($logged_in) {
                 `${activeColors.length} cor${activeColors.length !== 1 ? 'es' : ''} selecionada${activeColors.length !== 1 ? 's' : ''}`;
         }
     }
-
-    // Função para obter cores selecionadas
+   
     function getSelectedColors() {
         const activeColors = document.querySelectorAll('.color-option.active');
         return Array.from(activeColors).map(option => ({
@@ -3051,11 +3034,10 @@ if ($logged_in) {
             title: option.querySelector('span').textContent
         }));
     }
-
-    // Função para calcular desconto em tempo real
+   
     function calculateDiscountPreview() {
-        const originalPrice = parseFloat(document.getElementById('productPrice').value) || 0; // Campo principal = preço original
-        const discountPrice = parseFloat(document.getElementById('productOldPrice').value) || 0; // Campo desconto = preço promocional
+    const originalPrice = parseFloat(document.getElementById('productPrice').value) || 0;
+    const discountPrice = parseFloat(document.getElementById('productOldPrice').value) || 0;
         const previewField = document.getElementById('discountPreview');
 
         if (originalPrice > 0 && discountPrice > 0 && originalPrice > discountPrice) {
@@ -3068,8 +3050,7 @@ if ($logged_in) {
             previewField.value = '';
         }
     }
-
-    // Abrir modal para adicionar produto
+   
     function openAddProductModal() {
         document.getElementById('modalTitle').textContent = 'Adicionar Novo Produto';
         document.getElementById('productForm').reset();
@@ -3084,11 +3065,9 @@ if ($logged_in) {
         document.getElementById('isBestseller').checked = false;
         selectedImages = [];
         currentProductId = null;
-        
-        // Campo de imagem obrigatório para novos produtos
+               
         document.getElementById('productImages').required = true;
-
-        // Resetar cores para padrão (marrom)
+       
         document.querySelectorAll('.color-option').forEach(option => {
             option.classList.remove('active');
         });
@@ -3097,13 +3076,11 @@ if ($logged_in) {
 
         document.getElementById('productModal').style.display = 'block';
     }
-
-    // Abrir modal para editar produto
+   
     function editProduct(id) {
         currentProductId = id;
         document.getElementById('modalTitle').textContent = 'Editar Produto';
-
-        // Buscar dados do produto do servidor
+       
         fetch(`admin_actions.php?action=get&productId=${id}`)
             .then(response => {
                 console.log('Get product response status:', response.status);
@@ -3122,16 +3099,13 @@ if ($logged_in) {
                         document.getElementById('productName').value = product.title;
                         document.getElementById('productCategory').value = product.category;
                         document.getElementById('productDescription').value = product.description || '';
-                        document.getElementById('productSpecifications').value = product.specifications || '';
-                        // NOVA LÓGICA: campo productPrice = preço original, campo productOldPrice = preço com desconto
+                        document.getElementById('productSpecifications').value = product.specifications || '';                       
                         const hasDiscount = product.oldPrice && product.oldPrice > 0;
-                        if (hasDiscount) {
-                            // Tem desconto: productPrice recebe oldPrice (original), productOldPrice recebe price (com desconto)
-                            document.getElementById('productPrice').value = product.oldPrice; // Campo principal = preço original
-                            document.getElementById('productOldPrice').value = product.price; // Campo desconto = preço promocional
-                        } else {
-                            // Sem desconto: productPrice recebe price (que é o preço normal)
-                            document.getElementById('productPrice').value = product.price; // Campo principal = preço normal
+                        if (hasDiscount) {                           
+                        document.getElementById('productPrice').value = product.oldPrice;
+                        document.getElementById('productOldPrice').value = product.price;
+                        } else {                           
+                        document.getElementById('productPrice').value = product.price;
                         }
                         
                         document.getElementById('productStatus').value = product.status;
@@ -3139,8 +3113,7 @@ if ($logged_in) {
                         document.getElementById('productSales').value = product.sales || 0;
                         document.getElementById('isFeatured').checked = product.isFeatured || false;
                         document.getElementById('isBestseller').checked = product.isBestseller || false;
-
-                        // Configurar desconto
+                       
                         document.getElementById('hasDiscount').checked = hasDiscount;
                         if (hasDiscount) {
                             document.getElementById('discountSection').style.display = 'block';
@@ -3148,8 +3121,7 @@ if ($logged_in) {
                         } else {
                             document.getElementById('discountSection').style.display = 'none';
                         }
-
-                        // Configurar cores (múltiplas seleções)
+                       
                         document.querySelectorAll('.color-option').forEach(option => {
                             option.classList.remove('active');
                         });
@@ -3165,12 +3137,10 @@ if ($logged_in) {
                             document.querySelector('.color-option[data-color="marrom"]').classList.add('active');
                         }
                         updateColorCounter();
-
-                        // Carregar imagens existentes do produto
+                       
                         loadExistingImages(product.images || []);
                         document.getElementById('imageError').style.display = 'none';
-                        
-                        // Campo de imagem não obrigatório para produtos existentes
+                                               
                         document.getElementById('productImages').required = false;
 
                         document.getElementById('productModal').style.display = 'block';
@@ -3187,24 +3157,20 @@ if ($logged_in) {
                 alert('Erro ao carregar produto: ' + error.message);
             });
     }
-
-    // Fechar modal
+   
     function closeProductModal() {
         document.getElementById('productModal').style.display = 'none';
     }
-
-    // Salvar produto
+   
     function saveProduct() {
         const form = document.getElementById('productForm');
         const formData = new FormData(form);
-
-        // Validações básicas do formulário
+       
         if (!form.checkValidity()) {
             notifications.warning('Campos Obrigatórios', 'Por favor, preencha todos os campos obrigatórios marcados com *');
             return;
         }
-
-        // Validação de imagens (apenas para novos produtos)
+       
         if (!currentProductId && selectedImages.length === 0) {
             document.getElementById('imageError').style.display = 'block';
             notifications.warning('Imagem Obrigatória', 'Pelo menos uma imagem é obrigatória para produtos novos!');
@@ -3215,43 +3181,36 @@ if ($logged_in) {
         } else {
             document.getElementById('imageError').style.display = 'none';
         }
-
-        // Validação de desconto
+       
         const hasDiscount = document.getElementById('hasDiscount').checked;
         if (hasDiscount) {
-            const originalPrice = parseFloat(document.getElementById('productPrice').value); // Campo principal = preço original
-            const discountPrice = parseFloat(document.getElementById('productOldPrice').value); // Campo desconto = preço promocional
+        const originalPrice = parseFloat(document.getElementById('productPrice').value);
+        const discountPrice = parseFloat(document.getElementById('productOldPrice').value);
 
             if (!discountPrice || discountPrice >= originalPrice) {
                 notifications.warning('Desconto Inválido', 'Para aplicar desconto, o preço promocional deve ser menor que o preço original!');
                 return;
             }
         }
-
-        // Adicionar ação
+       
         formData.append('action', currentProductId ? 'edit' : 'add');
-
-        // Adicionar cores selecionadas
+       
         const selectedColors = getSelectedColors();
         formData.append('selectedColors', JSON.stringify(selectedColors));
-
-        // Adicionar imagens novas ao FormData
+       
         selectedImages.forEach((image) => {
             formData.append('images[]', image);
         });
-
-        // Adicionar imagens existentes (para produtos editados)
+       
         if (currentProductId && window.existingImages) {
             formData.append('existingImages', JSON.stringify(window.existingImages));
         }
-
-        // Mostrar loading
+       
         const saveBtn = document.querySelector('.btn-primary');
         const originalText = saveBtn.textContent;
         saveBtn.textContent = 'Salvando...';
         saveBtn.disabled = true;
-
-        // Enviar dados para o servidor
+       
         fetch('admin_actions.php', {
                 method: 'POST',
                 body: formData
@@ -3261,7 +3220,7 @@ if ($logged_in) {
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                return response.text(); // Primeiro pega como texto para debug
+            return response.text();
             })
             .then(text => {
                 console.log('Response text:', text);
@@ -3289,11 +3248,9 @@ if ($logged_in) {
                 saveBtn.disabled = false;
             });
     }
-
-    // Excluir produto
+   
     function deleteProduct(id) {
-        if (confirm('Tem certeza que deseja excluir este produto?\n\nEsta ação não pode ser desfeita!')) {
-            // Enviar requisição de exclusão
+        if (confirm('Tem certeza que deseja excluir este produto?\n\nEsta ação não pode ser desfeita!')) {           
             const formData = new FormData();
             formData.append('action', 'delete');
             formData.append('productId', id);
@@ -3317,8 +3274,7 @@ if ($logged_in) {
                 });
         }
     }
-
-    // Upload de imagens
+   
     document.getElementById('productImages').addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
         const preview = document.getElementById('imagePreview');
@@ -3343,22 +3299,19 @@ if ($logged_in) {
             }
         });
     });
-
-    // Remover imagem nova
+   
     function removeImage(index) {
         selectedImages.splice(index, 1);
         updateImagePreview();
     }
-
-    // Remover imagem existente
+   
     function removeExistingImage(index, imagePath) {
         if (window.existingImages) {
             window.existingImages.splice(index, 1);
             loadExistingImages(window.existingImages);
         }
     }
-
-    // Atualizar preview de imagens
+   
     function updateImagePreview() {
         const preview = document.getElementById('imagePreview');
         preview.innerHTML = '';
@@ -3377,12 +3330,11 @@ if ($logged_in) {
             reader.readAsDataURL(file);
         });
     }
-
-    // Carregar imagens existentes do produto
+   
     function loadExistingImages(existingImages) {
         const preview = document.getElementById('imagePreview');
         preview.innerHTML = '';
-        selectedImages = []; // Limpar array de imagens selecionadas
+    selectedImages = [];
 
         existingImages.forEach((imagePath, index) => {
             const previewItem = document.createElement('div');
@@ -3394,12 +3346,10 @@ if ($logged_in) {
             `;
             preview.appendChild(previewItem);
         });
-
-        // Armazenar imagens existentes em uma variável global
-        window.existingImages = existingImages.slice(); // Criar cópia do array
+       
+    window.existingImages = existingImages.slice();
     }
-
-    // Filtrar produtos
+   
     function filterProducts() {
         const searchValue = document.getElementById('searchProducts').value.toLowerCase();
         const rows = document.querySelectorAll('tbody tr');
@@ -3415,16 +3365,14 @@ if ($logged_in) {
             }
         });
     }
-
-    // Fechar modal clicando fora
+   
     window.onclick = function(event) {
         const modal = document.getElementById('productModal');
         if (event.target === modal) {
             closeProductModal();
         }
     }
-
-    // Formatação de preço em tempo real
+   
     document.getElementById('productPrice').addEventListener('input', function() {
         formatCurrency(this);
     });
@@ -3438,10 +3386,9 @@ if ($logged_in) {
         value = (value / 100).toFixed(2);
         input.value = value;
     }
-
-    // Teste de conectividade
+   
     function testConnection() {
-        fetch('admin_actions.php?action=test')
+        fetch('https://miamianet.com.br/admin_actions?action=test')
             .then(response => {
                 console.log('Connection test status:', response.status);
                 return response.text();
@@ -3466,21 +3413,16 @@ if ($logged_in) {
                 alert('Erro de rede: ' + error.message + '\n\nVerifique se o XAMPP está rodando!');
             });
     }
-
-    // Animações suaves
-    document.addEventListener('DOMContentLoaded', function() {
-        // Testar conexão primeiro
+   
+    document.addEventListener('DOMContentLoaded', function() {       
         testConnection();
-
-        // Event listeners para desconto
+       
         document.getElementById('hasDiscount').addEventListener('change', toggleDiscountField);
         document.getElementById('productPrice').addEventListener('input', calculateDiscountPreview);
         document.getElementById('productOldPrice').addEventListener('input', calculateDiscountPreview);
-
-        // Inicializar seleção de cores
+       
         initColorSelection();
-
-        // Animação das estatísticas
+       
         const statCards = document.querySelectorAll('.stat-card h3');
         statCards.forEach((stat, index) => {
             const finalValue = parseInt(stat.textContent);
@@ -3498,8 +3440,7 @@ if ($logged_in) {
             }, 20);
         });
     });
-
-    // Tornar cards de mensagens clicáveis
+   
     document.addEventListener('DOMContentLoaded', function() {
         const messagesCard = document.querySelector('.messages-card');
         const newMessagesCard = document.querySelector('.new-messages-card');
@@ -3515,8 +3456,7 @@ if ($logged_in) {
                 window.open('admin-mensagens.php', '_blank');
             });
         }
-
-        // Preview do produto destacado em tempo real
+       
         function updateDestaquePreview() {
             const titulo = document.querySelector('input[name="destaque_titulo"]')?.value || 'Título do Produto';
             const descricao = document.querySelector('textarea[name="destaque_descricao"]')?.value || 'Descrição do produto destacado';
@@ -3549,8 +3489,7 @@ if ($logged_in) {
                 `;
             }
         }
-
-        // Adicionar event listeners para preview em tempo real
+       
         const inputs = [
             'input[name="destaque_titulo"]',
             'textarea[name="destaque_descricao"]', 
@@ -3566,51 +3505,40 @@ if ($logged_in) {
             }
         });
     });
-
-    // ==================== FUNÇÕES DE AVALIAÇÕES ====================
-
-    // Abrir modal para adicionar avaliação
+   
+   
     function openReviewModal() {
         document.getElementById('reviewModalTitle').textContent = 'Adicionar Nova Avaliação';
         document.getElementById('reviewForm').reset();
         document.getElementById('reviewId').value = '';
         document.getElementById('reviewAtivo').checked = true;
         document.getElementById('reviewEstrelas').value = '5';
-        
-        // Configurar opções de foto
+               
         document.querySelector('input[name="foto_tipo"][value="iniciais"]').checked = true;
         document.getElementById('reviewTipoFoto').value = 'iniciais';
-        
-        // Cor será gerada automaticamente quando o nome for digitado
-        // Cor será gerada automaticamente baseada no nome
+                      
         toggleFotoOptions();
-        
-        // Limpar preview de upload
+               
         document.getElementById('avatarUpload').value = '';
         document.getElementById('avatarPreview').style.display = 'none';
         
         document.getElementById('reviewModal').style.display = 'block';
     }
-
-    // Fechar modal de avaliações
+   
     function closeReviewModal() {
         document.getElementById('reviewModal').style.display = 'none';
     }
-
-    // Editar avaliação
+   
     function editReview(reviewId) {
         document.getElementById('reviewModalTitle').textContent = 'Editar Avaliação';
         document.getElementById('reviewId').value = reviewId;
-        
-        // Aqui você poderia carregar os dados da avaliação via AJAX
-        // Por simplicidade, vamos fazer um reload da página para carregar
+                      
         const reviewItems = document.querySelectorAll('.review-item');
         const targetReview = Array.from(reviewItems).find(item => {
             return item.querySelector('button[onclick*="' + reviewId + '"]');
         });
         
-        if (targetReview) {
-            // Extrair dados do DOM (método simplificado)
+        if (targetReview) {           
             const nome = targetReview.querySelector('h4').textContent.trim().replace(/INATIVO/g, '').trim();
             const avaliacao = targetReview.querySelector('[style*="border-left: 4px solid"]').textContent.replace(/"/g, '').trim();
             const estrelas = targetReview.querySelectorAll('[style*="color: rgb(255, 193, 7)"]').length;
@@ -3624,12 +3552,10 @@ if ($logged_in) {
         
         document.getElementById('reviewModal').style.display = 'block';
     }
-
-    // Salvar avaliação
+   
     async function saveReview() {
         const form = document.getElementById('reviewForm');
-        
-        // Validação básica
+               
         if (!form.checkValidity()) {
             notifications.warning('Campos Obrigatórios', 'Por favor, preencha todos os campos obrigatórios.');
             return;
@@ -3643,8 +3569,7 @@ if ($logged_in) {
             notifications.warning('Campos Obrigatórios', 'Nome e depoimento são obrigatórios.');
             return;
         }
-
-        // Se for upload, processar arquivo primeiro
+       
         if (tipoFoto === 'upload') {
             const fileInput = document.getElementById('avatarUpload');
             
@@ -3670,8 +3595,7 @@ if ($logged_in) {
                     notifications.error('Erro no Upload', uploadResult.error);
                     return;
                 }
-                
-                // Salvar caminho da foto
+                               
                 document.getElementById('reviewFoto').value = uploadResult.path;
                 
             } catch (error) {
@@ -3679,13 +3603,11 @@ if ($logged_in) {
                 return;
             }
         }
-
-        // Enviar formulário
+       
         notifications.info('Salvando...', 'Salvando avaliação...');
         form.submit();
     }
-
-    // Excluir avaliação
+   
     function deleteReview(reviewId) {
         if (confirm('Tem certeza que deseja excluir esta avaliação? Esta ação não pode ser desfeita.')) {
             const form = document.createElement('form');
@@ -3699,10 +3621,8 @@ if ($logged_in) {
             form.submit();
         }
     }
-
-    // ==================== FUNÇÕES DE AVATAR ====================
-
-    // Alternar entre iniciais e upload
+   
+   
     function toggleFotoOptions() {
         const tipoFoto = document.querySelector('input[name="foto_tipo"]:checked').value;
         const iniciaisSection = document.getElementById('iniciaisSection');
@@ -3719,11 +3639,10 @@ if ($logged_in) {
             document.getElementById('reviewTipoFoto').value = 'upload';
         }
     }
-
-    // Gerar e atualizar iniciais automaticamente
+   
     function updateIniciais() {
         const nome = document.getElementById('reviewNome').value.trim();
-        let cor = generateColorFromName(nome); // Gera cor automaticamente
+    let cor = generateColorFromName(nome);
         
         if (nome) {
             const palavras = nome.split(' ').filter(p => p.length > 0);
@@ -3734,11 +3653,9 @@ if ($logged_in) {
             } else if (palavras.length === 1) {
                 iniciais = palavras[0].substring(0, 2).toUpperCase();
             }
-            
-            // Se é um nome novo ou a cor ainda não foi definida, gerar cor aleatória
+                       
             const currentReviewId = document.getElementById('reviewId').value;
-            if (!currentReviewId) {
-                // Nova avaliação - gerar cor baseada no nome
+            if (!currentReviewId) {               
                 cor = generateColorFromName(nome);
                 document.getElementById('corInicial').value = cor;
             }
@@ -3746,8 +3663,7 @@ if ($logged_in) {
             const preview = document.getElementById('previewIniciais');
             preview.textContent = iniciais;
             preview.style.background = cor;
-            
-            // Salvar dados no campo hidden
+                       
             document.getElementById('reviewFoto').value = JSON.stringify({
                 tipo: 'iniciais',
                 iniciais: iniciais,
@@ -3755,20 +3671,17 @@ if ($logged_in) {
             });
         }
     }
-
-    // Preview da foto carregada
+   
     function previewAvatar(input) {
         if (input.files && input.files[0]) {
             const file = input.files[0];
-            
-            // Validar tamanho (2MB máximo)
+                       
             if (file.size > 2 * 1024 * 1024) {
                 notifications.warning('Arquivo Grande', 'A foto deve ter no máximo 2MB');
                 input.value = '';
                 return;
             }
-            
-            // Validar tipo
+                       
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
             if (!allowedTypes.includes(file.type.toLowerCase())) {
                 notifications.warning('Formato Inválido', 'Use apenas JPG, PNG, GIF ou WebP');
@@ -3780,73 +3693,63 @@ if ($logged_in) {
             reader.onload = function(e) {
                 document.getElementById('previewImg').src = e.target.result;
                 document.getElementById('avatarPreview').style.display = 'block';
-                
-                // Salvar referência do arquivo
+                               
                 document.getElementById('reviewFoto').value = 'upload_pending';
             };
             reader.readAsDataURL(file);
         }
     }
-
-    // Remover avatar carregado
+   
     function removeAvatar() {
         document.getElementById('avatarUpload').value = '';
         document.getElementById('avatarPreview').style.display = 'none';
         document.getElementById('reviewFoto').value = '';
     }
-
-    // Gerar cor aleatória para iniciais
+   
     function getRandomColor() {
         const colors = ['#e91e63', '#2196f3', '#9c27b0', '#ff9800', '#4caf50', '#f44336', '#607d8b', '#795548'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
-
-    // Gerar cor baseada no nome (sempre a mesma cor para o mesmo nome)
+   
     function generateColorFromName(name) {
         const colors = [
-            '#e91e63', // Rosa
-            '#2196f3', // Azul
-            '#9c27b0', // Roxo
-            '#ff9800', // Laranja
-            '#4caf50', // Verde
-            '#f44336', // Vermelho
-            '#607d8b', // Cinza Azulado
-            '#795548', // Marrom
-            '#00bcd4', // Ciano
-            '#ff5722', // Laranja Escuro
-            '#3f51b5', // Indigo
-            '#8bc34a', // Verde Claro
-            '#ffc107', // Âmbar
-            '#e91e63', // Pink
-            '#673ab7', // Roxo Escuro
-            '#009688'  // Teal
+        '#e91e63',
+        '#2196f3',
+        '#9c27b0',
+        '#ff9800',
+        '#4caf50',
+        '#f44336',
+        '#607d8b',
+        '#795548',
+        '#00bcd4',
+        '#ff5722',
+        '#3f51b5',
+        '#8bc34a',
+        '#ffc107',
+        '#e91e63',
+        '#673ab7',
+        '#009688' 
         ];
-        
-        // Criar hash simples do nome
+               
         let hash = 0;
         for (let i = 0; i < name.length; i++) {
             const char = name.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Converter para 32bit integer
+        hash = hash & hash;
         }
-        
-        // Usar valor absoluto e mapear para índice da cor
+               
         const index = Math.abs(hash) % colors.length;
         return colors[index];
     }
-
-    // Event listeners para atualizar iniciais automaticamente
-    document.addEventListener('DOMContentLoaded', function() {
-        // Atualizar iniciais quando o nome mudar
+   
+    document.addEventListener('DOMContentLoaded', function() {       
         const nomeInput = document.getElementById('reviewNome');
         if (nomeInput) {
             nomeInput.addEventListener('input', updateIniciais);
         }
-        
-        // Cor é gerada automaticamente, não precisa de listener
+               
     });
-
-    // MOBILE SIDEBAR FUNCTIONS
+   
     function toggleSidebar() {
         const sidebar = document.querySelector('.admin-sidebar');
         const overlay = document.querySelector('.sidebar-overlay');
@@ -3862,8 +3765,7 @@ if ($logged_in) {
         sidebar.classList.remove('open');
         overlay.classList.remove('show');
     }
-
-    // Fechar sidebar ao clicar em links (mobile)
+   
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
@@ -3871,8 +3773,7 @@ if ($logged_in) {
             }
         });
     });
-
-    // Fechar modais ao clicar fora
+   
     window.onclick = function(event) {
         const productModal = document.getElementById('productModal');
         const reviewModal = document.getElementById('reviewModal');
@@ -3884,10 +3785,8 @@ if ($logged_in) {
             closeReviewModal();
         }
     }
-
-    // Navegação suave entre seções
-    document.addEventListener('DOMContentLoaded', function() {
-        // Adicionar comportamento de scroll suave para links internos
+   
+    document.addEventListener('DOMContentLoaded', function() {       
         const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
         
         navLinks.forEach(link => {
@@ -3897,27 +3796,22 @@ if ($logged_in) {
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
                 
-                if (targetElement) {
-                    // Remover classe active de todos os links
-                    navLinks.forEach(navLink => navLink.classList.remove('active'));
-                    // Adicionar classe active ao link clicado
+                if (targetElement) {                   
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));                   
                     this.classList.add('active');
-                    
-                    // Scroll suave até o elemento
+                                       
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    
-                    // Para mobile, fechar sidebar após clicar
+                                       
                     if (window.innerWidth <= 768) {
                         closeSidebar();
                     }
                 }
             });
         });
-
-        // Destacar seção ativa baseada no scroll
+       
         window.addEventListener('scroll', function() {
             const sections = ['dashboard', 'produtos'];
             let current = '';
@@ -3933,8 +3827,7 @@ if ($logged_in) {
                     }
                 }
             });
-
-            // Atualizar classes active nos links
+           
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + current) {
