@@ -100,7 +100,6 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                 <h2 onclick="clearFilters()" class="clear-filters-btn" title="Clique para remover todos os filtros">Todos os Produtos</h2>
             </div>
             <div class="products-grid-catalog">
-                
                 <?php if (empty($todos_produtos)): ?>
                     <div class="no-results-message">
                         <div>
@@ -111,53 +110,51 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                 <?php else: ?>
                     <?php foreach ($todos_produtos as $produto): ?>
                         <?php if ($produto['status'] === 'ativo'): ?>
-                        <a href="produto-unico?id=<?php echo $produto['id']; ?>" style="text-decoration: none; color: inherit;">
-                            <div class="product-card-catalog" data-category="<?php echo htmlspecialchars($produto['category']); ?>" data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>" data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>" data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
-                                <div class="product-image-catalog">
-                                    <?php 
-                                    $primeira_imagem = $produto['images'][0];
-                                    $caminho_completo = __DIR__ . '/' . $primeira_imagem;
-                                    $imagem_existe = file_exists($caminho_completo);
-                                    $imagem_final = $imagem_existe ? $primeira_imagem : 'img/default-product.png';
-                                    ?>
-                                    <img src="<?php echo htmlspecialchars($imagem_final); ?>" 
-                                         alt="<?php echo htmlspecialchars($produto['title']); ?>" 
-                                         loading="lazy"
-                                         data-original="<?php echo htmlspecialchars($primeira_imagem); ?>"
-                                         data-exists="<?php echo $imagem_existe ? 'true' : 'false'; ?>"
-                                         onerror="this.onerror=null; this.src='img/default-product.png'; console.error('❌ Erro ao carregar imagem do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($primeira_imagem); ?>');"
-                                         onload="console.log('✅ Imagem carregada do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($imagem_final); ?>');">
-                                    <?php if (!empty($produto['discount'])): ?>
-                                        <div class="discount-badge"><?php echo $produto['discount']; ?>% OFF</div>
-                                    <?php endif; ?>
+                        <a href="produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog" data-category="<?php echo htmlspecialchars($produto['category']); ?>" data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>" data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>" data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
+                            <div class="product-image-catalog">
+                                <?php 
+                                $primeira_imagem = $produto['images'][0];
+                                $caminho_completo = __DIR__ . '/' . $primeira_imagem;
+                                $imagem_existe = file_exists($caminho_completo);
+                                $imagem_final = $imagem_existe ? $primeira_imagem : 'img/default-product.png';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($imagem_final); ?>" 
+                                     alt="<?php echo htmlspecialchars($produto['title']); ?>" 
+                                     loading="lazy"
+                                     data-original="<?php echo htmlspecialchars($primeira_imagem); ?>"
+                                     data-exists="<?php echo $imagem_existe ? 'true' : 'false'; ?>"
+                                     onerror="this.onerror=null; this.src='img/default-product.png'; console.error('❌ Erro ao carregar imagem do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($primeira_imagem); ?>');"
+                                     onload="console.log('✅ Imagem carregada do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($imagem_final); ?>');">
+                                <?php if (!empty($produto['discount'])): ?>
+                                    <div class="discount-badge"><?php echo $produto['discount']; ?>% OFF</div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="product-info-catalog">
+                                <div class="product-title-container">
+                                    <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
                                 </div>
-                                <div class="product-info-catalog">
-                                    <div class="product-title-container">
-                                        <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
-                                    </div>
-                                    <div class="product-description-container">
-                                        <p><?php echo htmlspecialchars(substr($produto['description'], 0, 50) . '...'); ?></p>
-                                    </div>
-                                    <div class="product-category-container">
-                                        <div class="product-category"><?php 
-                                            $categoryNames = [
-                                                'bolsas' => 'Bolsas',
-                                                'carteiras' => 'Carteiras', 
-                                                'cases-capas' => 'Cases & Capas',
-                                                'escritorio' => 'Escritório',
-                                                'viagem' => 'Viagem',
-                                                'acessorios' => 'Acessórios'
-                                            ];
-                                            echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category'])); 
-                                        ?></div>
-                                    </div>
-                                    <div class="product-price-container">
-                                        <div class="price-catalog">
-                                            <?php if (!empty($produto['oldPrice'])): ?>
-                                                <span class="old-price"><?php echo formatPrice($produto['oldPrice']); ?></span>
-                                            <?php endif; ?>
-                                            <span class="current-price"><?php echo formatPrice($produto['price']); ?></span>
-                                        </div>
+                                <div class="product-description-container">
+                                    <p><?php echo htmlspecialchars(substr($produto['description'], 0, 50) . '...'); ?></p>
+                                </div>
+                                <div class="product-category-container">
+                                    <div class="product-category"><?php 
+                                        $categoryNames = [
+                                            'bolsas' => 'Bolsas',
+                                            'carteiras' => 'Carteiras', 
+                                            'cases-capas' => 'Cases & Capas',
+                                            'escritorio' => 'Escritório',
+                                            'viagem' => 'Viagem',
+                                            'acessorios' => 'Acessórios'
+                                        ];
+                                        echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category'])); 
+                                    ?></div>
+                                </div>
+                                <div class="product-price-container">
+                                    <div class="price-catalog">
+                                        <?php if (!empty($produto['oldPrice'])): ?>
+                                            <span class="old-price"><?php echo formatPrice($produto['oldPrice']); ?></span>
+                                        <?php endif; ?>
+                                        <span class="current-price"><?php echo formatPrice($produto['price']); ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +162,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
+            </div>
         </div>
     </section>
 
