@@ -81,6 +81,35 @@ if ($logged_in) {
             return $ts !== false && date('Y-m-d', $ts) === $hoje;
         }));
     }
+if ($logged_in) {
+    $rota = $_GET['rota'] ?? '';
+
+    switch (true) {
+        // Página inicial do painel
+        case $rota === '':
+            include $BASE . '/admin/dashboard.php'; // cria um dashboard separado
+            break;
+
+        // Listar mensagens
+        case $rota === 'mensagens':
+            include $BASE . '/admin/mensagens.php';
+            break;
+
+        // Produto único (por ID)
+        case preg_match('/^produto\/(\d+)$/', $rota, $m):
+            $_GET['id'] = (int)$m[1];
+            include $BASE . '/produto-unico.php';
+            break;
+
+        // Qualquer outra rota → 404
+        default:
+            http_response_code(404);
+            echo "<h2>Página não encontrada</h2>";
+            echo "<a href='/admin'>Voltar para o painel</a>";
+            break;
+    }
+}
+
 
     // --- Produto destacado ---
     $produto_destaque = [
@@ -2020,7 +2049,7 @@ if ($logged_in) {
                         </td>
                         <td>
                             <div class="action-btns">
-                                <a href="produto-unico.php?id=<?php echo $produto['id']; ?>" target="_blank" class="view-btn" title="Visualizar produto">Ver</a>
+                                <a href="/produto/<?php echo $produto['id']; ?>" target="_blank" class="view-btn" title="Visualizar produto">Ver</a>
                                 <a href="#" class="edit-btn"
                                     onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
                                 <button class="delete-btn"
@@ -3081,7 +3110,7 @@ if ($logged_in) {
         currentProductId = id;
         document.getElementById('modalTitle').textContent = 'Editar Produto';
        
-        fetch(`admin_actions.php?action=get&productId=${id}`)
+        fetch(`/admin_actions.php?action=get&productId=${id}`)
             .then(response => {
                 console.log('Get product response status:', response.status);
                 if (!response.ok) {
@@ -3211,7 +3240,7 @@ if ($logged_in) {
         saveBtn.textContent = 'Salvando...';
         saveBtn.disabled = true;
        
-        fetch('admin_actions.php', {
+        fetch('/admin_actions.php', {
                 method: 'POST',
                 body: formData
             })
@@ -3255,7 +3284,7 @@ if ($logged_in) {
             formData.append('action', 'delete');
             formData.append('productId', id);
 
-            fetch('admin_actions.php', {
+            fetch('/admin_actions.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -3388,7 +3417,7 @@ if ($logged_in) {
     }
    
     function testConnection() {
-        fetch('https://miamianet.com.br/admin_actions?action=test')
+        fetch(window.location.origin + '/admin_actions.php?action=test')
             .then(response => {
                 console.log('Connection test status:', response.status);
                 return response.text();
@@ -3584,7 +3613,7 @@ if ($logged_in) {
                 const uploadData = new FormData();
                 uploadData.append('avatar', fileInput.files[0]);
                 
-                const uploadResponse = await fetch('upload-avatar.php', {
+                const uploadResponse = await fetch('/upload-avatar.php', {
                     method: 'POST',
                     body: uploadData
                 });

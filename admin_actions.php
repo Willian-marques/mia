@@ -5,14 +5,16 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__.'/php-error.log');
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
+
 $action = $_POST['action'] ?? $_GET['action'] ?? null;
+
+
 if ($action === 'test') {
     header('Content-Type: application/json');
     echo json_encode(['success'=>true]);
     exit;
 }
 
-session_start();
 
 // Verificar se está logado
 if (!isset($_SESSION['admin_logged']) || !$_SESSION['admin_logged']) {
