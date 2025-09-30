@@ -1,5 +1,6 @@
 RewriteEngine On
-DirectoryIndex index.php
+#Após vcs terminarem a falcatrua de vcs voltar pra DirectoryIndex index.php
+DirectoryIndex maintence.php
 
 # Remover .php das URLs (apenas esconde, não quebra funcionalidade)
 # Se a URL tem .php, redireciona para URL sem .php
@@ -12,6 +13,18 @@ RewriteRule .* - [L]
 
 # Exceção: /admin ou /admin/ deve cair em admin.php (sem loop)
 RewriteRule ^admin/?$ admin.php [L]
+
+RewriteRule ^produtos/?$ produtos.php [L]
+RewriteRule ^produto/?$ produto.php [L]
+RewriteRule ^produto-unico/?$ produto-unico.php [L]
+RewriteRule ^contato/?$ contato.php [L]
+RewriteRule ^sobre/?$ sobre.php [L]
+RewriteRule ^admin-mensagens/?$ admin-mensagens.php [L]
+RewriteRule ^admin-actions/?$ admin_actions.php [L]
+RewriteRule ^obrigado/?$ obrigado.php [L]
+RewriteRule ^teste/?$ teste.php [L]
+RewriteRule ^api/?$ api.php [L]
+RewriteRule ^manutencao/?$ maintence.php [L]
 
 # Se a URL não tem .php e o arquivo .php existe, carrega o arquivo .php
 RewriteCond %{REQUEST_FILENAME} !-f
