@@ -91,18 +91,13 @@
     width: 100%;
     background: #FCF8F1;
     padding: 80px 0;
-    min-height: calc(100vh - 475px - 68px);
+    min-height: calc(100vh - 475px - 68px - 445px);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-.catalog-products .container {
-    max-width: 1555px;
-    padding: 0 40px;
 }
 
 /* Products Header */
@@ -120,11 +115,12 @@
     font-weight: 400;
     color: #FCF8F1;
     text-align: center;
-    margin: 0 !important;
+    margin-bottom: 60px;
     background: #520100;
     padding: 20px;
     border-radius: 10px;
     max-width: 400px;
+    margin: 0 auto 60px auto;
 }
 
 .clear-filters-btn {
@@ -165,13 +161,16 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(313px, 1fr));
     gap: 40px;
+    max-width: 1555px;
+    margin: 0 auto;
+    padding: 0 40px;
     justify-items: center;
 }
 
 .product-card-catalog {
     width: 100%;
     max-width: 313px;
-    background: #FFFFFF;
+    background: #FCF8F1;
     border-radius: 30px;
     overflow: hidden;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -228,7 +227,7 @@
 /* Informações do Produto */
 .product-info-catalog {
     padding: 20px 14px 30px;
-    background: #FFFFFF;
+    background: #FCF8F1;
     text-align: center;
 }
 
@@ -337,18 +336,17 @@
     .products-grid-catalog {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 30px;
-    }
-    
-    .catalog-products .container {
         padding: 0 20px;
+        justify-items: center;
     }
     
+    /* Responsividade para o header de produtos - tablets */
     .products-header {
         gap: 18px;
         margin-bottom: 45px;
     }
     
-    .catalog-products h2 {
+    .clear-filters-btn h2 {
         font-size: 30px;
         padding: 18px;
     }
@@ -390,6 +388,8 @@
     .products-grid-catalog {
         grid-template-columns: 1fr;
         gap: 20px;
+        padding: 0 20px;
+        justify-items: center;
     }
 
     .product-card-catalog {
@@ -418,20 +418,18 @@
     }
 
     .products-grid-catalog {
-        gap: 20px;
-    }
-    
-    .catalog-products .container {
         padding: 0 15px;
+        justify-items: center;
     }
     
+    /* Responsividade para o header de produtos */
     .products-header {
         flex-direction: column;
         gap: 15px;
         margin-bottom: 30px;
     }
     
-    .catalog-products h2 {
+    .clear-filters-btn h2 {
         font-size: 24px;
         padding: 12px;
         max-width: 95%;
