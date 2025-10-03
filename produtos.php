@@ -42,7 +42,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="#" class="sale-link" onclick="applySaleFilter()">Sale</a>
+            <a href="#" class="sale-link" onclick="applySaleFilter()">Desconto</a>
         </nav>
     </header>
 
@@ -76,7 +76,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                 <div class="filter-dropdown">
                     <select id="typeFilter">
                         <option value="">Tipo de Produto</option>
-                        <option value="desconto">Sale</option>
+                        <option value="desconto">Desconto</option>
                         <option value="viagem">Viagem</option>
                         <option value="dia-a-dia">Dia a dia</option>
                     </select>
@@ -89,7 +89,6 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                         <option>Mais recentes</option>
                         <option>A-Z</option>
                         <option>Z-A</option>
-                        <option>Maior desconto</option>
                     </select>
                 </div>
             </div>
@@ -229,125 +228,16 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
     </footer>
 
     <script src="script.js"></script>
+    <script src="produtos-script.js"></script>
     <script>
-    // Mobile Menu Toggle (necessário para navegação)
-    function initMobileMenu() {
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        if (menuToggle && navMenu) {
-            menuToggle.addEventListener('click', function () {
-                const isActive = this.classList.contains('active');
-                
-                if (!isActive) {
-                    // Abrir menu
-                    navMenu.style.display = 'flex';
-                    // Force reflow
-                    navMenu.offsetHeight;
-                    this.classList.add('active');
-                    navMenu.classList.add('active');
-                    
-                    // Adicionar classe ao body para efeitos adicionais
-                    document.body.classList.add('menu-open');
-                } else {
-                    // Fechar menu
-                    this.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                    
-                    // Aguardar animação antes de ocultar
-                    setTimeout(() => {
-                        if (!navMenu.classList.contains('active')) {
-                            navMenu.style.display = 'none';
-                        }
-                    }, 400);
-                }
-            });
-
-            // Close menu when clicking on a link
-            const navLinks = navMenu.querySelectorAll('a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    closeMenuSmooth();
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function (e) {
-                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                    closeMenuSmooth();
-                }
-            });
-            
-            // Função para fechamento suave do menu
-            function closeMenuSmooth() {
-                if (menuToggle.classList.contains('active')) {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                    
-                    setTimeout(() => {
-                        if (!navMenu.classList.contains('active')) {
-                            navMenu.style.display = 'none';
-                        }
-                    }, 400);
-                }
-            }
-        }
-    }
-
-    // Função para aplicar filtro Sale quando clicarem no link
-    function applySaleFilter() {
-        const typeFilter = document.getElementById('typeFilter');
-        if (typeFilter) {
-            typeFilter.value = 'desconto';
-            // Disparar evento change para aplicar o filtro
-            const event = new Event('change');
-            typeFilter.dispatchEvent(event);
-        }
-        return false; // Prevenir navegação
-    }
-
-    // Debug dos filtros e inicialização
+    // Aplicar filtro inicial se necessário (chamado pelo PHP)
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Página de produtos carregada');
-        
-        // Inicializar menu mobile
-        initMobileMenu();
-        
-        // Verificar se veio filtro por parâmetro URL
         <?php if ($filtroInicial === 'desconto'): ?>
         setTimeout(() => {
-            const typeFilter = document.getElementById('typeFilter');
-            if (typeFilter) {
-                typeFilter.value = 'desconto';
-                // Disparar evento change para aplicar o filtro
-                const changeEvent = new Event('change', { bubbles: true });
-                typeFilter.dispatchEvent(changeEvent);
-                console.log('🏷️ Filtro de desconto aplicado automaticamente');
-            }
-        }, 100);
+            applySaleFilter();
+            console.log('🏷️ Filtro de desconto aplicado automaticamente');
+        }, 500);
         <?php endif; ?>
-        
-        // Verificar se os elementos existem
-        setTimeout(() => {
-            const categoryFilter = document.getElementById('productFilter');
-            const priceFilter = document.getElementById('priceFilter');
-            const sortFilter = document.getElementById('sortFilter');
-            const products = document.querySelectorAll('.product-card-catalog');
-            
-            console.log('🔍 Elementos encontrados:');
-            console.log('- Menu mobile:', document.getElementById('menuToggle') ? '✅' : '❌');
-            console.log('- Filtro categoria:', categoryFilter ? '✅' : '❌');
-            console.log('- Filtro preço:', priceFilter ? '✅' : '❌');
-            console.log('- Filtro ordenação:', sortFilter ? '✅' : '❌');
-            console.log('- Produtos encontrados:', products.length);
-            
-            // Adicionar um botão de teste
-            if (categoryFilter) {
-
-            }
-        }, 1000);
     });
     </script>
 </body>

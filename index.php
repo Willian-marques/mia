@@ -655,7 +655,7 @@ $recentProducts = getRecentProducts(5);
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
+            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
         </nav>
 
     </header>
@@ -753,8 +753,8 @@ $recentProducts = getRecentProducts(5);
         <div class="container">
             <div class="categories-grid">
                 <div class="category-item">
-                    <img src="img/Nece_Marrom/nece_1.jpg" alt="Sale - Produtos com Desconto">
-                    <h3>SALE</h3>
+                    <img src="img/Nece_Marrom/nece_1.jpg" alt="Desconto - Produtos com Desconto">
+                    <h3>DESCONTO</h3>
                 </div>
                 <div class="category-item">
                     <img src="img/Passaporte_Marrom/passaporte_1.JPG" alt="Viagem - Acessórios para Viajar">

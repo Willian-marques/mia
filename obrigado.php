@@ -174,7 +174,7 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
+            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
         </nav>
     </header>
 
@@ -276,7 +276,7 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
     </footer>
 
     <script>
-        // Função para aplicar filtro Sale quando clicarem no link
+        // Função para aplicar filtro Desconto quando clicarem no link
         function applySaleFilter() {
             window.location.href = 'produtos.php?filter=desconto';
             return false; // Prevenir navegação padrão

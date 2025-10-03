@@ -420,7 +420,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
+            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
         </nav>
     </header>
 

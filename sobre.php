@@ -252,7 +252,7 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
+            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
         </nav>
     </header>
 
