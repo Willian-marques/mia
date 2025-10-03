@@ -1,0 +1,446 @@
+/* CSS UNIVERSAL PARA TODOS OS PRODUCT-CARDS DO SITE */
+
+/* RESET COMPLETO - Remove todas as variações */
+.product-card,
+.featured-products .product-card,
+.all-products .product-card,
+.related-card,
+div.product-card {
+    /* Estrutura fixa */
+    width: 286px !important;
+    min-width: 286px !important;
+    max-width: 286px !important;
+    height: auto !important;
+    background: #FCF8F1 !important;
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.3s ease !important;
+    will-change: transform !important;
+    transform: translateZ(0) !important;
+    display: block !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.product-card:hover,
+.featured-products .product-card:hover,
+.all-products .product-card:hover,
+.related-card:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15) !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* IMAGENS PADRONIZADAS */
+.product-card .product-image,
+.featured-products .product-card .product-image,
+.all-products .product-card .product-image,
+.related-card .product-image {
+    width: 100% !important;
+    height: 283px !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+.product-card .product-image img,
+.featured-products .product-card .product-image img,
+.all-products .product-card .product-image img,
+.related-card .product-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    transition: transform 0.3s ease !important;
+    will-change: transform !important;
+    transform: translateZ(0) !important;
+    display: block !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.product-card:hover .product-image img,
+.featured-products .product-card:hover .product-image img,
+.all-products .product-card:hover .product-image img,
+.related-card:hover .product-image img {
+    transform: scale(1.05) !important;
+}
+
+/* CONTEÚDO PADRONIZADO */
+.product-card .product-info,
+.featured-products .product-card .product-info,
+.all-products .product-card .product-info,
+.related-card .product-info {
+    padding: 14px 8px 20px !important;
+    background: #FCF8F1 !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+}
+
+/* TÍTULOS PADRONIZADOS */
+.product-card .product-info h3,
+.featured-products .product-card .product-info h3,
+.all-products .product-card .product-info h3,
+.related-card .product-info h3 {
+    font-size: 24px !important;
+    font-weight: 500 !important;
+    color: #520100 !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    display: block !important;
+}
+
+/* DESCRIÇÕES PADRONIZADAS */
+.product-card .product-info p,
+.featured-products .product-card .product-info p,
+.all-products .product-card .product-info p,
+.related-card .product-info p {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    color: #4B5563 !important;
+    margin: 0 0 12px 0 !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+    text-align: left !important;
+    display: block !important;
+}
+
+/* PREÇOS PADRONIZADOS */
+.product-card .price,
+.featured-products .product-card .price,
+.all-products .product-card .price,
+.related-card .price {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-wrap: wrap !important;
+}
+
+.product-card .old-price,
+.featured-products .product-card .old-price,
+.all-products .product-card .old-price,
+.related-card .old-price {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #520100 !important;
+    text-decoration: line-through !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.product-card .new-price,
+.featured-products .product-card .new-price,
+.all-products .product-card .new-price,
+.related-card .new-price {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #8A4D99 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.product-card .current-price,
+.featured-products .product-card .current-price,
+.all-products .product-card .current-price,
+.related-card .current-price {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #520100 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* GRIDS PADRONIZADOS */
+.products-grid,
+.products-grid-extended,
+.related-grid {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 70px !important;
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+}
+
+/* RESPONSIVIDADE UNIVERSAL - MELHORADA */
+@media (max-width: 1600px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        gap: 60px !important;
+        padding: 0 60px !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        gap: 50px !important;
+        padding: 0 40px !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        gap: 40px !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    .related-card {
+        width: 100% !important;
+        max-width: 280px !important;
+        min-width: 250px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+        padding: 0 20px !important;
+        justify-items: center !important;
+    }
+
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    .related-card {
+        width: 100% !important;
+        min-width: auto !important;
+        max-width: 200px !important;
+    }
+
+    .product-card .product-image,
+    .featured-products .product-card .product-image,
+    .all-products .product-card .product-image,
+    .related-card .product-image {
+        height: 180px !important;
+    }
+
+    .product-card .product-info,
+    .featured-products .product-card .product-info,
+    .all-products .product-card .product-info,
+    .related-card .product-info {
+        padding: 12px 6px 16px !important;
+    }
+
+    .product-card .product-info h3,
+    .featured-products .product-card .product-info h3,
+    .all-products .product-card .product-info h3,
+    .related-card .product-info h3 {
+        font-size: 16px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .product-card .product-info p,
+    .featured-products .product-card .product-info p,
+    .all-products .product-card .product-info p,
+    .related-card .product-info p {
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .product-card .old-price,
+    .featured-products .product-card .old-price,
+    .all-products .product-card .old-price,
+    .related-card .old-price,
+    .product-card .new-price,
+    .featured-products .product-card .new-price,
+    .all-products .product-card .new-price,
+    .related-card .new-price,
+    .product-card .current-price,
+    .featured-products .product-card .current-price,
+    .all-products .product-card .current-price,
+    .related-card .current-price {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        gap: 18px !important;
+        padding: 0 18px !important;
+    }
+
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    .related-card {
+        max-width: 180px !important;
+    }
+
+    .product-card .product-image,
+    .featured-products .product-card .product-image,
+    .all-products .product-card .product-image,
+    .related-card .product-image {
+        height: 160px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        gap: 15px !important;
+        padding: 0 15px !important;
+    }
+
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    .related-card {
+        max-width: 160px !important;
+        min-width: 140px !important;
+    }
+
+    .product-card .product-image,
+    .featured-products .product-card .product-image,
+    .all-products .product-card .product-image,
+    .related-card .product-image {
+        height: 140px !important;
+    }
+
+    .product-card .product-info,
+    .featured-products .product-card .product-info,
+    .all-products .product-card .product-info,
+    .related-card .product-info {
+        padding: 10px 5px 14px !important;
+    }
+
+    .product-card .product-info h3,
+    .featured-products .product-card .product-info h3,
+    .all-products .product-card .product-info h3,
+    .related-card .product-info h3 {
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+        line-height: 1.1 !important;
+    }
+
+    .product-card .product-info p,
+    .featured-products .product-card .product-info p,
+    .all-products .product-card .product-info p,
+    .related-card .product-info p {
+        font-size: 12px !important;
+        margin-bottom: 6px !important;
+        line-height: 1.2 !important;
+    }
+
+    .product-card .old-price,
+    .featured-products .product-card .old-price,
+    .all-products .product-card .old-price,
+    .related-card .old-price,
+    .product-card .new-price,
+    .featured-products .product-card .new-price,
+    .all-products .product-card .new-price,
+    .related-card .new-price,
+    .product-card .current-price,
+    .featured-products .product-card .current-price,
+    .all-products .product-card .current-price,
+    .related-card .current-price {
+        font-size: 12px !important;
+    }
+}
+
+/* Para telas pequenas em landscape */
+@media (max-width: 767px) and (orientation: landscape) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 15px !important;
+    }
+
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    .related-card {
+        max-width: 160px !important;
+    }
+
+    .product-card .product-image,
+    .featured-products .product-card .product-image,
+    .all-products .product-card .product-image,
+    .related-card .product-image {
+        height: 130px !important;
+    }
+}
+
+/* Grids mais específicos para diferentes breakpoints */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 30px !important;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 40px !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 50px !important;
+    }
+}
+
+@media (min-width: 1600px) {
+    .products-grid,
+    .products-grid-extended,
+    .related-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 60px !important;
+    }
+}
+
+/* FORÇA RESET DE QUALQUER ESTILO ANTERIOR */
+* .product-card {
+    background: #FCF8F1 !important;
+}
+
+/* LINKS DOS PRODUTOS */
+a .product-card,
+a.product-card,
+.product-card a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+a:hover .product-card,
+a.product-card:hover {
+    text-decoration: none !important;
+    color: inherit !important;
+}

@@ -9,7 +9,7 @@ if ($_POST) {
     $telefone = isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '';
     $assunto = isset($_POST['assunto']) ? htmlspecialchars($_POST['assunto']) : '';
     $mensagem = isset($_POST['mensagem']) ? htmlspecialchars($_POST['mensagem']) : '';
-    
+
     if (!empty($nome) && !empty($sobrenome) && !empty($email) && !empty($assunto) && !empty($mensagem)) {
         // Salvar os dados em um arquivo JSON
         $data = [
@@ -23,12 +23,12 @@ if ($_POST) {
             'mensagem' => $mensagem,
             'status' => 'nova'
         ];
-        
+
         // Criar diretório se não existir
         if (!file_exists('data')) {
             mkdir('data', 0777, true);
         }
-        
+
         // Carregar mensagens existentes
         $arquivo_mensagens = 'data/mensagens.json';
         $mensagens = [];
@@ -36,13 +36,13 @@ if ($_POST) {
             $conteudo = file_get_contents($arquivo_mensagens);
             $mensagens = json_decode($conteudo, true) ?: [];
         }
-        
+
         // Adicionar nova mensagem
         $mensagens[] = $data;
-        
+
         // Salvar arquivo
         file_put_contents($arquivo_mensagens, json_encode($mensagens, JSON_PRETTY_PRINT));
-        
+
         // Redirecionar para página de sucesso
         header('Location: obrigado?success=1&id=' . $data['id']);
         exit;
@@ -62,9 +62,10 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $site_title; ?></title>
-    <meta name="description" content="Entre em contato com a Mia Couro Legítimo. WhatsApp, e-mail ou redes sociais. Estamos aqui para atendê-lo com excelência.">
+    <meta name="description"
+        content="Entre em contato com a Mia Couro Legítimo. WhatsApp, e-mail ou redes sociais. Estamos aqui para atendê-lo com excelência.">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="menu-styles.css">
+    <link rel="stylesheet" href="responsive-global.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
@@ -83,10 +84,14 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             overflow-x: hidden;
         }
 
-        /* Resetar estilos do header para esta página */
+        /* Garantir que o header seja visível */
         .header {
-            position: relative !important;
-            z-index: 1000;
+            display: flex !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1000 !important;
         }
 
         /* Container Principal */
@@ -96,7 +101,8 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             position: relative;
             background: #FCF8F1;
             margin: 0;
-            padding-top: 50px;
+            padding-top: 88px;
+            /* 68px do header + 20px de espaço */
         }
 
         /* Header Spacing não necessário */
@@ -110,7 +116,8 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             height: 112px;
             position: relative;
             max-width: 1152px;
-            margin: 50px auto 0;
+            margin: 0 auto;
+            /* Removido margin-top já que temos padding no container */
             text-align: center;
         }
 
@@ -343,7 +350,10 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             margin: 20px 32px;
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .info-title {
@@ -351,26 +361,21 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             font-size: 18px;
             font-family: 'BR Sonoma';
             font-weight: 600;
-            position: absolute;
-            left: 24px;
-            top: 25px;
+            margin-bottom: 16px;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            position: absolute;
-            left: 24px;
             color: rgba(38, 37, 35, 0.80);
             font-size: 16px;
             font-family: 'BR Sonoma';
             font-weight: 400;
             line-height: 24px;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            width: 100%;
         }
-
-        .info-item:nth-child(2) { top: 64px; }
-        .info-item:nth-child(3) { top: 96px; }
-        .info-item:nth-child(4) { top: 128px; }
 
         .info-item svg {
             width: 16px;
@@ -549,6 +554,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
         }
 
         @media (max-width: 1200px) {
+
             .channels-card,
             .form-card {
                 width: 500px;
@@ -565,6 +571,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
         }
 
         @media (max-width: 600px) {
+
             .channels-card,
             .form-card {
                 width: 100%;
@@ -582,6 +589,173 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
 
             .contact-container {
                 padding: 20px;
+            }
+        }
+
+        /* Responsividade melhorada */
+        @media (max-width: 768px) {
+            .contact-container {
+                padding: 88px 20px 30px;
+                /* Padding-top ajustado para header fixo (68px header + 20px espaço) */
+            }
+
+            .hero-title {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+
+            .contact-grid {
+                gap: 30px;
+            }
+
+            .channels-card h3,
+            .form-card h3 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .submit-btn {
+                font-size: 16px;
+                padding: 14px 28px;
+            }
+
+            .channel-item {
+                padding: 15px;
+            }
+
+            .channel-item h4 {
+                font-size: 16px;
+            }
+
+            .channel-item p {
+                font-size: 14px;
+            }
+
+            /* Melhorar info-item para tablet */
+            .additional-info {
+                padding: 18px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-container {
+                padding: 88px 15px 20px;
+                /* Padding-top ajustado para header fixo mobile (68px header + 20px espaço) */
+            }
+
+            .hero-title {
+                font-size: 26px;
+                margin-bottom: 12px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+
+            .contact-grid {
+                gap: 25px;
+            }
+
+            .channels-card,
+            .form-card {
+                padding: 25px 20px;
+                max-width: 100%;
+            }
+
+            .channels-card h3,
+            .form-card h3 {
+                font-size: 20px;
+                margin-bottom: 18px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 13px;
+                padding: 10px;
+                min-height: 40px;
+            }
+
+            .form-group textarea {
+                min-height: 100px;
+            }
+
+            .submit-btn {
+                font-size: 14px;
+                padding: 12px 24px;
+                width: 100%;
+            }
+
+            .channel-item {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .channel-item h4 {
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+
+            .channel-item p {
+                font-size: 13px;
+            }
+
+            .channel-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Corrigir additional-info para mobile */
+            .additional-info {
+                height: auto !important;
+                min-height: 120px !important;
+                padding: 15px !important;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .contact-container {
+                padding: 20px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .contact-grid {
+                gap: 25px;
             }
         }
     </style>
@@ -612,7 +786,8 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-title">Fale Conosco</div>
-            <div class="hero-subtitle">Estamos aqui para ajudar! Entre em contato através dos nossos canais ou<br>preencha o formulário abaixo.</div>
+            <div class="hero-subtitle">Estamos aqui para ajudar! Entre em contato através dos nossos canais
+                ou<br>preencha o formulário abaixo.</div>
         </div>
 
         <!-- Cards Section -->
@@ -620,12 +795,14 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             <!-- Nossos Canais Card -->
             <div class="channels-card">
                 <div class="channels-title">Nossos Canais</div>
-                
+
                 <!-- WhatsApp -->
                 <div class="whatsapp-method">
                     <div class="whatsapp-icon">
                         <svg class="icon-white" viewBox="0 0 24 24" fill="none">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488" fill="white"/>
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"
+                                fill="white" />
                         </svg>
                     </div>
                     <div class="whatsapp-info">
@@ -635,11 +812,14 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                     </div>
                 </div>
 
+
                 <!-- Telefone -->
                 <div class="phone-method">
                     <div class="phone-icon">
                         <svg class="icon-white" viewBox="0 0 24 24" fill="none">
-                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="white"/>
+                            <path
+                                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                                fill="white" />
                         </svg>
                     </div>
                     <div class="phone-info">
@@ -653,7 +833,9 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                 <div class="instagram-method">
                     <div class="instagram-icon">
                         <svg class="icon-white" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="white"/>
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                                fill="white" />
                         </svg>
                     </div>
                     <div class="instagram-info">
@@ -667,7 +849,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                 <div class="additional-info">
                     <div class="info-title">Informações Adicionais</div>
                     <div class="info-item">
-                        <span>🕘 Horário de Atendimento: 9h às 18h</span>
+                        <span>⏰ Horário: Seg - Sex 9h às 18h</span>
                     </div>
                     <div class="info-item">
                         <span>📧 contato@mia.com.br</span>
@@ -682,13 +864,14 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             <div class="form-card">
                 <div class="form-title">Envie uma Mensagem</div>
                 <div class="form-subtitle">Preencha o formulário e entraremos em contato em breve</div>
-                
+
                 <?php if (isset($erro)): ?>
-                    <div style="background: #fef2f2; color: #dc2626; padding: 15px; border-radius: 8px; margin: 20px 32px; border: 1px solid #fecaca;">
+                    <div
+                        style="background: #fef2f2; color: #dc2626; padding: 15px; border-radius: 8px; margin: 20px 32px; border: 1px solid #fecaca;">
                         <?php echo $erro; ?>
                     </div>
                 <?php endif; ?>
-                
+
                 <form class="contact-form" method="POST" action="">
                     <div class="form-row">
                         <div class="form-group half">
@@ -700,17 +883,17 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                             <input type="text" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome" required>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="email">Email *</label>
                         <input type="email" id="email" name="email" placeholder="seu@email.com" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
                         <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="assunto">Assunto *</label>
                         <select id="assunto" name="assunto" required>
@@ -721,12 +904,13 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                             <option value="outro">Outro</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="mensagem">Mensagem *</label>
-                        <textarea id="mensagem" name="mensagem" placeholder="Como podemos ajudá-lo?" required></textarea>
+                        <textarea id="mensagem" name="mensagem" placeholder="Como podemos ajudá-lo?"
+                            required></textarea>
                     </div>
-                    
+
                     <button type="submit" class="submit-btn">
                         📨 Enviar Mensagem
                     </button>
@@ -744,14 +928,14 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                     <p>Única, para quem também é</p>
                     <div class="social-links">
 
-                        <a href="#" aria-label="Instagram">
+                        <a href="https://www.instagram.com/mia.mianet" target="_blank" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.44z" />
                             </svg>
                         </a>
-                        <a href="#" aria-label="WhatsApp">
+                        <a href="https://wa.me/5541973382889" target="_blank" aria-label="WhatsApp">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -765,18 +949,17 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos?categoria=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?categoria=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?categoria=cases-capas">Cases & Capas</a></li>
-                            <li><a href="produtos?categoria=escritorio">Escritório</a></li>
+                            <li><a href="produtos">Todos os Produtos</a></li>
+                            <li><a href="produtos?category=bolsas">Bolsas</a></li>
+                            <li><a href="produtos?category=carteiras">Carteiras</a></li>
+                            <li><a href="produtos?category=cases-capas">Cases & Capas</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Atendimento</h4>
                         <ul>
-                            <li><a href="#">Contato</a></li>
-                            <li><a href="#">Sobre Nós</a></li>
-                            <li><a href="#">Trocas</a></li>
+                            <li><a href="contato">Contato</a></li>
+                            <li><a href="sobre">Sobre Nós</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -791,95 +974,96 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Mia. Todos os direitos reservados.</p>
-                <p>Desenvolvido por <strong>L&W Digital</strong></p>
+                <p>Desenvolvido por <strong>Aether Design</strong></p>
             </div>
         </div>
     </footer>
 
     <script>
-    // Menu suave - Versão simplificada e funcional
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Script carregado!'); // Debug
+        // Menu suave - Versão simplificada e funcional
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Script carregado!'); // Debug
 
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
 
-        if (menuToggle && navMenu) {
-            console.log('Elementos encontrados!'); // Debug
+            if (menuToggle && navMenu) {
+                console.log('Elementos encontrados!'); // Debug
 
-            // Toggle do menu
-            menuToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Menu toggle clicado!'); // Debug
+                // Toggle do menu
+                menuToggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    console.log('Menu toggle clicado!'); // Debug
 
-                if (navMenu.classList.contains('active')) {
-                    // Fechar menu
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
+                    if (navMenu.classList.contains('active')) {
+                        // Fechar menu
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
 
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                } else {
-                    // Abrir menu
-                    navMenu.style.display = 'flex';
-                    setTimeout(() => {
-                        menuToggle.classList.add('active');
-                        navMenu.classList.add('active');
-                    }, 10);
-                }
-            });
-
-            // Fechar menu ao redimensionar
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                }
-            });
-
-            // Fechar menu ao clicar nos links
-            const navLinks = navMenu.querySelectorAll('a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    console.log('Link clicado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
+                        setTimeout(() => {
+                            navMenu.style.display = 'none';
+                        }, 400);
+                    } else {
+                        // Abrir menu
+                        navMenu.style.display = 'flex';
+                        setTimeout(() => {
+                            menuToggle.classList.add('active');
+                            navMenu.classList.add('active');
+                        }, 10);
+                    }
                 });
-            });
 
-            // Fechar menu ao clicar fora
-            document.addEventListener('click', function(e) {
-                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
-                    .contains('active')) {
-                    console.log('Clique fora detectado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                }
-            });
+                // Fechar menu ao redimensionar
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
 
-        } else {
-            console.error('Elementos do menu não encontrados!');
-        }
-    });
+                        setTimeout(() => {
+                            navMenu.style.display = 'none';
+                        }, 400);
+                    }
+                });
 
-    // Carregar script original para outras funcionalidades
-    const script = document.createElement('script');
-    script.src = 'script.js';
-    script.onload = function() {
-        console.log('Script.js carregado como backup');
-    };
-    document.head.appendChild(script);
+                // Fechar menu ao clicar nos links
+                const navLinks = navMenu.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        console.log('Link clicado, fechando menu...'); // Debug
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        setTimeout(() => {
+                            navMenu.style.display = 'none';
+                        }, 400);
+                    });
+                });
+
+                // Fechar menu ao clicar fora
+                document.addEventListener('click', function (e) {
+                    if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
+                        .contains('active')) {
+                        console.log('Clique fora detectado, fechando menu...'); // Debug
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        setTimeout(() => {
+                            navMenu.style.display = 'none';
+                        }, 400);
+                    }
+                });
+
+            } else {
+                console.error('Elementos do menu não encontrados!');
+            }
+        });
+
+        // Carregar script original para outras funcionalidades
+        const script = document.createElement('script');
+        script.src = 'script.js';
+        script.onload = function () {
+            console.log('Script.js carregado como backup');
+        };
+        document.head.appendChild(script);
     </script>
 </body>
+
 </html>

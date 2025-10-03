@@ -1,0 +1,993 @@
+/* ========================================
+   SISTEMA RESPONSIVO GLOBAL MIA
+   Responsividade completa para todos os dispositivos
+   ======================================== */
+
+/* FORÇAR MENU TOGGLE SEMPRE VISÍVEL - PRIORIDADE MÁXIMA */
+.menu-toggle {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ========================================
+   VARIÁVEIS CSS RESPONSIVAS
+   ======================================== */
+:root {
+    /* Breakpoints */
+    --mobile-sm: 480px;
+    --mobile: 768px;
+    --tablet: 1024px;
+    --desktop: 1200px;
+    --desktop-lg: 1440px;
+    --desktop-xl: 1920px;
+    
+    /* Espaçamentos responsivos */
+    --container-padding-xl: 80px;
+    --container-padding-lg: 60px;
+    --container-padding-md: 40px;
+    --container-padding-sm: 20px;
+    --container-padding-xs: 15px;
+    
+    /* Tamanhos de fonte responsivos */
+    --h1-xl: 72px;
+    --h1-lg: 60px;
+    --h1-md: 48px;
+    --h1-sm: 36px;
+    --h1-xs: 28px;
+    
+    --h2-xl: 60px;
+    --h2-lg: 48px;
+    --h2-md: 36px;
+    --h2-sm: 28px;
+    --h2-xs: 24px;
+    
+    --body-xl: 24px;
+    --body-lg: 20px;
+    --body-md: 18px;
+    --body-sm: 16px;
+    --body-xs: 14px;
+}
+
+/* ========================================
+   CONTAINER RESPONSIVO GLOBAL
+   ======================================== */
+.container {
+    max-width: var(--desktop-xl);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    width: 100%;
+}
+
+/* ========================================
+   HEADER RESPONSIVO
+   ======================================== */
+.header {
+    width: 100%;
+    height: 68px;
+    background: url('img/fundoheadercrop.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat-x;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 var(--container-padding-xl) 0 0;
+}
+
+.menu-toggle {
+    width: 98px;
+    height: 68px;
+    background: #520100;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 5px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 1100;
+    flex-shrink: 0;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: auto;
+    overflow: visible;
+    z-index: 999;
+}
+
+.logo img {
+    height: 120px;
+    width: auto;
+    max-width: none;
+}
+
+/* ========================================
+   NAVEGAÇÃO RESPONSIVA
+   ======================================== */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 33.33vw;
+    height: 100vh;
+    background: #520100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px;
+    gap: 40px;
+    z-index: 1001;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-100%);
+    opacity: 0;
+    display: none;
+}
+
+.nav-menu.active {
+    display: flex;
+    transform: translateX(0);
+    opacity: 1;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu a {
+    color: #FCF8F1;
+    font-size: 70px;
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 1.2;
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.nav-menu.active a {
+    opacity: 1;
+    animation: slideInMenu 0.6s ease-out forwards;
+}
+
+/* ========================================
+   HERO SECTION RESPONSIVO
+   ======================================== */
+.hero {
+    width: 100%;
+    height: 1080px;
+    background: linear-gradient(135deg, rgba(82, 1, 0, 0.3) 0%, rgba(82, 1, 0, 0.1) 100%),
+        url('img/fundohero.png') center/cover;
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.50);
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 68px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: var(--desktop-xl);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    position: relative;
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 207px;
+    left: var(--container-padding-xl);
+    max-width: 412px;
+}
+
+.hero-text h1 {
+    font-size: var(--h1-xl);
+    font-weight: 700;
+    color: #FCF8F1;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.1;
+}
+
+.hero-text p {
+    font-size: var(--body-xl);
+    font-weight: 400;
+    color: #262523;
+    margin-bottom: 40px;
+    line-height: 1.2;
+    max-width: 404px;
+}
+
+.cta-button {
+    width: 212px;
+    height: 52px;
+    background: #891010;
+    border: none;
+    border-radius: 5px;
+    color: #FCF8F1;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+/* ========================================
+   PRODUTOS RESPONSIVOS
+   ======================================== */
+.featured-products {
+    width: 100%;
+    background: #FCF8F1;
+    padding: 68px 0;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(286px, 1fr));
+    gap: 70px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    justify-items: center;
+}
+
+/* ========================================
+   SEÇÃO SIENNA RESPONSIVA
+   ======================================== */
+.sienna-section {
+    width: 100%;
+    background: rgba(82, 1, 0, 0.90);
+    box-shadow: 1px 8px 8px -1px rgba(82, 1, 0, 0.25);
+    padding: 97px 0;
+}
+
+.sienna-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 200px;
+    max-width: var(--desktop-xl);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    align-items: center;
+}
+
+.sienna-image {
+    justify-self: end;
+}
+
+.sienna-image img {
+    width: 100%;
+    max-width: 599px;
+    height: auto;
+    aspect-ratio: 599/531;
+    object-fit: cover;
+    border-radius: 30px;
+    box-shadow: 1px 8px 4px rgba(0, 0, 0, 0.25);
+}
+
+.sienna-text {
+    color: white;
+}
+
+.sienna-text h2 {
+    font-size: var(--h2-xl);
+    font-weight: 600;
+    color: #FCF8F1;
+    margin-bottom: 40px;
+    line-height: 1.2;
+}
+
+.sienna-text p {
+    font-size: var(--body-xl);
+    font-weight: 400;
+    color: white;
+    margin-bottom: 60px;
+    line-height: 1.7;
+}
+
+.purchase-button {
+    width: 100%;
+    max-width: 385px;
+    height: 79px;
+    background: #8A4D99;
+    border: none;
+    border-radius: 30px;
+    color: #FCF8F1;
+    font-size: 28px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 1px 8px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+}
+
+/* ========================================
+   CATEGORIAS RESPONSIVAS
+   ======================================== */
+.categories {
+    width: 100%;
+    background: #FCF8F1;
+    padding: 87px 0;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(293px, 1fr));
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    justify-items: center;
+}
+
+.category-item {
+    width: 100%;
+    max-width: 293px;
+    text-align: center;
+}
+
+.category-item img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* ========================================
+   FOOTER RESPONSIVO
+   ======================================== */
+.footer {
+    width: 100%;
+    background: #520100;
+    padding: 60px 0 40px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    margin-bottom: 40px;
+    max-width: var(--desktop-xl);
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+/* ========================================
+   PÁGINAS ESPECÍFICAS - PRODUTOS
+   ======================================== */
+.products-hero {
+    width: 100%;
+    height: 475px;
+    background: #520100;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 68px;
+    position: relative;
+}
+
+.products-hero-content {
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 var(--container-padding-xl);
+}
+
+.products-hero h1 {
+    font-size: var(--h2-xl);
+    font-weight: 400;
+    color: #FCF8F1;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.filters-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-dropdown select {
+    width: 100%;
+    min-width: 200px;
+    height: 58px;
+    padding: 14px 40px 14px 16px;
+    background: #FCF8F1;
+    border: 1px solid #262523;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #262523;
+    font-family: 'BR Sonoma', Arial, sans-serif;
+    cursor: pointer;
+    appearance: none;
+}
+
+.products-grid-catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(313px, 1fr));
+    gap: 40px;
+    max-width: 1555px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+    justify-items: center;
+}
+
+/* ========================================
+   SOBRE - PÁGINA RESPONSIVA
+   ======================================== */
+.about-hero {
+    background: linear-gradient(135deg, #520100 0%, #8B0000 100%);
+    padding: 120px 0 80px;
+    color: #FCF8F1;
+    text-align: center;
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-xl);
+}
+
+.story-section {
+    padding: 80px 0;
+    background: #FCF8F1;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.story-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.story-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* ========================================
+   RESPONSIVIDADE - DESKTOP GRANDE (1440px+)
+   ======================================== */
+@media (min-width: 1440px) {
+    .container,
+    .hero-content,
+    .sienna-content,
+    .footer-content,
+    .about-content {
+        padding-left: var(--container-padding-xl);
+        padding-right: var(--container-padding-xl);
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 80px;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 80px;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE - DESKTOP (1200px - 1439px)
+   ======================================== */
+@media (max-width: 1439px) {
+    :root {
+        --container-padding-xl: 60px;
+    }
+    
+    .sienna-content {
+        gap: 100px;
+    }
+    
+    .categories-grid {
+        gap: 50px;
+    }
+    
+    .products-grid {
+        gap: 60px;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE - TABLET (768px - 1199px)
+   ======================================== */
+@media (max-width: 1199px) {
+    :root {
+        --container-padding-xl: 40px;
+    }
+    
+    /* Header */
+    .header {
+        padding: 0 var(--container-padding-md);
+    }
+    
+    .logo img {
+        height: 100px;
+    }
+    
+    /* Hero */
+    .hero {
+        height: 800px;
+    }
+    
+    .hero-text {
+        bottom: 100px;
+        left: var(--container-padding-md);
+        max-width: 90%;
+    }
+    
+    .hero-text h1 {
+        font-size: var(--h1-md);
+    }
+    
+    .hero-text p {
+        font-size: var(--body-md);
+    }
+    
+    /* Sienna */
+    .sienna-content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: center;
+    }
+    
+    .sienna-image {
+        justify-self: center;
+    }
+    
+    .sienna-text h2 {
+        font-size: var(--h2-md);
+    }
+    
+    .sienna-text p {
+        font-size: var(--body-md);
+    }
+    
+    /* Produtos */
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+    }
+    
+    /* Categorias */
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 30px;
+    }
+    
+    /* Sobre */
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .story-image img {
+        height: 300px;
+    }
+    
+    /* Produtos página */
+    .products-hero {
+        height: 400px;
+    }
+    
+    .products-hero h1 {
+        font-size: var(--h2-md);
+    }
+    
+    .filters-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .filter-dropdown {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .products-grid-catalog {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE - MOBILE (481px - 767px)
+   ======================================== */
+@media (max-width: 767px) {
+    :root {
+        --container-padding-xl: 20px;
+    }
+    
+    /* Header */
+    .header {
+        padding: 0 var(--container-padding-sm);
+    }
+    
+    .menu-toggle {
+        width: 80px;
+        height: 60px;
+    }
+    
+    .logo img {
+        height: 80px;
+    }
+    
+    /* Navegação */
+    .nav-menu {
+        width: 100vw;
+        padding: 40px var(--container-padding-sm);
+    }
+    
+    .nav-menu a {
+        font-size: 48px;
+    }
+    
+    .nav-menu .menu-title {
+        font-size: 32px;
+        right: var(--container-padding-sm);
+    }
+    
+    /* Hero */
+    .hero {
+        height: 600px;
+    }
+    
+    .hero-text {
+        bottom: 60px;
+        left: var(--container-padding-sm);
+        max-width: calc(100% - 40px);
+    }
+    
+    .hero-text h1 {
+        font-size: var(--h1-sm);
+    }
+    
+    .hero-text p {
+        font-size: var(--body-sm);
+        line-height: 1.4;
+    }
+    
+    .cta-button {
+        width: 100%;
+        max-width: 200px;
+        height: 48px;
+        font-size: 14px;
+    }
+    
+    /* Produtos */
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 0 var(--container-padding-sm);
+    }
+    
+    /* Sienna */
+    .sienna-section {
+        padding: 60px 0;
+    }
+    
+    .sienna-text h2 {
+        font-size: var(--h2-sm);
+    }
+    
+    .sienna-text p {
+        font-size: var(--body-sm);
+        line-height: 1.5;
+    }
+    
+    .purchase-button {
+        height: 60px;
+        font-size: 20px;
+        max-width: 280px;
+    }
+    
+    /* Categorias */
+    .categories {
+        padding: 60px 0;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 40px 0;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Sobre */
+    .about-hero {
+        padding: 80px 0 60px;
+    }
+    
+    .about-hero h1 {
+        font-size: var(--h1-sm);
+    }
+    
+    .story-section {
+        padding: 60px 0;
+    }
+    
+    .story-text h2 {
+        font-size: var(--h2-sm);
+    }
+    
+    .story-image img {
+        height: 250px;
+    }
+    
+    /* Produtos página */
+    .products-hero {
+        height: 350px;
+        padding: 40px 20px;
+    }
+    
+    .products-hero h1 {
+        font-size: var(--h1-sm);
+    }
+    
+    .products-hero p {
+        font-size: var(--body-sm);
+    }
+    
+    .filter-dropdown select {
+        font-size: 16px;
+        height: 50px;
+        min-width: 100%;
+    }
+    
+    .products-grid-catalog {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE - MOBILE PEQUENO (≤480px)
+   ======================================== */
+@media (max-width: 480px) {
+    :root {
+        --container-padding-xl: 15px;
+    }
+    
+    /* Header */
+    .menu-toggle {
+        width: 70px;
+        height: 55px;
+    }
+    
+    .menu-toggle span {
+        width: 25px;
+        height: 2px;
+    }
+    
+    .logo img {
+        height: 70px;
+    }
+    
+    /* Hero */
+    .hero {
+        height: 500px;
+    }
+    
+    .hero-text h1 {
+        font-size: var(--h1-xs);
+        margin-bottom: 15px;
+    }
+    
+    .hero-text p {
+        font-size: var(--body-xs);
+        margin-bottom: 30px;
+    }
+    
+    .cta-button {
+        width: 100%;
+        height: 44px;
+        font-size: 12px;
+    }
+    
+    /* Produtos */
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    /* Seções */
+    .featured-products,
+    .categories,
+    .story-section {
+        padding: 40px 0;
+    }
+    
+    .sienna-section {
+        padding: 40px 0;
+    }
+    
+    .sienna-text h2 {
+        font-size: var(--h2-xs);
+    }
+    
+    .sienna-text p {
+        font-size: var(--body-xs);
+        line-height: 1.4;
+    }
+    
+    .purchase-button {
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    /* Sobre */
+    .about-hero h1 {
+        font-size: var(--h1-xs);
+    }
+    
+    .story-text h2 {
+        font-size: var(--h2-xs);
+    }
+    
+    .story-text p {
+        font-size: var(--body-xs);
+    }
+    
+    .story-image img {
+        height: 200px;
+    }
+    
+    /* Produtos página */
+    .products-hero {
+        height: 300px;
+    }
+    
+    .products-hero h1 {
+        font-size: var(--h1-xs);
+    }
+    
+    .products-hero p {
+        font-size: var(--body-xs);
+    }
+    
+    .filter-dropdown select {
+        font-size: 14px;
+        height: 45px;
+        padding: 10px 30px 10px 12px;
+    }
+}
+
+/* ========================================
+   ORIENTAÇÃO LANDSCAPE MOBILE
+   ======================================== */
+@media (max-width: 767px) and (orientation: landscape) {
+    .hero {
+        height: 450px;
+    }
+    
+    .hero-text {
+        bottom: 40px;
+    }
+    
+    .hero-text h1 {
+        font-size: var(--h2-sm);
+        margin-bottom: 10px;
+    }
+    
+    .hero-text p {
+        font-size: var(--body-xs);
+        margin-bottom: 20px;
+    }
+    
+    .products-hero {
+        height: 300px;
+    }
+    
+    .about-hero {
+        padding: 60px 0 40px;
+    }
+}
+
+/* ========================================
+   MELHORIAS DE PERFORMANCE
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    .header,
+    .nav-menu,
+    .menu-toggle,
+    .cta-button,
+    .purchase-button {
+        display: none !important;
+    }
+    
+    .hero,
+    .sienna-section {
+        break-inside: avoid;
+    }
+    
+    .product-card {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}
+
+/* FORÇAR MENU TOGGLE VISÍVEL EM TODAS AS RESOLUÇÕES */
+.menu-toggle,
+.header .menu-toggle,
+header .menu-toggle {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+/* Garantir que funcione em qualquer media query */
+@media screen {
+    .menu-toggle,
+    .header .menu-toggle,
+    header .menu-toggle {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
