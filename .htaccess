@@ -1,15 +1,12 @@
 RewriteEngine On
 
-# Bloquear completamente admin_actions.php fora do diretório correto
-RewriteCond %{REQUEST_URI} ^/admin_actions\.php
-RewriteRule .* - [F,L]
-
-# Permitir admin_actions.php apenas quando chamado do diretório correto
-RewriteCond %{REQUEST_URI} ^/.*VOUEXPLODIR/admin_actions\.php$
-RewriteRule .* - [L]
-
 # Ignorar arquivos estáticos primeiro (não reescrever)
 RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|ico|woff|woff2|ttf|eot)$ [NC]
+RewriteRule .* - [L]
+
+# Permitir acesso direto aos arquivos PHP do admin
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} (admin\.php|admin-mensagens\.php|admin_actions\.php|api\.php|delete-message\.php)$
 RewriteRule .* - [L]
 
 # Exceção: /admin ou /admin/ deve cair em admin.php (sem loop)

@@ -100,6 +100,9 @@ try {
         case 'delete':
             deleteProduct();
             break;
+        case 'getProductId':
+            getProductId();
+            break;
         case 'get':
             getProduct();
             break;
@@ -373,6 +376,25 @@ function uploadAvatar()
 
     } catch (Exception $e) {
         http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+}
+
+// Função para buscar produto por ID (para evitar erro 404)
+function getProductId()
+{
+    try {
+        $produtos = loadProductsData();
+        $productId = intval($_GET['productId'] ?? $_POST['productId'] ?? 0);
+
+        if (!isset($produtos[$productId])) {
+            throw new Exception('Produto não encontrado');
+        }
+
+        echo json_encode(['success' => true, 'product' => $produtos[$productId]]);
+
+    } catch (Exception $e) {
+        http_response_code(404);
         echo json_encode(['error' => $e->getMessage()]);
     }
 }

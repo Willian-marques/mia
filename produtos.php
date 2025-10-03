@@ -41,7 +41,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             justify-content: flex-start !important;
             padding: 0 80px 0 0 !important;
         }
-        
+
         .menu-toggle {
             display: flex !important;
             width: 98px !important;
@@ -59,13 +59,13 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             z-index: 1100 !important;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         }
-        
+
         .menu-toggle:hover {
             background: #891010 !important;
             transform: scale(1.05) !important;
             box-shadow: 0 4px 15px rgba(137, 16, 16, 0.3) !important;
         }
-        
+
         .menu-toggle span {
             width: 35px !important;
             height: 3px !important;
@@ -75,7 +75,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             transform-origin: center !important;
         }
-        
+
         .logo {
             position: absolute !important;
             left: 50% !important;
@@ -83,17 +83,17 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             display: flex !important;
             align-items: center !important;
         }
-        
+
         .logo img {
             height: 55px !important;
             width: auto !important;
             max-width: 250px !important;
         }
-        
+
         .nav-menu {
             display: none !important;
         }
-        
+
         /* Ajuste do body */
         body {
             padding-top: 68px !important;

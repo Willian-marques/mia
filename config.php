@@ -4,7 +4,12 @@
 // Informações do site
 define('SITE_NAME', 'Mia Couro Legítimo');
 define('SITE_DESCRIPTION', 'Produtos artesanais em couro genuíno, feitos à mão por artesãos');
-define('SITE_URL', 'http://localhost/mia/site%20certo/');
+define('SITE_URL', 'http://localhost/VOUEXPLODIR/');
+define('ADMIN_URL', 'http://localhost/VOUEXPLODIR/admin.php');
+
+// URLs do admin
+define('ADMIN_MENSAGENS_URL', 'admin-mensagens.php');
+define('ADMIN_ACTIONS_URL', 'admin_actions.php');
 
 // Informações de contato
 define('CONTACT_WHATSAPP', '5541973382889');
@@ -13,9 +18,11 @@ define('CONTACT_INSTAGRAM', 'https://instagram.com/miacourolego');
 define('CONTACT_ADDRESS', 'São Paulo, SP - Brasil');
 
 // Configurações de produtos
-class ProductManager {
-    
-    public static function getAllProducts() {
+class ProductManager
+{
+
+    public static function getAllProducts()
+    {
         return [
             [
                 'id' => 1,
@@ -172,41 +179,45 @@ class ProductManager {
         ];
     }
 
-    public static function getProductById($id) {
+    public static function getProductById($id)
+    {
         $products = self::getAllProducts();
         foreach ($products as $product) {
-            if ($product['id'] === (int)$id) {
+            if ($product['id'] === (int) $id) {
                 return $product;
             }
         }
         return null;
     }
 
-    public static function getProductsByCategory($category) {
+    public static function getProductsByCategory($category)
+    {
         $products = self::getAllProducts();
         if ($category === 'todos') {
-            return array_filter($products, function($product) {
+            return array_filter($products, function ($product) {
                 return $product['active'];
             });
         }
-        return array_filter($products, function($product) use ($category) {
+        return array_filter($products, function ($product) use ($category) {
             return $product['category'] === $category && $product['active'];
         });
     }
 
-    public static function getFeaturedProducts($limit = 6) {
+    public static function getFeaturedProducts($limit = 6)
+    {
         $products = self::getAllProducts();
-        $featured = array_filter($products, function($product) {
+        $featured = array_filter($products, function ($product) {
             return $product['featured'] && $product['active'];
         });
         return array_slice($featured, 0, $limit);
     }
 
-    public static function searchProducts($term) {
+    public static function searchProducts($term)
+    {
         $products = self::getAllProducts();
         $term = strtolower($term);
-        
-        return array_filter($products, function($product) use ($term) {
+
+        return array_filter($products, function ($product) use ($term) {
             return $product['active'] && (
                 strpos(strtolower($product['name']), $term) !== false ||
                 strpos(strtolower($product['description']), $term) !== false ||
@@ -215,7 +226,8 @@ class ProductManager {
         });
     }
 
-    public static function getCategories() {
+    public static function getCategories()
+    {
         return [
             'todos' => 'Todos os Produtos',
             'bolsas' => 'Bolsas',
@@ -224,30 +236,34 @@ class ProductManager {
         ];
     }
 
-    public static function getRelatedProducts($productId, $category, $limit = 3) {
+    public static function getRelatedProducts($productId, $category, $limit = 3)
+    {
         $products = self::getAllProducts();
-        $related = array_filter($products, function($product) use ($productId, $category) {
-            return $product['id'] !== $productId && 
-                   $product['category'] === $category && 
-                   $product['active'];
+        $related = array_filter($products, function ($product) use ($productId, $category) {
+            return $product['id'] !== $productId &&
+                $product['category'] === $category &&
+                $product['active'];
         });
         return array_slice($related, 0, $limit);
     }
 }
 
 // Funções utilitárias
-function formatPrice($price) {
+function formatPrice($price)
+{
     return 'R$ ' . number_format($price, 2, ',', '.');
 }
 
-function generateWhatsAppLink($message) {
+function generateWhatsAppLink($message)
+{
     return 'https://wa.me/' . CONTACT_WHATSAPP . '?text=' . urlencode($message);
 }
 
-function getPageTitle($page, $extra = '') {
+function getPageTitle($page, $extra = '')
+{
     $base = SITE_NAME;
-    
-    switch($page) {
+
+    switch ($page) {
         case 'home':
             return $base . ' - Produtos Artesanais em Couro';
         case 'produtos':

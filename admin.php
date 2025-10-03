@@ -1942,13 +1942,13 @@ if ($logged_in) {
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="admin-mensagens" class="nav-link">
+                        <a href="admin-mensagens.php" class="nav-link">
                             <i class="nav-icon fas fa-envelope"></i>
                             <span>Mensagens</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="index" class="nav-link">
+                        <a href="index.php" class="nav-link">
                             <i class="nav-icon fas fa-external-link-alt"></i>
                             <span>Ver Site</span>
                         </a>
@@ -1997,7 +1997,8 @@ if ($logged_in) {
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                             <h3><?php echo count(array_filter(getAllProdutos(), function ($p) {
-                                return $p['status'] === 'ativo'; })); ?>
+                                return $p['status'] === 'ativo';
+                            })); ?>
                             </h3>
                             <p>Produtos Ativos</p>
                         </div>
@@ -2009,7 +2010,8 @@ if ($logged_in) {
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fas fa-percentage"></i></div>
                             <h3><?php echo count(array_filter(getAllProdutos(), function ($p) {
-                                return !empty($p['oldPrice']); })); ?>
+                                return !empty($p['oldPrice']);
+                            })); ?>
                             </h3>
                             <p>Promoções Ativas</p>
                         </div>

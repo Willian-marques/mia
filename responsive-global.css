@@ -21,27 +21,27 @@
     --desktop: 1200px;
     --desktop-lg: 1440px;
     --desktop-xl: 1920px;
-    
+
     /* Espaçamentos responsivos */
     --container-padding-xl: 80px;
     --container-padding-lg: 60px;
     --container-padding-md: 40px;
     --container-padding-sm: 20px;
     --container-padding-xs: 15px;
-    
+
     /* Tamanhos de fonte responsivos */
     --h1-xl: 72px;
     --h1-lg: 60px;
     --h1-md: 48px;
     --h1-sm: 36px;
     --h1-xs: 28px;
-    
+
     --h2-xl: 60px;
     --h2-lg: 48px;
     --h2-md: 36px;
     --h2-sm: 28px;
     --h2-xs: 24px;
-    
+
     --body-xl: 24px;
     --body-lg: 20px;
     --body-md: 18px;
@@ -479,6 +479,7 @@
    RESPONSIVIDADE - DESKTOP GRANDE (1440px+)
    ======================================== */
 @media (min-width: 1440px) {
+
     .container,
     .hero-content,
     .sienna-content,
@@ -487,12 +488,12 @@
         padding-left: var(--container-padding-xl);
         padding-right: var(--container-padding-xl);
     }
-    
+
     .products-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 80px;
     }
-    
+
     .categories-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 80px;
@@ -506,15 +507,15 @@
     :root {
         --container-padding-xl: 60px;
     }
-    
+
     .sienna-content {
         gap: 100px;
     }
-    
+
     .categories-grid {
         gap: 50px;
     }
-    
+
     .products-grid {
         gap: 60px;
     }
@@ -527,107 +528,107 @@
     :root {
         --container-padding-xl: 40px;
     }
-    
+
     /* Header */
     .header {
         padding: 0 var(--container-padding-md);
     }
-    
+
     .logo img {
         height: 100px;
     }
-    
+
     /* Hero */
     .hero {
         height: 800px;
     }
-    
+
     .hero-text {
         bottom: 100px;
         left: var(--container-padding-md);
         max-width: 90%;
     }
-    
+
     .hero-text h1 {
         font-size: var(--h1-md);
     }
-    
+
     .hero-text p {
         font-size: var(--body-md);
     }
-    
+
     /* Sienna */
     .sienna-content {
         grid-template-columns: 1fr;
         gap: 60px;
         text-align: center;
     }
-    
+
     .sienna-image {
         justify-self: center;
     }
-    
+
     .sienna-text h2 {
         font-size: var(--h2-md);
     }
-    
+
     .sienna-text p {
         font-size: var(--body-md);
     }
-    
+
     /* Produtos */
     .products-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 40px;
     }
-    
+
     /* Categorias */
     .categories-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 40px;
     }
-    
+
     /* Footer */
     .footer-content {
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
     }
-    
+
     .footer-links {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 30px;
     }
-    
+
     /* Sobre */
     .story-grid {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-    
+
     .story-image img {
         height: 300px;
     }
-    
+
     /* Produtos página */
     .products-hero {
         height: 400px;
     }
-    
+
     .products-hero h1 {
         font-size: var(--h2-md);
     }
-    
+
     .filters-container {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .filter-dropdown {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .products-grid-catalog {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 30px;
@@ -641,151 +642,151 @@
     :root {
         --container-padding-xl: 20px;
     }
-    
+
     /* Header */
     .header {
         padding: 0 var(--container-padding-sm);
     }
-    
+
     .menu-toggle {
         width: 80px;
         height: 60px;
     }
-    
+
     .logo img {
         height: 80px;
     }
-    
+
     /* Navegação */
     .nav-menu {
         width: 100vw;
         padding: 40px var(--container-padding-sm);
     }
-    
+
     .nav-menu a {
         font-size: 48px;
     }
-    
+
     .nav-menu .menu-title {
         font-size: 32px;
         right: var(--container-padding-sm);
     }
-    
+
     /* Hero */
     .hero {
         height: 600px;
     }
-    
+
     .hero-text {
         bottom: 60px;
         left: var(--container-padding-sm);
         max-width: calc(100% - 40px);
     }
-    
+
     .hero-text h1 {
         font-size: var(--h1-sm);
     }
-    
+
     .hero-text p {
         font-size: var(--body-sm);
         line-height: 1.4;
     }
-    
+
     .cta-button {
         width: 100%;
         max-width: 200px;
         height: 48px;
         font-size: 14px;
     }
-    
+
     /* Produtos */
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
         padding: 0 var(--container-padding-sm);
     }
-    
+
     /* Sienna */
     .sienna-section {
         padding: 60px 0;
     }
-    
+
     .sienna-text h2 {
         font-size: var(--h2-sm);
     }
-    
+
     .sienna-text p {
         font-size: var(--body-sm);
         line-height: 1.5;
     }
-    
+
     .purchase-button {
         height: 60px;
         font-size: 20px;
         max-width: 280px;
     }
-    
+
     /* Categorias */
     .categories {
         padding: 60px 0;
     }
-    
+
     .categories-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
+
     /* Footer */
     .footer {
         padding: 40px 0;
     }
-    
+
     .footer-links {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     /* Sobre */
     .about-hero {
         padding: 80px 0 60px;
     }
-    
+
     .about-hero h1 {
         font-size: var(--h1-sm);
     }
-    
+
     .story-section {
         padding: 60px 0;
     }
-    
+
     .story-text h2 {
         font-size: var(--h2-sm);
     }
-    
+
     .story-image img {
         height: 250px;
     }
-    
+
     /* Produtos página */
     .products-hero {
         height: 350px;
         padding: 40px 20px;
     }
-    
+
     .products-hero h1 {
         font-size: var(--h1-sm);
     }
-    
+
     .products-hero p {
         font-size: var(--body-sm);
     }
-    
+
     .filter-dropdown select {
         font-size: 16px;
         height: 50px;
         min-width: 100%;
     }
-    
+
     .products-grid-catalog {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -799,104 +800,104 @@
     :root {
         --container-padding-xl: 15px;
     }
-    
+
     /* Header */
     .menu-toggle {
         width: 70px;
         height: 55px;
     }
-    
+
     .menu-toggle span {
         width: 25px;
         height: 2px;
     }
-    
+
     .logo img {
         height: 70px;
     }
-    
+
     /* Hero */
     .hero {
         height: 500px;
     }
-    
+
     .hero-text h1 {
         font-size: var(--h1-xs);
         margin-bottom: 15px;
     }
-    
+
     .hero-text p {
         font-size: var(--body-xs);
         margin-bottom: 30px;
     }
-    
+
     .cta-button {
         width: 100%;
         height: 44px;
         font-size: 12px;
     }
-    
+
     /* Produtos */
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
-    
+
     /* Seções */
     .featured-products,
     .categories,
     .story-section {
         padding: 40px 0;
     }
-    
+
     .sienna-section {
         padding: 40px 0;
     }
-    
+
     .sienna-text h2 {
         font-size: var(--h2-xs);
     }
-    
+
     .sienna-text p {
         font-size: var(--body-xs);
         line-height: 1.4;
     }
-    
+
     .purchase-button {
         height: 50px;
         font-size: 16px;
     }
-    
+
     /* Sobre */
     .about-hero h1 {
         font-size: var(--h1-xs);
     }
-    
+
     .story-text h2 {
         font-size: var(--h2-xs);
     }
-    
+
     .story-text p {
         font-size: var(--body-xs);
     }
-    
+
     .story-image img {
         height: 200px;
     }
-    
+
     /* Produtos página */
     .products-hero {
         height: 300px;
     }
-    
+
     .products-hero h1 {
         font-size: var(--h1-xs);
     }
-    
+
     .products-hero p {
         font-size: var(--body-xs);
     }
-    
+
     .filter-dropdown select {
         font-size: 14px;
         height: 45px;
@@ -911,25 +912,25 @@
     .hero {
         height: 450px;
     }
-    
+
     .hero-text {
         bottom: 40px;
     }
-    
+
     .hero-text h1 {
         font-size: var(--h2-sm);
         margin-bottom: 10px;
     }
-    
+
     .hero-text p {
         font-size: var(--body-xs);
         margin-bottom: 20px;
     }
-    
+
     .products-hero {
         height: 300px;
     }
-    
+
     .about-hero {
         padding: 60px 0 40px;
     }
@@ -951,6 +952,7 @@
    PRINT STYLES
    ======================================== */
 @media print {
+
     .header,
     .nav-menu,
     .menu-toggle,
@@ -958,12 +960,12 @@
     .purchase-button {
         display: none !important;
     }
-    
+
     .hero,
     .sienna-section {
         break-inside: avoid;
     }
-    
+
     .product-card {
         break-inside: avoid;
         margin-bottom: 20px;
@@ -983,6 +985,7 @@ header .menu-toggle {
 
 /* Garantir que funcione em qualquer media query */
 @media screen {
+
     .menu-toggle,
     .header .menu-toggle,
     header .menu-toggle {
