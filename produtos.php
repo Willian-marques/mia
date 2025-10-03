@@ -16,10 +16,13 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Produtos - Mia Couro Legítimo</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="produtos-styles.css">
-    <link rel="stylesheet" href="menu-styles.css">
+    <link rel="stylesheet" href="produtos-styles-clean.css">
+    <link rel="stylesheet" href="responsive-global.css">
+    <link rel="stylesheet" href="menu-mobile-fix.css">
+    <link rel="stylesheet" href="product-card-universal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -225,7 +228,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
         </div>
     </footer>
 
-    <script src="produtos-script-novo.js"></script>
+    <script src="script.js"></script>
     <script>
     // Mobile Menu Toggle (necessário para navegação)
     function initMobileMenu() {
