@@ -2,21 +2,20 @@
 // Carregar produtos
 require_once 'config/produtos.php';
 
-function getFeaturedProducts()
-{
+function getFeaturedProducts() {
     $produtos = loadProductsFromJson();
     $featuredProducts = [];
-
+    
     foreach ($produtos as $produto) {
         // Verificar se está ativo E em destaque
         $isActive = !isset($produto['status']) || $produto['status'] === 'ativo';
         $isFeatured = isset($produto['isFeatured']) && $produto['isFeatured'] === true;
-
+        
         if ($isActive && $isFeatured) {
             $featuredProducts[] = $produto;
         }
     }
-
+    
     // Limita a apenas 4 produtos em destaque
     return array_slice($featuredProducts, 0, 4);
 }
@@ -29,7 +28,7 @@ $arquivo_destaque = 'data/produto-destaque.json';
 if (file_exists($arquivo_destaque)) {
     $conteudo_destaque = file_get_contents($arquivo_destaque);
     $config_destaque = json_decode($conteudo_destaque, true);
-
+    
     if ($config_destaque && $config_destaque['ativo'] && !empty($config_destaque['produto_id'])) {
         // Buscar o produto específico para pegar a imagem
         $todos_produtos = getAllProdutos('ativo');
@@ -48,36 +47,18 @@ if (file_exists($arquivo_destaque)) {
 }
 
 // Função para obter produtos mais recentes para a seção "All Products"
-function getRecentProducts($limit = 5)
-{
-    $produtos = getAllProdutos('ativo'); // Usar a mesma função que funciona
-
-    if (empty($produtos)) {
-        error_log("ERRO: getAllProdutos retornou vazio");
-        return [];
-    }
-
-    error_log("Debug getRecentProducts: " . count($produtos) . " produtos carregados");
-
-    // Ordenar por ID (mais recentes primeiro)
-    usort($produtos, function ($a, $b) {
-        return $b['id'] - $a['id'];
+function getRecentProducts($limit = 5) {
+    $produtos = getAllProdutos('ativo');
+    
+    // Ordenar por ID (mais recentes primeiro) ou por data se tiver
+    usort($produtos, function($a, $b) {
+        return $b['id'] - $a['id'];  // Ordem decrescente (mais recente primeiro)
     });
-
+    
     return array_slice($produtos, 0, $limit);
 }
 
 $recentProducts = getRecentProducts(5);
-
-// Debug: Verificar se produtos foram carregados
-if (empty($recentProducts)) {
-    error_log("ERRO: Nenhum produto recente encontrado!");
-} else {
-    error_log("INFO: " . count($recentProducts) . " produtos recentes carregados");
-    foreach ($recentProducts as $produto) {
-        error_log("Produto: " . $produto['title'] . " - Imagem: " . $produto['images'][0]);
-    }
-}
 
 ?>
 <!DOCTYPE html>
@@ -85,370 +66,575 @@ if (empty($recentProducts)) {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta n /* Responsividade das categorias */ @media (max-width: 1024px) { .categories-grid { grid-template-columns:
+        repeat(2, 1fr) !important; gap: 20px !important; padding: 30px 15px !important; } .category-item { height: 280px
+        !important; } .category-item img { height: 200px !important; } .category-item h3 { font-size: 17px !important;
+        height: 80px !important; padding: 15px !important; } } @media (max-width: 768px) { .categories-grid {
+        grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; padding: 20px 10px !important; }
+        .category-item { height: 250px !important; } .category-item img { height: 180px !important; } .category-item h3
+        { font-size: 16px !important; height: 70px !important; padding: 12px !important; } } @media (max-width: 480px) {
+        .categories-grid { grid-template-columns: 1fr !important; gap: 15px !important; padding: 20px 15px !important; }
+        .category-item { height: 220px !important; } .category-item img { height: 160px !important; } .category-item h3
+        { font-size: 18px !important; height: 60px !important; padding: 15px !important; }
+        }nt="width=device-width, initial-scale=1.0">
     <title>Mia Couro Legítimo - Produtos Artesanais em Couro</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="image-optimize.css">
-    <link rel="stylesheet" href="product-card-universal.css">
     <link rel="stylesheet" href="hero-styles.css">
-    <link rel="stylesheet" href="responsive-global.css">
+    <link rel="stylesheet" href="menu-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
-        /* FORÇAR MENU TOGGLE VISÍVEL - CSS BONITO */
-        .header {
-            display: flex !important;
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            width: 100% !important;
-            height: 68px !important;
-            z-index: 1000 !important;
-            background: url('img/fundoheadercrop.jpg') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: repeat-x !important;
-            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05) !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            padding: 0 80px 0 0 !important;
+    /* Menu Animations - Aplicação direta */
+    .nav-menu {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 33.33vw !important;
+        height: 100vh !important;
+        background: #520100 !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        padding: 60px !important;
+        gap: 40px !important;
+        z-index: 1001 !important;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        transform: translateX(-100%) !important;
+        opacity: 0 !important;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .nav-menu a {
+        color: #FCF8F1 !important;
+        font-size: 70px !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        line-height: 1.2 !important;
+        transition: all 0.4s ease !important;
+        opacity: 0 !important;
+        border-bottom: none !important;
+    }
+
+    .nav-menu.active a {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+        animation: slideInMenu 0.6s ease-out forwards !important;
+    }
+
+    .nav-menu.active a:nth-child(2) {
+        animation-delay: 0.1s !important;
+    }
+
+    .nav-menu.active a:nth-child(3) {
+        animation-delay: 0.2s !important;
+    }
+
+    .nav-menu.active a:nth-child(4) {
+        animation-delay: 0.3s !important;
+    }
+
+    .nav-menu.active a:nth-child(5) {
+        animation-delay: 0.4s !important;
+    }
+
+    .nav-menu.active a:nth-child(6) {
+        animation-delay: 0.5s !important;
+    }
+
+    @keyframes slideInMenu {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
         }
 
-        .menu-toggle {
-            display: flex !important;
-            width: 98px !important;
-            height: 68px !important;
-            background: #520100 !important;
-            border-radius: 30px !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            align-items: center !important;
-            gap: 5px !important;
-            cursor: pointer !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            position: relative !important;
-            z-index: 1100 !important;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .nav-menu.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 33.33vw;
+        width: 66.67vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
+        z-index: -1;
+        animation: fadeInBackdrop 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeInBackdrop {
+        from {
+            opacity: 0;
         }
 
-        .menu-toggle:hover {
-            background: #891010 !important;
-            transform: scale(1.05) !important;
-            box-shadow: 0 4px 15px rgba(137, 16, 16, 0.3) !important;
+        to {
+            opacity: 1;
         }
+    }
 
-        .menu-toggle span {
-            width: 35px !important;
-            height: 3px !important;
-            background: #FCF8F1 !important;
-            border-radius: 2px !important;
-            display: block !important;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-            transform-origin: center !important;
+    .menu-toggle {
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+
+    .menu-toggle:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 15px rgba(137, 16, 16, 0.3) !important;
+    }
+
+    .menu-toggle:active {
+        transform: scale(0.98) !important;
+        transition: all 0.15s ease !important;
+    }
+
+    .menu-toggle span {
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+        transform-origin: center !important;
+    }
+
+    .nav-menu.active a:hover {
+        transform: translateX(10px) !important;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .nav-menu .menu-title {
+        position: absolute !important;
+        top: 17px !important;
+        right: 60px !important;
+        color: #FCF8F1 !important;
+        font-size: 40px !important;
+        font-weight: 500 !important;
+        opacity: 0 !important;
+    }
+
+    .nav-menu.active .menu-title {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        animation: slideInMenu 0.4s ease-out forwards !important;
+        animation-delay: 0.05s !important;
+    }
+
+    .nav-menu.active .sale-link {
+        color: #8A4D99 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Força visibilidade total quando menu está ativo */
+    .nav-menu.active {
+        visibility: visible !important;
+    }
+
+    .nav-menu.active>* {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+
+    /* Fix para imagens dos produtos em destaque */
+    .featured-products .product-image {
+        background: #f5f5f5 !important;
+        border: 1px solid #eee !important;
+    }
+
+    .featured-products .product-image img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        image-rendering: auto !important;
+    }
+
+    .featured-products .product-image img::before,
+    .featured-products .product-image img::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* Padronização dos produtos em destaque - tamanhos uniformes */
+    .featured-products .products-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 30px !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        max-width: 1300px !important;
+        margin: 0 auto !important;
+        padding: 0 20px !important;
+    }
+
+    .featured-products .product-card {
+        width: 100% !important;
+        height: 450px !important;
+        /* Altura fixa para uniformidade */
+        display: flex !important;
+        flex-direction: column !important;
+        background: #FCF8F1 !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .featured-products .product-card:hover {
+        transform: translateY(-8px) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .featured-products .product-image {
+        width: 100% !important;
+        height: 250px !important;
+        /* Altura fixa para imagens */
+        overflow: hidden !important;
+        background: #f8f8f8 !important;
+    }
+
+    .featured-products .product-info {
+        flex: 1 !important;
+        padding: 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+
+    .featured-products .product-info h3 {
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #520100 !important;
+        margin-bottom: 8px !important;
+        line-height: 1.3 !important;
+        height: 48px !important;
+        /* Altura fixa para títulos */
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+    }
+
+    .featured-products .product-info p {
+        font-size: 14px !important;
+        color: #666 !important;
+        margin-bottom: 12px !important;
+        height: 40px !important;
+        /* Altura fixa para descrição */
+        overflow: hidden !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        line-height: 1.4 !important;
+    }
+
+    .featured-products .price {
+        margin-top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .featured-products .old-price {
+        font-size: 14px !important;
+        color: #999 !important;
+        text-decoration: line-through !important;
+    }
+
+    .featured-products .new-price,
+    .featured-products .current-price {
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        color: #520100 !important;
+    }
+
+    /* RESET COMPLETO - Seção de produtos dinâmicos */
+    .all-products .products-grid-extended {
+        display: flex !important;
+        gap: 20px !important;
+        padding: 20px 0 !important;
+        overflow-x: auto !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+
+    .all-products .product-card {
+        min-width: 280px !important;
+        width: 280px !important;
+        height: auto !important;
+        background: #FCF8F1 !important;
+        border-radius: 15px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        flex-shrink: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .all-products .product-image {
+        width: 100% !important;
+        height: 200px !important;
+        overflow: hidden !important;
+        background: #FCF8F1 !important;
+        display: block !important;
+    }
+
+    .all-products .product-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: static !important;
+        z-index: 1 !important;
+    }
+
+    .all-products .product-info {
+        padding: 15px !important;
+        background: white !important;
+        display: block !important;
+    }
+
+    .all-products .product-info h3 {
+        font-size: 18px !important;
+        color: #520100 !important;
+        margin: 0 0 10px 0 !important;
+        font-weight: 600 !important;
+    }
+
+    .all-products .product-info p {
+        font-size: 14px !important;
+        color: #666 !important;
+        margin: 0 0 10px 0 !important;
+    }
+
+    .all-products .price {
+        font-size: 16px !important;
+        color: #520100 !important;
+        font-weight: bold !important;
+        display: block !important;
+    }
+
+    /* Responsividade simplificada */
+    @media (max-width: 1200px) {
+        .all-products .product-card {
+            min-width: 250px !important;
+            width: 250px !important;
         }
+    }
 
-        .logo {
-            position: absolute !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            display: flex !important;
-            align-items: center !important;
+    @media (max-width: 768px) {
+        .all-products .product-card {
+            min-width: 200px !important;
+            width: 200px !important;
         }
+    }
 
-        .logo img {
-            height: 55px !important;
-            width: auto !important;
-            max-width: 250px !important;
-        }
-
-        .nav-menu {
-            display: none !important;
-        }
-
-        /* Ajuste do body */
-        body {
-            padding-top: 68px !important;
-        }
-
-        /* Apenas estilos para produtos - Menu será controlado pelo CSS principal */
-
-        /* Fix para imagens dos produtos em destaque */
-        .featured-products .product-image {
-            background: #f5f5f5 !important;
-            border: 1px solid #eee !important;
-        }
-
-        .featured-products .product-image img {
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-            image-rendering: auto !important;
-        }
-
-        .featured-products .product-image img::before,
-        .featured-products .product-image img::after {
-            content: none !important;
-            display: none !important;
-        }
-
-        /* Padronização dos produtos em destaque - tamanhos uniformes */
+    @media (max-width: 1200px) {
         .featured-products .products-grid {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 30px !important;
-            justify-content: center !important;
-            align-items: stretch !important;
-            max-width: 1300px !important;
-            margin: 0 auto !important;
-            padding: 0 20px !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 20px !important;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .featured-products .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .featured-products .products-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
         }
 
         .featured-products .product-card {
-            width: 100% !important;
-            height: 450px !important;
-            /* Altura fixa para uniformidade */
-            display: flex !important;
-            flex-direction: column !important;
-            background: #FCF8F1 !important;
-            border-radius: 20px !important;
-            overflow: hidden !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .featured-products .product-card:hover {
-            transform: translateY(-8px) !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+            height: 400px !important;
         }
 
         .featured-products .product-image {
-            width: 100% !important;
-            height: 250px !important;
-            /* Altura fixa para imagens */
-            overflow: hidden !important;
-            background: #f8f8f8 !important;
+            height: 220px !important;
         }
 
-        .featured-products .product-info {
-            flex: 1 !important;
-            padding: 20px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-        }
+    }
 
-        .featured-products .product-info h3 {
-            font-size: 18px !important;
-            font-weight: 600 !important;
-            color: #520100 !important;
-            margin-bottom: 8px !important;
-            line-height: 1.3 !important;
-            height: 48px !important;
-            /* Altura fixa para títulos */
-            overflow: hidden !important;
-            display: -webkit-box !important;
-            -webkit-line-clamp: 2 !important;
-            line-clamp: 2 !important;
-            -webkit-box-orient: vertical !important;
+    @media (max-width: 480px) {
+        .all-products .product-card {
+            min-width: 180px !important;
+            width: 180px !important;
         }
+    }
 
-        .featured-products .product-info p {
-            font-size: 14px !important;
-            color: #666 !important;
-            margin-bottom: 12px !important;
-            height: 40px !important;
-            /* Altura fixa para descrição */
-            overflow: hidden !important;
-            display: -webkit-box !important;
-            -webkit-line-clamp: 2 !important;
-            line-clamp: 2 !important;
-            -webkit-box-orient: vertical !important;
-            line-height: 1.4 !important;
-        }
+    /* Ocultar controles de carousel removidos */
+    .carousel-controls {
+        display: none !important;
+    }
 
-        .featured-products .price {
-            margin-top: auto !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            flex-wrap: wrap !important;
-        }
+    .carousel-btn {
+        display: none !important;
+    }
 
-        .featured-products .old-price {
-            font-size: 14px !important;
-            color: #999 !important;
-            text-decoration: line-through !important;
-        }
+    /* Padronização das categorias - FORÇAR UNIFORMIDADE */
+    .categories-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 25px !important;
+        padding: 40px 20px !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        justify-items: stretch !important;
+        align-items: stretch !important;
+        grid-auto-rows: 1fr !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
 
-        .featured-products .new-price,
-        .featured-products .current-price {
-            font-size: 18px !important;
-            font-weight: 700 !important;
-            color: #520100 !important;
-        }
+    .category-item {
+        background: #FCF8F1 !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.3s ease !important;
+        height: 300px !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        position: relative !important;
+        cursor: pointer !important;
+    }
 
-        /* Ocultar controles de carousel removidos */
-        /* Ocultar controles de carousel removidos */
-        .carousel-controls {
-            display: none !important;
-        }
+    .category-item:hover {
+        transform: translateY(-8px) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
 
-        .carousel-btn {
-            display: none !important;
-        }
+    .category-item img {
+        width: 100% !important;
+        height: 220px !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        transition: transform 0.3s ease !important;
+        display: block !important;
+        flex-shrink: 0 !important;
+    }
 
-        /* Padronização das categorias - FORÇAR UNIFORMIDADE */
+    .category-item:hover img {
+        transform: scale(1.05) !important;
+    }
+
+    .category-item h3 {
+        flex: 1 !important;
+        min-height: 80px !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #520100 !important;
+        padding: 15px 15px 20px 15px !important;
+        text-align: center !important;
+        margin: 0 !important;
+        background: #FCF8F1 !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Responsividade das categorias */
+    @media (max-width: 1024px) {
         .categories-grid {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 25px !important;
-            padding: 40px 20px !important;
-            max-width: 1200px !important;
-            margin: 0 auto !important;
-            justify-items: stretch !important;
-            align-items: stretch !important;
-            grid-auto-rows: 1fr !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+            padding: 30px 15px !important;
         }
 
         .category-item {
-            background: #FCF8F1 !important;
-            border-radius: 20px !important;
-            overflow: hidden !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-            transition: all 0.3s ease !important;
-            height: 300px !important;
-            width: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-            position: relative !important;
-            cursor: pointer !important;
-        }
-
-        .category-item:hover {
-            transform: translateY(-8px) !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+            height: 280px !important;
         }
 
         .category-item img {
-            width: 100% !important;
-            height: 220px !important;
-            object-fit: cover !important;
-            object-position: center !important;
-            transition: transform 0.3s ease !important;
-            display: block !important;
-            flex-shrink: 0 !important;
-        }
-
-        .category-item:hover img {
-            transform: scale(1.05) !important;
+            height: 200px !important;
         }
 
         .category-item h3 {
-            flex: 1 !important;
-            min-height: 80px !important;
-            display: flex !important;
-            align-items: flex-start !important;
-            justify-content: center !important;
-            font-size: 18px !important;
-            font-weight: 600 !important;
-            color: #520100 !important;
+            height: 80px !important;
+            font-size: 17px !important;
             padding: 15px 15px 20px 15px !important;
-            text-align: center !important;
-            margin: 0 !important;
-            background: #FCF8F1 !important;
-            line-height: 1.3 !important;
+            align-items: flex-start !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 15px !important;
+            padding: 20px 10px !important;
         }
 
-        /* Responsividade das categorias */
-        @media (max-width: 1024px) {
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 20px !important;
-                padding: 30px 15px !important;
-            }
-
-            .category-item {
-                height: 280px !important;
-            }
-
-            .category-item img {
-                height: 200px !important;
-            }
-
-            .category-item h3 {
-                height: 80px !important;
-                font-size: 17px !important;
-                padding: 15px 15px 20px 15px !important;
-                align-items: flex-start !important;
-            }
+        .category-item {
+            height: 250px !important;
         }
 
-        @media (max-width: 768px) {
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 15px !important;
-                padding: 20px 10px !important;
-            }
-
-            .category-item {
-                height: 250px !important;
-            }
-
-            .category-item img {
-                height: 170px !important;
-            }
-
-            .category-item h3 {
-                height: 80px !important;
-                font-size: 16px !important;
-                padding: 15px 12px 20px 12px !important;
-                align-items: flex-start !important;
-            }
+        .category-item img {
+            height: 170px !important;
         }
 
-        @media (max-width: 480px) {
-            .categories-grid {
-                grid-template-columns: 1fr !important;
-                gap: 15px !important;
-                padding: 20px 15px !important;
-            }
+        .category-item h3 {
+            height: 80px !important;
+            font-size: 16px !important;
+            padding: 15px 12px 20px 12px !important;
+            align-items: flex-start !important;
+        }
+    }
 
-            .category-item {
-                height: 220px !important;
-            }
-
-            .category-item img {
-                height: 140px !important;
-            }
-
-            .category-item h3 {
-                height: 80px !important;
-                font-size: 18px !important;
-                padding: 15px 15px 20px 15px !important;
-                align-items: flex-start !important;
-            }
+    @media (max-width: 480px) {
+        .categories-grid {
+            grid-template-columns: 1fr !important;
+            gap: 15px !important;
+            padding: 20px 15px !important;
         }
 
-        /* FORÇA COR DE FUNDO DOS CARDS - REGRAS MAIS ESPECÍFICAS */
-        .home-section .product-card,
-        .featured-products .product-card,
-        .all-products .product-card,
-        div.product-card {
-            background-color: #FCF8F1 !important;
-            background: #FCF8F1 !important;
+        .category-item {
+            height: 220px !important;
         }
 
-        /* Garantir que não há sobrescrita */
-        * .product-card {
-            background: #FCF8F1 !important;
+        .category-item img {
+            height: 140px !important;
         }
+
+        .category-item h3 {
+            height: 80px !important;
+            font-size: 18px !important;
+            padding: 15px 15px 20px 15px !important;
+            align-items: flex-start !important;
+        }
+    }
+
+    /* FORÇA COR DE FUNDO DOS CARDS - REGRAS MAIS ESPECÍFICAS */
+    .home-section .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    div.product-card {
+        background-color: #FCF8F1 !important;
+        background: #FCF8F1 !important;
+    }
+
+    /* Garantir que não há sobrescrita */
+    * .product-card {
+        background: #FCF8F1 !important;
+    }
     </style>
 </head>
 
@@ -477,10 +663,12 @@ if (empty($recentProducts)) {
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <div class="hero-text">
-                <h1>Mianet</h1>
-                <p>Explore nossa coleção de produtos em couro genuíno, feitos à mão por artesãos.</p>
-                <button class="cta-button" onclick="window.location.href='produtos'">Explorar Produtos</button>
+            <div class="hero-text-wrapper">
+                <div class="hero-text">
+                    <h1>Mianet</h1>
+                    <p>Explore nossa coleção de produtos em couro genuíno, feitos à mão por artesãos.</p>
+                    <button class="cta-button" onclick="window.location.href='produtos'">Explorar Produtos</button>
+                </div>
             </div>
         </div>
     </section>
@@ -495,89 +683,88 @@ if (empty($recentProducts)) {
             </div>
             <div class="products-grid">
                 <?php if (!empty($featuredProducts)): ?>
-                    <?php foreach ($featuredProducts as $produto): ?>
-                        <a href="produto-unico.php?id=<?php echo $produto['id']; ?>"
-                            style="text-decoration: none; color: inherit;">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <?php
+                <?php foreach ($featuredProducts as $produto): ?>
+                <a href="produto-unico?id=<?php echo $produto['id']; ?>" style="text-decoration: none; color: inherit;">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <?php 
                                     $imagePath = $produto['images'][0];
                                     // Verificar se o arquivo existe
                                     if (!file_exists($imagePath)) {
                                         $imagePath = 'img/default-product.png';
                                     }
                                     ?>
-                                    <img src="<?php echo htmlspecialchars($imagePath); ?>"
-                                        alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
-                                        onerror="this.onerror=null; this.src='img/default-product.png'; console.error('Erro ao carregar imagem: <?php echo htmlspecialchars($produto['images'][0]); ?>');">
-                                </div>
-                                <div class="product-info">
-                                    <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
-                                    <p><?php echo htmlspecialchars($produto['description'] ? substr($produto['description'], 0, 50) . '...' : 'Produto em couro legítimo'); ?>
-                                    </p>
-                                    <div class="price">
-                                        <?php if ($produto['oldPrice']): ?>
-                                            <span class="old-price">R$
-                                                <?php echo number_format($produto['oldPrice'], 2, ',', '.'); ?></span>
-                                            <span class="new-price">R$
-                                                <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
-                                        <?php else: ?>
-                                            <span class="current-price">R$
-                                                <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
+                            <img src="<?php echo htmlspecialchars($imagePath); ?>"
+                                alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
+                                onerror="this.onerror=null; this.src='img/default-product.png'; console.error('Erro ao carregar imagem: <?php echo htmlspecialchars($produto['images'][0]); ?>');">
+                        </div>
+                        <div class="product-info">
+                            <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($produto['description'] ? substr($produto['description'], 0, 50) . '...' : 'Produto em couro legítimo'); ?>
+                            </p>
+                            <div class="price">
+                                <?php if ($produto['oldPrice']): ?>
+                                <span class="old-price">R$
+                                    <?php echo number_format($produto['oldPrice'], 2, ',', '.'); ?></span>
+                                <span class="new-price">R$
+                                    <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
+                                <?php else: ?>
+                                <span class="current-price">R$
+                                    <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
+                                <?php endif; ?>
                             </div>
-                        </a>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <!-- Fallback se não houver produtos em destaque -->
-                    <div class="no-featured-products">
-                        <p>Nenhum produto em destaque no momento.</p>
+                        </div>
                     </div>
+                </a>
+                <?php endforeach; ?>
+                <?php else: ?>
+                <!-- Fallback se não houver produtos em destaque -->
+                <div class="no-featured-products">
+                    <p>Nenhum produto em destaque no momento.</p>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
     </section>
 
     <?php if ($secao_destacada): ?>
-        <!-- Bolsa Sienna Section -->
-        <section class="sienna-section">
-            <div class="container">
-                <div class="sienna-content">
-                    <div class="sienna-image">
-                        <img src="<?php echo htmlspecialchars($secao_destacada['imagem']); ?>"
-                            alt="<?php echo htmlspecialchars($secao_destacada['titulo']); ?>">
-                    </div>
-                    <div class="sienna-text">
-                        <h2><?php echo htmlspecialchars($secao_destacada['titulo']); ?></h2>
-                        <p><?php echo htmlspecialchars($secao_destacada['descricao']); ?></p>
-                        <button class="purchase-button"
-                            onclick="window.location.href='produto-unico.php?id=<?php echo $secao_destacada['produto_id']; ?>'">Compre
-                            Já</button>
-                    </div>
+    <!-- Bolsa Sienna Section -->
+    <section class="sienna-section">
+        <div class="container">
+            <div class="sienna-content">
+                <div class="sienna-image">
+                    <img src="<?php echo htmlspecialchars($secao_destacada['imagem']); ?>"
+                        alt="<?php echo htmlspecialchars($secao_destacada['titulo']); ?>">
+                </div>
+                <div class="sienna-text">
+                    <h2><?php echo htmlspecialchars($secao_destacada['titulo']); ?></h2>
+                    <p><?php echo htmlspecialchars($secao_destacada['descricao']); ?></p>
+                    <button class="purchase-button"
+                        onclick="window.location.href='produto-unico?id=<?php echo $secao_destacada['produto_id']; ?>'">Compre
+                        Já</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     <?php endif; ?>
 
     <!-- Categories Section -->
     <section class="categories">
         <div class="container">
             <div class="categories-grid">
-                <div class="category-item" onclick="window.location.href='produtos?filter=desconto'">
+                <div class="category-item">
                     <img src="img/Nece_Marrom/nece_1.jpg" alt="Sale - Produtos com Desconto">
                     <h3>SALE</h3>
                 </div>
-                <div class="category-item" onclick="window.location.href='produtos?category=viagem'">
+                <div class="category-item">
                     <img src="img/Passaporte_Marrom/passaporte_1.JPG" alt="Viagem - Acessórios para Viajar">
                     <h3>Viagem</h3>
                 </div>
-                <div class="category-item" onclick="window.location.href='produtos?category=bolsas'">
+                <div class="category-item">
                     <img src="img/Zephira_Preta/bolsa_1.JPG" alt="Bolsas Femininas">
                     <h3>Bolsa</h3>
                 </div>
-                <div class="category-item" onclick="window.location.href='produtos?category=carteiras'">
+                <div class="category-item">
                     <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Produtos para o Dia a Dia">
                     <h3>Dia a dia</h3>
                 </div>
@@ -595,48 +782,38 @@ if (empty($recentProducts)) {
             <div class="products-carousel">
                 <div class="products-grid-extended">
                     <?php if (!empty($recentProducts)): ?>
-                        <!-- Debug: <?php echo count($recentProducts); ?> produtos encontrados -->
-                        <?php foreach ($recentProducts as $produto): ?>
-                            <!-- Debug produto ID: <?php echo $produto['id']; ?>, Imagem: <?php echo $produto['images'][0]; ?> -->
-                            <a href="produto-unico.php?id=<?php echo $produto['id']; ?>"
-                                style="text-decoration: none; color: inherit;">
-                                <div class="product-card"
-                                    style="width: 286px !important; background: #FCF8F1 !important; border-radius: 30px !important; overflow: hidden !important; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;">
-                                    <div class="product-image"
-                                        style="width: 100% !important; height: 283px !important; overflow: hidden !important;">
-                                        <?php
-                                        $imagePath = $produto['images'][0];
-                                        ?>
-                                        <img src="<?php echo htmlspecialchars($imagePath); ?>"
-                                            alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
-                                            style="width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; opacity: 1 !important; visibility: visible !important;"
-                                            onerror="this.onerror=null; this.src='img/default-product.png'; console.error('Erro ao carregar imagem: <?php echo htmlspecialchars($imagePath); ?>');">
-                                    </div>
-                                    <div class="product-info"
-                                        style="padding: 14px 8px 20px !important; background: #FCF8F1 !important;">
-                                        <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
-                                        <p><?php echo htmlspecialchars($produto['description'] ? substr($produto['description'], 0, 50) . '...' : 'Produto em couro legítimo artesanal'); ?>
-                                        </p>
-                                        <div class="price">
-                                            <?php if (isset($produto['oldPrice']) && $produto['oldPrice'] > 0): ?>
-                                                <span class="old-price">R$
-                                                    <?php echo number_format($produto['oldPrice'], 2, ',', '.'); ?></span>
-                                                <span class="new-price">R$
-                                                    <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
-                                            <?php else: ?>
-                                                <span class="current-price">R$
-                                                    <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
+                    <?php foreach ($recentProducts as $produto): ?>
+                    <a href="produto-unico?id=<?php echo $produto['id']; ?>"
+                        style="text-decoration: none; color: inherit;">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="<?php echo htmlspecialchars($produto['images'][0]); ?>"
+                                    alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
+                                    onerror="this.onerror=null; this.src='img/default-product.png'; console.error('Erro ao carregar imagem: <?php echo htmlspecialchars($produto['images'][0]); ?>');">
+                            </div>
+                            <div class="product-info">
+                                <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
+                                <p><?php echo htmlspecialchars($produto['description'] ? substr($produto['description'], 0, 50) . '...' : 'Produto em couro legítimo artesanal'); ?>
+                                </p>
+                                <div class="price">
+                                    <?php if (isset($produto['oldPrice']) && $produto['oldPrice'] > 0): ?>
+                                    <span class="old-price">R$
+                                        <?php echo number_format($produto['oldPrice'], 2, ',', '.'); ?></span>
+                                    <span class="new-price">R$
+                                        <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
+                                    <?php else: ?>
+                                    <span class="current-price">R$
+                                        <?php echo number_format($produto['price'], 2, ',', '.'); ?></span>
+                                    <?php endif; ?>
                                 </div>
-                            </a>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
-                            <p>⚠️ ERRO: Nenhum produto encontrado. Verifique o arquivo de dados.</p>
-                            <p>Debug: Função getRecentProducts retornou vazio</p>
+                            </div>
                         </div>
+                    </a>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                        <p>Nenhum produto encontrado.</p>
+                    </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -662,27 +839,27 @@ if (empty($recentProducts)) {
                 // Carregar avaliações dinâmicas
                 $arquivo_avaliacoes = 'data/avaliacoes.json';
                 $avaliacoes_ativas = [];
-
+                
                 if (file_exists($arquivo_avaliacoes)) {
                     $conteudo = file_get_contents($arquivo_avaliacoes);
                     $todas_avaliacoes = json_decode($conteudo, true) ?: [];
-
+                    
                     // Filtrar apenas avaliações ativas
-                    $avaliacoes_ativas = array_filter($todas_avaliacoes, function ($avaliacao) {
+                    $avaliacoes_ativas = array_filter($todas_avaliacoes, function($avaliacao) {
                         return $avaliacao['ativo'] === true;
                     });
-
+                    
                     // Ordenar por ordem definida
-                    usort($avaliacoes_ativas, function ($a, $b) {
+                    usort($avaliacoes_ativas, function($a, $b) {
                         return ($a['ordem'] ?? 999) - ($b['ordem'] ?? 999);
                     });
                 }
 
                 if (empty($avaliacoes_ativas)): ?>
-                    <!-- Fallback caso não haja avaliações -->
-                    <div class="testimonial-card">
-                        <div class="testimonial-header">
-                            <div style="
+                <!-- Fallback caso não haja avaliações -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div style="
                                 width: 60px; 
                                 height: 60px; 
                                 border-radius: 50%; 
@@ -694,23 +871,23 @@ if (empty($recentProducts)) {
                                 font-weight: bold; 
                                 font-size: 22px;
                             ">MIA</div>
-                            <div class="testimonial-info">
-                                <h4>Equipe MIA</h4>
-                                <div class="rating">
-                                    <span>★★★★★</span>
-                                </div>
+                        <div class="testimonial-info">
+                            <h4>Equipe MIA</h4>
+                            <div class="rating">
+                                <span>★★★★★</span>
                             </div>
                         </div>
-                        <p>"Trabalhamos com paixão para oferecer os melhores produtos em couro legítimo. Sua satisfação é
-                            nossa prioridade!"</p>
                     </div>
+                    <p>"Trabalhamos com paixão para oferecer os melhores produtos em couro legítimo. Sua satisfação é
+                        nossa prioridade!"</p>
+                </div>
                 <?php else: ?>
-                    <?php foreach ($avaliacoes_ativas as $avaliacao): ?>
-                        <div class="testimonial-card">
-                            <div class="testimonial-header">
-                                <?php if (($avaliacao['tipo_foto'] ?? 'upload') === 'iniciais'): ?>
-                                    <!-- Avatar com iniciais -->
-                                    <div class="testimonial-avatar" style="
+                <?php foreach ($avaliacoes_ativas as $avaliacao): ?>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <?php if (($avaliacao['tipo_foto'] ?? 'upload') === 'iniciais'): ?>
+                        <!-- Avatar com iniciais -->
+                        <div class="testimonial-avatar" style="
                                         width: 60px; 
                                         height: 60px; 
                                         border-radius: 50%; 
@@ -723,29 +900,29 @@ if (empty($recentProducts)) {
                                         font-size: 22px;
                                         border: 2px solid #ddd;
                                     ">
-                                        <?php echo htmlspecialchars($avaliacao['iniciais'] ?? 'XX'); ?>
-                                    </div>
-                                <?php else: ?>
-                                    <!-- Foto carregada -->
-                                    <img src="<?php echo htmlspecialchars($avaliacao['foto']); ?>"
-                                        alt="<?php echo htmlspecialchars($avaliacao['nome']); ?>" class="testimonial-avatar">
-                                <?php endif; ?>
+                            <?php echo htmlspecialchars($avaliacao['iniciais'] ?? 'XX'); ?>
+                        </div>
+                        <?php else: ?>
+                        <!-- Foto carregada -->
+                        <img src="<?php echo htmlspecialchars($avaliacao['foto']); ?>"
+                            alt="<?php echo htmlspecialchars($avaliacao['nome']); ?>" class="testimonial-avatar">
+                        <?php endif; ?>
 
-                                <div class="testimonial-info">
-                                    <h4><?php echo htmlspecialchars($avaliacao['nome']); ?></h4>
-                                    <div class="rating">
-                                        <span>
-                                            <?php
+                        <div class="testimonial-info">
+                            <h4><?php echo htmlspecialchars($avaliacao['nome']); ?></h4>
+                            <div class="rating">
+                                <span>
+                                    <?php 
                                             $estrelas = intval($avaliacao['estrelas'] ?? 5);
                                             echo str_repeat('★', $estrelas) . str_repeat('☆', 5 - $estrelas);
                                             ?>
-                                        </span>
-                                    </div>
-                                </div>
+                                </span>
                             </div>
-                            <p>"<?php echo htmlspecialchars($avaliacao['avaliacao']); ?>"</p>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
+                    <p>"<?php echo htmlspecialchars($avaliacao['avaliacao']); ?>"</p>
+                </div>
+                <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -759,7 +936,7 @@ if (empty($recentProducts)) {
                     <img src="icon s/MiaCourolegitimo 1.svg" alt="Mia Couro Legítimo" class="footer-logo">
                     <p>Única, para quem também é</p>
                     <div class="social-links">
-                        <a href="https://www.instagram.com/mia.mianet" target="_blank" aria-label="Instagram">
+                        <a href="#" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -779,17 +956,18 @@ if (empty($recentProducts)) {
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos">Todos os Produtos</a></li>
-                            <li><a href="produtos?category=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?category=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?category=cases-capas">Cases & Capas</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsas</a></li>
+                            <li><a href="produtos?categoria=carteiras">Carteiras</a></li>
+                            <li><a href="produtos?categoria=cases-capas">Cases & Capas</a></li>
+                            <li><a href="produtos?categoria=escritorio">Escritório</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Atendimento</h4>
                         <ul>
-                            <li><a href="contato">Contato</a></li>
-                            <li><a href="sobre">Sobre Nós</a></li>
+                            <li><a href="#">Contato</a></li>
+                            <li><a href="#">Sobre Nós</a></li>
+                            <li><a href="#">Trocas</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -804,12 +982,105 @@ if (empty($recentProducts)) {
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Mia. Todos os direitos reservados.</p>
-                <p>Desenvolvido por <strong>Aether Design</strong></p>
+                <p>Desenvolvido por <strong>L&W Digital</strong></p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+    // Menu suave - Versão simplificada e funcional
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Script carregado!'); // Debug
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        console.log('MenuToggle encontrado:', menuToggle); // Debug
+        console.log('NavMenu encontrado:', navMenu); // Debug
+
+        if (menuToggle && navMenu) {
+            // Estado inicial do menu
+            navMenu.style.display = 'none';
+
+            // Event listener para o botão hambúrguer
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Clique no menu detectado!'); // Debug
+
+                const isActive = navMenu.classList.contains('active');
+                console.log('Menu está ativo:', isActive); // Debug
+
+                if (!isActive) {
+                    // Abrir menu
+                    console.log('Abrindo menu...'); // Debug
+                    navMenu.style.display = 'flex';
+
+                    setTimeout(() => {
+                        menuToggle.classList.add('active');
+                        navMenu.classList.add('active');
+
+                        // Forçar visibilidade dos elementos internos
+                        const menuTitle = navMenu.querySelector('.menu-title');
+                        const menuLinks = navMenu.querySelectorAll('a');
+
+                        if (menuTitle) menuTitle.style.opacity = '1';
+                        menuLinks.forEach(link => {
+                            link.style.opacity = '1';
+                            link.style.visibility = 'visible';
+                        });
+                    }, 10);
+
+                } else {
+                    // Fechar menu  
+                    console.log('Fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                }
+            });
+
+            // Fechar menu ao clicar nos links
+            const navLinks = navMenu.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    console.log('Link clicado, fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                });
+            });
+
+            // Fechar menu ao clicar fora
+            document.addEventListener('click', function(e) {
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
+                    .contains('active')) {
+                    console.log('Clique fora detectado, fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                }
+            });
+
+        } else {
+            console.error('Elementos do menu não encontrados!');
+        }
+    });
+
+    // Carregar script original para outras funcionalidades
+    const script = document.createElement('script');
+    script.src = 'script.js';
+    script.onload = function() {
+        console.log('Script.js carregado como backup');
+    };
+    document.head.appendChild(script);
+    </script>
 </body>
 
 </html>
