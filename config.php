@@ -4,10 +4,15 @@
 // Informações do site
 define('SITE_NAME', 'Mia Couro Legítimo');
 define('SITE_DESCRIPTION', 'Produtos artesanais em couro genuíno, feitos à mão por artesãos');
-define('SITE_URL', 'http://localhost/VOUEXPLODIR/');
-define('ADMIN_URL', 'http://localhost/VOUEXPLODIR/admin.php');
 
-// URLs do admin
+// Detectar se está hospedado ou local
+$is_hosted = !in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']);
+$base_url = $is_hosted ? 'https://miajanet.com.br/' : 'http://localhost/VOUEXPLODIR/';
+
+define('SITE_URL', $base_url);
+define('ADMIN_URL', $base_url . 'admin.php');
+
+// URLs do admin (relativas)
 define('ADMIN_MENSAGENS_URL', 'admin-mensagens.php');
 define('ADMIN_ACTIONS_URL', 'admin_actions.php');
 

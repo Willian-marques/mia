@@ -496,7 +496,8 @@ if (empty($recentProducts)) {
             <div class="products-grid">
                 <?php if (!empty($featuredProducts)): ?>
                     <?php foreach ($featuredProducts as $produto): ?>
-                        <a href="produto-unico?id=<?php echo $produto['id']; ?>" style="text-decoration: none; color: inherit;">
+                        <a href="produto-unico.php?id=<?php echo $produto['id']; ?>"
+                            style="text-decoration: none; color: inherit;">
                             <div class="product-card">
                                 <div class="product-image">
                                     <?php
@@ -552,7 +553,7 @@ if (empty($recentProducts)) {
                         <h2><?php echo htmlspecialchars($secao_destacada['titulo']); ?></h2>
                         <p><?php echo htmlspecialchars($secao_destacada['descricao']); ?></p>
                         <button class="purchase-button"
-                            onclick="window.location.href='produto-unico?id=<?php echo $secao_destacada['produto_id']; ?>'">Compre
+                            onclick="window.location.href='produto-unico.php?id=<?php echo $secao_destacada['produto_id']; ?>'">Compre
                             Já</button>
                     </div>
                 </div>
@@ -597,7 +598,7 @@ if (empty($recentProducts)) {
                         <!-- Debug: <?php echo count($recentProducts); ?> produtos encontrados -->
                         <?php foreach ($recentProducts as $produto): ?>
                             <!-- Debug produto ID: <?php echo $produto['id']; ?>, Imagem: <?php echo $produto['images'][0]; ?> -->
-                            <a href="produto-unico?id=<?php echo $produto['id']; ?>"
+                            <a href="produto-unico.php?id=<?php echo $produto['id']; ?>"
                                 style="text-decoration: none; color: inherit;">
                                 <div class="product-card"
                                     style="width: 286px !important; background: #FCF8F1 !important; border-radius: 30px !important; overflow: hidden !important; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;">

@@ -15,7 +15,7 @@ RewriteRule ^admin/?$ admin.php [L]
 # Subrotas do admin (ex: /admin/produto/1, /admin/usuarios/3)
 RewriteRule ^admin/(.*)$ admin.php?rota=$1 [L,QSA]
 
-# Produtos específicos
+# URLs amigáveis para produtos
 RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
 
 # Se a URL não tem .php e o arquivo .php existe, carrega o arquivo .php
@@ -23,40 +23,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php [L]
-
-# Cache de arquivos estáticos
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 1 year"
-</IfModule>
-
-# Headers para melhorar navegação
-<IfModule mod_headers.c>
-    # Evitar cache em .php
-    Header always set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{REQUEST_URI} =~ /\.php$/"
-    Header always set Pragma "no-cache" "expr=%{REQUEST_URI} =~ /\.php$/"
-    Header always set Expires "0" "expr=%{REQUEST_URI} =~ /\.php$/"
-
-    # Segurança básica
-    Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set X-Content-Type-Options "nosniff"
-</IfModule>
-
-# Produtos específicos - Corrigidos para produto-unico.php
-RewriteRule ^produto-bolsa-siena\.html$ produto-unico.php?id=1 [R=301,L]
-RewriteRule ^produto-carteira-madrid\.html$ produto-unico.php?id=2 [R=301,L]
-RewriteRule ^produto-case-notebook\.html$ produto-unico.php?id=4 [R=301,L]
-RewriteRule ^produto-porta-cartao\.html$ produto-unico.php?id=3 [R=301,L]
-RewriteRule ^produto-porta-vinho\.html$ produto-unico.php?id=5 [R=301,L]
-
-# URLs amigáveis para produtos
-RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
 
 # Cache de arquivos estáticos
 <IfModule mod_expires.c>

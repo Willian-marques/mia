@@ -15,7 +15,7 @@ if ($produtoId) {
 
 // Se não encontrou produto, redirecionar
 if (!$product) {
-    header('Location: produtos');
+    header('Location: produtos.php');
     exit;
 }
 

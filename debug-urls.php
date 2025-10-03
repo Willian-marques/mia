@@ -2,7 +2,7 @@
 // Diagnóstico completo de URLs e roteamento
 
 session_start();
-$_SESSION['admin_logged'] = true; // Temporariamente definir como logado para teste
+// Removido login forçado para não interferir com o site
 
 echo "<!DOCTYPE html>\n";
 echo "<html><head><title>Diagnóstico de URLs</title></head><body>\n";

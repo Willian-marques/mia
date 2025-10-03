@@ -234,7 +234,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             <?php if (!empty($todos_produtos)): ?>
                 <?php foreach ($todos_produtos as $produto): ?>
                     <?php if ($produto['status'] === 'ativo'): ?>
-                        <a href="produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog"
+                        <a href="produto-unico.php?id=<?php echo $produto['id']; ?>" class="product-card-catalog"
                             data-category="<?php echo $produto['category']; ?>" data-price="<?php echo $produto['price']; ?>"
                             data-sales="<?php echo $produto['sales'] ?? 0; ?>"
                             data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>"
