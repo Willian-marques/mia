@@ -141,7 +141,7 @@ $recentProducts = getRecentProducts(5);
         justify-content: center !important;
         align-items: flex-start !important;
         padding: 60px !important;
-        gap: 40px !important;
+        gap: 30px !important;
         z-index: 1001 !important;
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         transform: translateX(-100%) !important;
