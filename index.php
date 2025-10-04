@@ -243,8 +243,8 @@ $recentProducts = getRecentProducts(5);
     }
 
     .menu-toggle {
-        width: 110px !important;
-        height: 78px !important;
+        width: 100px !important;
+        height: 70px !important;
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
 
@@ -410,6 +410,34 @@ $recentProducts = getRecentProducts(5);
     }
 
     /* Fix para imagens dos produtos em destaque */
+    
+    /* Aumentar fonte dos botões */
+    .cta-button {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        padding: 15px 30px !important;
+        background: #520100 !important;
+        color: #FCF8F1 !important;
+        border: none !important;
+        border-radius: 25px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .cta-button:hover {
+        background: #891010 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(82, 1, 0, 0.3) !important;
+    }
+    
+    .purchase-button {
+        font-size: 30px !important;
+        font-weight: 700 !important;
+    }
+    
+    .carousel-btn {
+        font-size: 18px !important;
+    }
     .featured-products .product-image {
         background: #f5f5f5 !important;
         border: 1px solid #eee !important;
