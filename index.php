@@ -437,33 +437,6 @@ $recentProducts = getRecentProducts(5);
         }
     }
 
-    /* Responsividade do botão menu toggle */
-    @media (max-width: 768px) {
-        .menu-toggle {
-            transform: scale(0.9) !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .menu-toggle {
-            transform: scale(0.8) !important;
-        }
-        
-        .menu-toggle:hover {
-            transform: scale(0.85) !important;
-        }
-    }
-
-    @media (max-width: 320px) {
-        .menu-toggle {
-            transform: scale(0.7) !important;
-        }
-        
-        .menu-toggle:hover {
-            transform: scale(0.75) !important;
-        }
-    }
-
     /* Fix para imagens dos produtos em destaque */
     .featured-products .product-image {
         background: #f5f5f5 !important;
