@@ -74,11 +74,23 @@ function applyFilters() {
     
     // Filtro por categoria
     if (categoryFilter && categoryFilter.value) {
-        filtered = filtered.filter(product => {
-            const category = product.dataset.category || '';
-            return category === categoryFilter.value;
-        });
-        console.log(`📂 Filtro categoria: ${categoryFilter.value}`);
+        if (categoryFilter.value === 'desconto') {
+            // Filtrar produtos com desconto
+            filtered = filtered.filter(product => {
+                const hasOldPrice = product.querySelector('.old-price') !== null;
+                const discountData = product.dataset.discount;
+                const hasDiscount = discountData && parseFloat(discountData) > 0;
+                return hasOldPrice || hasDiscount;
+            });
+            console.log(`💰 Filtro desconto aplicado`);
+        } else {
+            // Filtrar por categoria normal
+            filtered = filtered.filter(product => {
+                const category = product.dataset.category || '';
+                return category === categoryFilter.value;
+            });
+            console.log(`📂 Filtro categoria: ${categoryFilter.value}`);
+        }
     }
     
     // Filtro por tipo (desconto, etc)

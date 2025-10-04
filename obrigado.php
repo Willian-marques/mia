@@ -223,7 +223,7 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
                     <p>Única, para quem também é</p>
                     <div class="social-links">
 
-                        <a href="#" aria-label="Instagram">
+                        <a href="https://www.instagram.com/mia.mianet" target="_blank" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -244,10 +244,10 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos?categoria=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?categoria=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?categoria=cases-capas">Cases & Capas</a></li>
-                            <li><a href="produtos?categoria=escritorio">Escritório</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -255,14 +255,13 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
                         <ul>
                             <li><a href="contato">Contato</a></li>
                             <li><a href="sobre">Sobre Nós</a></li>
-                            <li><a href="#">Trocas</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>

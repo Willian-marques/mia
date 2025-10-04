@@ -8,13 +8,14 @@
         "oldPrice": null,
         "discount": null,
         "images": [
-            "uploads\/1759501028_0_Gemini_Generated_Image_6tzt2n6tzt2n6tzt11.png"
+            "uploads\/1759501028_0_Gemini_Generated_Image_6tzt2n6tzt2n6tzt11.png",
+            "uploads\/1759614957_0_504289588_18375789208192396_4827431109246341412_n.jpg"
         ],
         "colors": [
             {
-                "name": "marrom",
-                "color": "#92400E",
-                "title": "Marrom"
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
             }
         ],
         "sizes": [
@@ -25,9 +26,90 @@
         "status": "ativo",
         "stock": 1,
         "sales": 0,
-        "isFeatured": false,
+        "isFeatured": true,
         "isBestseller": false,
         "created_at": "2025-10-03 16:17:08",
-        "updated_at": "2025-10-03 16:17:08"
+        "updated_at": "2025-10-04 23:55:57"
+    },
+    "2": {
+        "id": 2,
+        "slug": "fef",
+        "title": "fef",
+        "category": "cases-capas",
+        "price": 0.01,
+        "oldPrice": 1.41,
+        "discount": 99,
+        "images": [
+            "uploads\/1759586145_0_504289588_18375789208192396_4827431109246341412_n.jpg"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
+            },
+            {
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            },
+            {
+                "name": "azul-marinho",
+                "color": "#001F3F",
+                "title": "Azul Marinho"
+            },
+            {
+                "name": "verde",
+                "color": "#228B22",
+                "title": "Verde"
+            },
+            {
+                "name": "framboesa",
+                "color": "#C72C48",
+                "title": "Framboesa"
+            },
+            {
+                "name": "amarelo",
+                "color": "#FFD700",
+                "title": "Amarelo"
+            },
+            {
+                "name": "gelo",
+                "color": "#E0F2F7",
+                "title": "Gelo"
+            },
+            {
+                "name": "grafite",
+                "color": "#4A5568",
+                "title": "Grafite"
+            },
+            {
+                "name": "champanhe",
+                "color": "#F7E7CE",
+                "title": "Champanhe"
+            },
+            {
+                "name": "pitaya",
+                "color": "#E91E63",
+                "title": "Pitaya"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "eeef",
+        "specifications": "efefeff",
+        "status": "ativo",
+        "stock": 710,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": true,
+        "created_at": "2025-10-04 15:55:45",
+        "updated_at": "2025-10-04 15:55:45"
     }
 }

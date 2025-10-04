@@ -5,8 +5,9 @@ require_once 'config/produtos.php';
 // Obter apenas produtos ativos para o frontend
 $todos_produtos = getAllProdutos('ativo');
 
-// Verificar se veio filtro por parâmetro URL
+// Verificar se veio filtro por parâmetro URL (filter ou categoria)
 $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
+$categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -195,10 +196,10 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                 <div class="filter-dropdown">
                     <select id="productFilter">
                         <option value="">Todas as Categorias</option>
-                        <option value="bolsas">Bolsas</option>
-                        <option value="carteiras">Carteiras</option>
-                        <option value="cases-capas">Cases & Capas</option>
-                        <option value="acessorios">Acessórios</option>
+                        <option value="viagem">Viagem</option>
+                        <option value="carteiras">Dia a Dia</option>
+                        <option value="bolsas">Bolsa</option>
+                        <option value="desconto">Desconto</option>
                     </select>
                 </div>
                 <div class="filter-dropdown">
@@ -314,7 +315,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                     <img src="icon s/MiaCourolegitimo 1.svg" alt="Mia Couro Legítimo" class="footer-logo">
                     <p>Única, para quem também é</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Instagram">
+                        <a href="https://www.instagram.com/mia.mianet" target="_blank" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -334,10 +335,10 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos?categoria=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?categoria=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?categoria=cases-capas">Cases & Capas</a></li>
-                            <li><a href="produtos?categoria=escritorio">Escritório</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -345,14 +346,13 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
                         <ul>
                             <li><a href="contato">Contato</a></li>
                             <li><a href="sobre">Sobre Nós</a></li>
-                            <li><a href="#">Trocas</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>
@@ -360,7 +360,7 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Mia. Todos os direitos reservados.</p>
-                <p>Desenvolvido por <strong>L&W Digital</strong></p>
+                <p>Desenvolvido por <strong>Aether Design</strong></p>
             </div>
         </div>
     </footer>
@@ -372,8 +372,21 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
     document.addEventListener('DOMContentLoaded', function() {
         <?php if ($filtroInicial === 'desconto'): ?>
         setTimeout(() => {
-            applySaleFilter();
-            console.log('🏷️ Filtro de desconto aplicado automaticamente');
+            const categoryFilter = document.getElementById('productFilter');
+            if (categoryFilter) {
+                categoryFilter.value = 'desconto';
+                applyFilters();
+                console.log('🏷️ Filtro de desconto aplicado automaticamente via categoria');
+            }
+        }, 500);
+        <?php elseif ($categoriaInicial): ?>
+        setTimeout(() => {
+            const categoryFilter = document.getElementById('productFilter');
+            if (categoryFilter) {
+                categoryFilter.value = '<?php echo htmlspecialchars($categoriaInicial); ?>';
+                applyFilters();
+                console.log('📂 Filtro de categoria aplicado: <?php echo htmlspecialchars($categoriaInicial); ?>');
+            }
         }, 500);
         <?php endif; ?>
     });

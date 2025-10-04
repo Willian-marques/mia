@@ -56,6 +56,24 @@ $logged_in = isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'];
 if ($logged_in) {
     $hoje = date('Y-m-d'); // define antes de usar no closure
 
+    // --- Processar salvamento da seção destacada ---
+    if (isset($_POST['action']) && $_POST['action'] === 'save_destaque') {
+        $destaque_config = [
+            'ativo' => isset($_POST['destaque_ativo']),
+            'titulo' => $_POST['destaque_titulo'] ?? '',
+            'descricao' => $_POST['destaque_descricao'] ?? '',
+            'produto_id' => $_POST['destaque_produto_id'] ?? '',
+            'botao_texto' => 'Compre Já',
+            'cor_fundo' => '#520100',
+            'cor_texto' => '#ffffff',
+            'posicao' => 'antes'
+        ];
+
+        file_put_contents($arquivo_destaque, json_encode($destaque_config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        header('Location: admin.php');
+        exit;
+    }
+
     // --- Mensagens ---
     $mensagens_stats = ['total' => 0, 'novas' => 0, 'hoje' => 0];
 
@@ -493,6 +511,30 @@ if ($logged_in) {
         border: 2px solid var(--secondary);
         width: 100%;
         margin-top: 30px;
+        position: relative;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-wrapper::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .table-wrapper::-webkit-scrollbar-track {
+        background: var(--accent);
+        border-radius: 10px;
+    }
+
+    .table-wrapper::-webkit-scrollbar-thumb {
+        background: var(--secondary);
+        border-radius: 10px;
+    }
+
+    .table-wrapper::-webkit-scrollbar-thumb:hover {
+        background: var(--primary);
     }
 
     .table-header {
@@ -516,7 +558,7 @@ if ($logged_in) {
     }
 
     .table-header h2::before {
-        content: '📦';
+        content: '';
         font-size: 28px;
         filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
     }
@@ -526,12 +568,11 @@ if ($logged_in) {
     }
 
     .add-btn {
-        background: var(--primary);
+        background: var(--secondary);
         color: var(--white);
         padding: 14px 28px;
         text-decoration: none;
         border-radius: var(--border-radius-sm);
-        transition: var(--transition);
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -539,30 +580,15 @@ if ($logged_in) {
         text-transform: uppercase;
         letter-spacing: 0.5px;
         position: relative;
-        overflow: hidden;
     }
 
     .add-btn::before {
-        content: '✨';
+        content: '';
         font-size: 16px;
     }
 
-    .add-btn::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-    }
-
-    .add-btn:hover::after {
-        transform: translateX(100%);
-    }
-
     .add-btn:hover {
-        background: var(--secondary);
-        transform: translateY(-3px);
+        background: var(--primary);
         text-decoration: none;
         color: var(--white);
     }
@@ -570,6 +596,7 @@ if ($logged_in) {
     table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 800px;
     }
 
     th,
@@ -733,6 +760,7 @@ if ($logged_in) {
         max-width: 1000px;
         max-height: 90vh;
         overflow-y: auto;
+        overflow-x: hidden;
         box-shadow: var(--shadow-hover);
         animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border: 1px solid var(--gray-medium);
@@ -829,6 +857,8 @@ if ($logged_in) {
         transition: var(--transition);
         background: var(--white);
         font-family: 'Inter', sans-serif;
+        color: #212529;
+        font-weight: 500;
     }
 
     .form-group input:focus,
@@ -844,6 +874,25 @@ if ($logged_in) {
         resize: vertical;
         min-height: 140px;
         line-height: 1.6;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder,
+    .form-group select::placeholder {
+        color: #6c757d;
+        opacity: 0.7;
+        font-weight: 400;
+    }
+
+    .form-group input[type="number"] {
+        -moz-appearance: textfield;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .form-group input[type="number"]::-webkit-inner-spin-button,
+    .form-group input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
     .image-upload {
@@ -957,14 +1006,12 @@ if ($logged_in) {
     }
 
     .btn-secondary {
-        background: var(--gray-dark);
+        background: var(--secondary);
         color: var(--white);
     }
 
     .btn-secondary:hover {
-        background: #5a6268;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(108, 117, 125, 0.3);
+        background: var(--primary);
     }
 
     .btn-primary {
@@ -1000,7 +1047,7 @@ if ($logged_in) {
 
     .stat-card {
         background: var(--white);
-        border: 2px solid var(--secondary);
+        border: none;
         padding: 40px;
         border-radius: var(--border-radius);
         box-shadow: var(--shadow-glass);
@@ -1233,7 +1280,7 @@ if ($logged_in) {
         margin: 15px 0 25px 0;
         padding: 16px 20px;
         background: #e7f3ff;
-        border-left: 4px solid var(--info);
+        border-left: none;
         border-radius: var(--border-radius-sm);
         font-size: 14px;
         color: var(--info);
@@ -1267,20 +1314,27 @@ if ($logged_in) {
         top: 20px;
         left: 20px;
         z-index: 200;
-        background: var(--glass);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
+        background: var(--primary);
+        border: 2px solid var(--primary);
         border-radius: var(--border-radius-sm);
         padding: 12px;
         color: var(--white);
         font-size: 20px;
         cursor: pointer;
         transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(82, 1, 0, 0.3);
+    }
+
+    .mobile-menu-btn::before,
+    .mobile-menu-btn::after {
+        content: none !important;
     }
 
     .mobile-menu-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
+        background: #6b0100;
+        border-color: #6b0100;
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(82, 1, 0, 0.4);
     }
 
     /* RESPONSIVE */
@@ -1381,19 +1435,118 @@ if ($logged_in) {
             font-size: 40px;
         }
 
+        /* Responsividade da tabela de produtos */
+        .products-table {
+            margin-top: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            padding-bottom: 45px;
+        }
+
+        .table-wrapper::after {
+            content: '← Deslize para ver mais →';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(82, 1, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeInOut 3s ease-in-out infinite;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .table-wrapper.scrolled::after {
+            display: none;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .table-header {
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            align-items: stretch;
+        }
+
+        .table-header h2 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .table-header > div {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .search-bar {
+            width: 100%;
+        }
+
+        .add-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 12px 20px;
+        }
+
+        table {
+            min-width: 800px;
+        }
+
         th,
         td {
             padding: 12px 8px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .product-img {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .action-btns {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .view-btn,
+        .edit-btn,
+        .delete-btn {
+            padding: 6px 12px;
+            font-size: 11px;
+            width: 100%;
+            justify-content: center;
         }
 
         .modal-body {
             padding: 30px 20px;
+        }
+
+        .modal-content {
+            width: 98%;
+            margin: 1% auto;
+            max-height: 95vh;
+        }
+
+        .modal-header {
+            padding: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 22px;
         }
 
         .modal-footer {
@@ -1401,11 +1554,99 @@ if ($logged_in) {
             flex-direction: column;
         }
 
+        .modal-footer button {
+            width: 100%;
+            margin: 5px 0;
+        }
+
         .discount-section,
         .colors-section,
         .status-priority-section {
             padding: 20px;
             margin-bottom: 20px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .discount-section .form-row {
+            gap: 20px;
+        }
+
+        .discount-preview input {
+            font-size: 14px;
+            padding: 14px 12px;
+            word-break: break-word;
+            white-space: normal;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 13px;
+        }
+
+        .form-group input {
+            font-size: 15px;
+            padding: 14px 16px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-size: 16px;
+            padding: 14px 16px;
+            color: #212529;
+            font-weight: 500;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .form-group textarea {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #6c757d;
+            opacity: 1;
+        }
+
+        .colors-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .highlights-section {
+            padding: 20px;
+        }
+
+        .highlights-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .highlight-option {
+            padding: 15px;
+        }
+
+        .checkbox-container {
+            gap: 10px;
+        }
+
+        .checkmark {
+            height: 20px;
+            width: 20px;
+        }
+
+        .highlight-text strong {
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .highlight-text small {
+            font-size: 12px;
         }
     }
 
@@ -1431,8 +1672,275 @@ if ($logged_in) {
             font-size: 20px;
         }
 
+        .table-header {
+            padding: 15px;
+        }
+
         .table-header h2 {
+            font-size: 16px;
+        }
+
+        .table-header h2::before {
+            font-size: 20px;
+        }
+
+        .search-bar {
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        .add-btn {
+            font-size: 12px;
+            padding: 10px 16px;
+        }
+
+        th,
+        td {
+            padding: 10px 6px;
+            font-size: 11px;
+        }
+
+        .product-img {
+            width: 45px;
+            height: 45px;
+        }
+
+        .action-btns {
+            gap: 4px;
+        }
+
+        .view-btn,
+        .edit-btn,
+        .delete-btn {
+            padding: 5px 10px;
+            font-size: 10px;
+        }
+
+        .admin-content {
+            padding: 15px;
+        }
+
+        .discount-section,
+        .colors-section,
+        .status-priority-section {
+            padding: 15px;
+        }
+
+        .highlights-section {
+            padding: 15px;
+        }
+
+        .highlights-grid {
+            gap: 12px;
+        }
+
+        .highlight-option {
+            padding: 12px;
+        }
+
+        .section-header h4 {
+            font-size: 16px;
+        }
+
+        .discount-preview input {
+            font-size: 13px;
+            padding: 12px 10px;
+            line-height: 1.4;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-size: 14px;
+            padding: 12px 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-size: 16px;
+            padding: 14px 16px;
+            color: #212529;
+            font-weight: 500;
+            -webkit-text-size-adjust: 100%;
+            line-height: 1.5;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder,
+        .form-group select::placeholder {
+            color: #6c757d;
+            opacity: 1;
+            font-size: 15px;
+        }
+
+        .colors-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .color-option {
+            padding: 12px 8px;
+        }
+
+        .color-option span {
+            font-size: 12px;
+        }
+
+        .modal-body {
+            padding: 20px 15px;
+        }
+
+        .modal-content {
+            width: 100%;
+            margin: 0;
+            max-height: 100vh;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            padding: 18px 15px;
+        }
+
+        .modal-header h3 {
             font-size: 18px;
+        }
+
+        .close {
+            font-size: 28px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+        }
+
+        .modal-footer button {
+            font-size: 14px;
+            padding: 12px 20px;
+        }
+    }
+
+    @media (max-width: 350px) {
+        .highlights-section {
+            padding: 12px;
+        }
+
+        .highlights-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .highlight-option {
+            padding: 10px;
+        }
+
+        .checkbox-container {
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            margin-top: 0;
+            flex-shrink: 0;
+        }
+
+        .checkmark:after {
+            left: 5px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+        }
+
+        .highlight-text {
+            gap: 3px;
+        }
+
+        .highlight-text strong {
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+        .highlight-text small {
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .section-header h4 {
+            font-size: 14px;
+        }
+
+        .discount-section,
+        .colors-section,
+        .status-priority-section {
+            padding: 12px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-size: 13px;
+            padding: 10px 12px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-size: 15px;
+            padding: 12px 14px;
+            color: #212529;
+            font-weight: 500;
+            -webkit-text-size-adjust: 100%;
+            line-height: 1.5;
+            border-width: 2px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            font-size: 15px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder,
+        .form-group select::placeholder {
+            color: #6c757d;
+            opacity: 1;
+            font-size: 14px;
+        }
+
+        .form-group label {
+            font-size: 11px;
+        }
+
+        .modal-header {
+            padding: 15px 12px;
+        }
+
+        .modal-header h3 {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            padding: 15px 12px;
+        }
+
+        .modal-footer {
+            padding: 12px;
+        }
+
+        .modal-footer button {
+            font-size: 13px;
+            padding: 10px 16px;
         }
     }
 
@@ -1556,6 +2064,13 @@ if ($logged_in) {
         color: #155724 !important;
         font-weight: 600;
         text-align: center;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+        white-space: normal;
+        line-height: 1.5;
     }
 
     /* Grid de Cores */
@@ -1663,11 +2178,12 @@ if ($logged_in) {
     }
 
     .checkbox-container {
-        display: flex;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: auto 1fr;
         gap: 12px;
         cursor: pointer;
         position: relative;
+        align-items: start;
     }
 
     .checkbox-container input[type="checkbox"] {
@@ -1679,15 +2195,17 @@ if ($logged_in) {
     }
 
     .checkmark {
-        height: 20px;
-        width: 20px;
+        height: 22px;
+        width: 22px;
         background-color: #eee;
         border: 2px solid #ddd;
         border-radius: 4px;
         position: relative;
         flex-shrink: 0;
-        margin-top: 2px;
+        margin-top: 0;
         transition: all 0.3s;
+        grid-row: 1 / span 2;
+        align-self: start;
     }
 
     .checkbox-container:hover .checkmark {
@@ -1704,10 +2222,10 @@ if ($logged_in) {
         content: "";
         position: absolute;
         display: none;
-        left: 5px;
-        top: 1px;
+        left: 6px;
+        top: 2px;
         width: 6px;
-        height: 10px;
+        height: 11px;
         border: solid white;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
@@ -1718,20 +2236,24 @@ if ($logged_in) {
     }
 
     .highlight-text {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        display: contents;
     }
 
     .highlight-text strong {
         color: #333;
         font-size: 15px;
+        line-height: 22px;
+        font-weight: 600;
+        grid-column: 2;
     }
 
     .highlight-text small {
         color: #666;
         font-size: 13px;
-        line-height: 1.3;
+        line-height: 1.4;
+        display: block;
+        grid-column: 2;
+        margin-top: 4px;
     }
 
     /* Sistema de Notificações Moderno */
@@ -1948,7 +2470,7 @@ if ($logged_in) {
                 <div id="dashboard" style="margin-bottom: 40px;">
                     <h2
                         style="color: var(--primary); font-size: 32px; font-weight: 700; margin-bottom: 8px; letter-spacing: -1px;">
-                        📊 Visão Geral do Sistema
+                        Visão Geral do Sistema
                     </h2>
                     <p style="color: var(--secondary); font-size: 16px; margin-bottom: 0;">
                         Acompanhe as principais métricas do seu e-commerce em tempo real
@@ -2026,66 +2548,68 @@ if ($logged_in) {
                         </div>
                     </div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Imagem</th>
-                                <th>Nome</th>
-                                <th>Categoria</th>
-                                <th>Preço</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach (getAllProdutos() as $produto): ?>
-                            <tr>
-                                <td>
-                                    <img src="<?php echo htmlspecialchars($produto['images'][0]); ?>"
-                                        alt="<?php echo htmlspecialchars($produto['title']); ?>" class="product-img">
-                                </td>
-                                <td>
-                                    <strong><?php echo htmlspecialchars($produto['title']); ?></strong><br>
-                                    <small><?php echo htmlspecialchars(substr($produto['description'], 0, 50)); ?>...</small>
-                                </td>
-                                <td><?php
-                                        $categoryNames = [
-                                            'bolsas' => 'Bolsas',
-                                            'carteiras' => 'Carteiras',
-                                            'cases-capas' => 'Cases & Capas',
-                                            'escritorio' => 'Escritório',
-                                            'viagem' => 'Viagem',
-                                            'acessorios' => 'Acessórios'
-                                        ];
-                                        echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category']));
-                                        ?></td>
-                                <td>
-                                    <strong><?php echo formatPrice($produto['price']); ?></strong>
-                                    <?php if ($produto['oldPrice']): ?>
-                                    <br><small style="text-decoration: line-through; color: #999;">
-                                        <?php echo formatPrice($produto['oldPrice']); ?>
-                                    </small>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <span class="status-badge status-<?php echo $produto['status']; ?>">
-                                        <?php echo ucfirst($produto['status']); ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="action-btns">
-                                        <a href="./produto-unico.php?id=<?php echo $produto['id']; ?>" target="_blank"
-                                            class="view-btn" title="Visualizar produto">Ver</a>
-                                        <a href="#" class="edit-btn"
-                                            onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
-                                        <button class="delete-btn"
-                                            onclick="deleteProduct(<?php echo $produto['id']; ?>)">Excluir</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Imagem</th>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach (getAllProdutos() as $produto): ?>
+                                <tr>
+                                    <td>
+                                        <img src="<?php echo htmlspecialchars($produto['images'][0]); ?>"
+                                            alt="<?php echo htmlspecialchars($produto['title']); ?>" class="product-img">
+                                    </td>
+                                    <td>
+                                        <strong><?php echo htmlspecialchars($produto['title']); ?></strong><br>
+                                        <small><?php echo htmlspecialchars(substr($produto['description'], 0, 50)); ?>...</small>
+                                    </td>
+                                    <td><?php
+                                            $categoryNames = [
+                                                'bolsas' => 'Bolsas',
+                                                'carteiras' => 'Carteiras',
+                                                'cases-capas' => 'Cases & Capas',
+                                                'escritorio' => 'Escritório',
+                                                'viagem' => 'Viagem',
+                                                'acessorios' => 'Acessórios'
+                                            ];
+                                            echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category']));
+                                            ?></td>
+                                    <td>
+                                        <strong><?php echo formatPrice($produto['price']); ?></strong>
+                                        <?php if ($produto['oldPrice']): ?>
+                                        <br><small style="text-decoration: line-through; color: #999;">
+                                            <?php echo formatPrice($produto['oldPrice']); ?>
+                                        </small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-<?php echo $produto['status']; ?>">
+                                            <?php echo ucfirst($produto['status']); ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="./produto-unico.php?id=<?php echo $produto['id']; ?>" target="_blank"
+                                                class="view-btn" title="Visualizar produto">Ver</a>
+                                            <a href="#" class="edit-btn"
+                                                onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
+                                            <button class="delete-btn"
+                                                onclick="deleteProduct(<?php echo $produto['id']; ?>)">Excluir</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Seção de Mensagens de Contato -->
@@ -2155,7 +2679,7 @@ if ($logged_in) {
                             background: white; 
                             border-radius: 8px; 
                             padding: 20px; 
-                            border-left: 4px solid <?php echo getStatusColorAdmin($msg['status']); ?>;
+                            border-left: none;
                             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                             transition: all 0.2s;
                         ">
@@ -2900,14 +3424,14 @@ if ($logged_in) {
                                     opções
                                     disponíveis do produto</p>
                                 <div class="colors-grid">
-                                    <div class="color-option active" data-color="marrom" data-hex="#92400E">
-                                        <div class="color-circle" style="background-color: #92400E;"></div>
-                                        <span>Marrom</span>
-                                        <div class="color-check">✓</div>
-                                    </div>
-                                    <div class="color-option" data-color="preto" data-hex="#000000">
+                                    <div class="color-option active" data-color="preto" data-hex="#000000">
                                         <div class="color-circle" style="background-color: #000000;"></div>
                                         <span>Preto</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="vermelho" data-hex="#DC143C">
+                                        <div class="color-circle" style="background-color: #DC143C;"></div>
+                                        <span>Vermelho</span>
                                         <div class="color-check">✓</div>
                                     </div>
                                     <div class="color-option" data-color="caramelo" data-hex="#D2691E">
@@ -2915,9 +3439,44 @@ if ($logged_in) {
                                         <span>Caramelo</span>
                                         <div class="color-check">✓</div>
                                     </div>
-                                    <div class="color-option" data-color="cognac" data-hex="#A0522D">
-                                        <div class="color-circle" style="background-color: #A0522D;"></div>
-                                        <span>Cognac</span>
+                                    <div class="color-option" data-color="azul-marinho" data-hex="#001F3F">
+                                        <div class="color-circle" style="background-color: #001F3F;"></div>
+                                        <span>Azul Marinho</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="verde" data-hex="#228B22">
+                                        <div class="color-circle" style="background-color: #228B22;"></div>
+                                        <span>Verde</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="framboesa" data-hex="#C72C48">
+                                        <div class="color-circle" style="background-color: #C72C48;"></div>
+                                        <span>Framboesa</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="amarelo" data-hex="#FFD700">
+                                        <div class="color-circle" style="background-color: #FFD700;"></div>
+                                        <span>Amarelo</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="gelo" data-hex="#E0F2F7">
+                                        <div class="color-circle" style="background-color: #E0F2F7; border: 1px solid #ccc;"></div>
+                                        <span>Gelo</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="grafite" data-hex="#4A5568">
+                                        <div class="color-circle" style="background-color: #4A5568;"></div>
+                                        <span>Grafite</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="champanhe" data-hex="#F7E7CE">
+                                        <div class="color-circle" style="background-color: #F7E7CE; border: 1px solid #ccc;"></div>
+                                        <span>Champanhe</span>
+                                        <div class="color-check">✓</div>
+                                    </div>
+                                    <div class="color-option" data-color="pitaya" data-hex="#E91E63">
+                                        <div class="color-circle" style="background-color: #E91E63;"></div>
+                                        <span>Pitaya</span>
                                         <div class="color-check">✓</div>
                                     </div>
                                 </div>
@@ -3114,7 +3673,7 @@ if ($logged_in) {
 
                         const activeColors = document.querySelectorAll('.color-option.active');
                         if (activeColors.length === 0) {
-                            document.querySelector('.color-option[data-color="marrom"]').classList.add(
+                            document.querySelector('.color-option[data-color="preto"]').classList.add(
                                 'active');
                         }
 
@@ -3182,7 +3741,7 @@ if ($logged_in) {
                 document.querySelectorAll('.color-option').forEach(option => {
                     option.classList.remove('active');
                 });
-                document.querySelector('.color-option[data-color="marrom"]').classList.add('active');
+                document.querySelector('.color-option[data-color="preto"]').classList.add('active');
                 updateColorCounter();
 
                 document.getElementById('productModal').style.display = 'block';
@@ -3261,7 +3820,7 @@ if ($logged_in) {
                                         }
                                     });
                                 } else {
-                                    document.querySelector('.color-option[data-color="marrom"]').classList.add(
+                                    document.querySelector('.color-option[data-color="preto"]').classList.add(
                                         'active');
                                 }
                                 updateColorCounter();
@@ -3998,6 +4557,25 @@ if ($logged_in) {
                         }
                     });
                 });
+
+                // Gerenciar dica de scroll da tabela em mobile
+                const tableWrapper = document.querySelector('.table-wrapper');
+                if (tableWrapper && window.innerWidth <= 768) {
+                    let scrollTimeout;
+                    tableWrapper.addEventListener('scroll', function() {
+                        // Remove a dica quando o usuário começar a rolar
+                        if (this.scrollLeft > 0) {
+                            this.classList.add('scrolled');
+                        }
+                        
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            if (this.scrollLeft === 0) {
+                                this.classList.remove('scrolled');
+                            }
+                        }, 1000);
+                    });
+                }
             });
             </script>
 

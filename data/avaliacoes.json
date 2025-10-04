@@ -6,10 +6,10 @@
         "iniciais": "MS",
         "cor_inicial": "#e91e63",
         "avaliacao": "Qualidade excepcional! Minha bolsa j\u00e1 tem 3 anos e continua como nova.",
-        "estrelas": 5,
+        "estrelas": 1,
         "produto_relacionado": "",
         "ativo": true,
-        "data_criacao": "2025-09-28",
+        "data_criacao": "2025-10-04",
         "ordem": 4,
         "id": 1
     },
@@ -28,17 +28,17 @@
         "ordem": 2
     },
     "3": {
-        "nome": "Vini Horizin",
+        "nome": "Maria Silva",
         "foto": "iniciais",
         "tipo_foto": "iniciais",
-        "iniciais": "VH",
-        "cor_inicial": "#e91e63",
-        "avaliacao": "gostei de mais, ameiii",
-        "estrelas": 5,
+        "iniciais": "MS",
+        "cor_inicial": "#795548",
+        "avaliacao": "ef",
+        "estrelas": 2,
         "produto_relacionado": "",
         "ativo": true,
-        "data_criacao": "2025-09-29",
-        "ordem": 4,
+        "data_criacao": "2025-10-04",
+        "ordem": 3,
         "id": 3
     }
 }

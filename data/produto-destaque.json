@@ -1,11 +1,10 @@
 {
     "ativo": true,
     "titulo": "Bolsa Zephira",
-    "descricao": "\r\n",
-    "produto_id": "1",
-    "botao_texto": "Ver Produto",
+    "descricao": "",
+    "produto_id": "2",
+    "botao_texto": "Compre Já",
     "cor_fundo": "#520100",
     "cor_texto": "#ffffff",
-    "posicao": "antes",
-    "data_atualizacao": "2025-09-27 23:09:53"
+    "posicao": "antes"
 }

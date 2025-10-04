@@ -572,11 +572,22 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
 
         @media (max-width: 600px) {
 
+            .cards-section {
+                padding: 0 20px;
+                gap: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
             .channels-card,
             .form-card {
                 width: 100%;
-                max-width: 400px;
+                max-width: 420px;
                 min-height: auto;
+                margin: 0 auto;
+                display: block;
             }
 
             .hero-title {
@@ -588,6 +599,40 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             }
 
             .contact-container {
+                padding: 20px 15px;
+            }
+
+            /* Melhorar cards de canais */
+            .whatsapp-method,
+            .phone-method,
+            .instagram-method {
+                width: calc(100% - 40px);
+                margin: 15px 20px;
+                height: auto;
+                min-height: 110px;
+                padding: 20px;
+            }
+
+            .whatsapp-icon,
+            .phone-icon,
+            .instagram-icon {
+                position: relative;
+                left: 0;
+                top: 0;
+                margin-bottom: 12px;
+            }
+
+            .whatsapp-info,
+            .phone-info,
+            .instagram-info {
+                position: relative;
+                left: 0;
+                top: 0;
+            }
+
+            .additional-info {
+                width: calc(100% - 40px);
+                margin: 15px 20px;
                 padding: 20px;
             }
         }
@@ -595,28 +640,84 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
         /* Responsividade melhorada */
         @media (max-width: 768px) {
             .contact-container {
-                padding: 88px 20px 30px;
+                padding: 88px 15px 30px;
                 /* Padding-top ajustado para header fixo (68px header + 20px espaço) */
             }
 
+            .cards-section {
+                padding: 0 15px;
+                gap: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero-section {
+                padding: 0 15px;
+            }
+
             .hero-title {
-                font-size: 32px;
+                font-size: 30px;
                 margin-bottom: 15px;
             }
 
             .hero-subtitle {
-                font-size: 18px;
+                font-size: 17px;
                 margin-bottom: 30px;
+                line-height: 1.5;
             }
 
             .contact-grid {
                 gap: 30px;
+                flex-direction: column;
+                align-items: center;
             }
 
-            .channels-card h3,
-            .form-card h3 {
+            .channels-card,
+            .form-card {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .channels-title,
+            .form-title {
                 font-size: 22px;
-                margin-bottom: 20px;
+            }
+
+            .form-subtitle {
+                font-size: 15px;
+            }
+
+            /* Melhorar layout dos cards de contato em tablet */
+            .whatsapp-method,
+            .phone-method,
+            .instagram-method {
+                width: calc(100% - 50px);
+                margin: 18px 25px;
+                height: auto;
+                min-height: 120px;
+                padding: 20px;
+            }
+
+            .whatsapp-icon,
+            .phone-icon,
+            .instagram-icon {
+                top: 32px;
+            }
+
+            .whatsapp-info,
+            .phone-info,
+            .instagram-info {
+                top: 20px;
+            }
+
+            .additional-info {
+                width: calc(100% - 50px);
+                margin: 18px 25px;
+                padding: 20px !important;
             }
 
             .form-group label {
@@ -646,11 +747,6 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             .channel-item p {
                 font-size: 14px;
             }
-
-            /* Melhorar info-item para tablet */
-            .additional-info {
-                padding: 18px !important;
-            }
         }
 
         @media (max-width: 480px) {
@@ -659,34 +755,153 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                 /* Padding-top ajustado para header fixo mobile (68px header + 20px espaço) */
             }
 
+            .cards-section {
+                padding: 0 15px;
+                gap: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-section {
+                padding: 0 15px;
+            }
+
             .hero-title {
-                font-size: 26px;
+                font-size: 24px;
                 margin-bottom: 12px;
             }
 
             .hero-subtitle {
-                font-size: 16px;
+                font-size: 14px;
                 margin-bottom: 25px;
+                line-height: 1.5;
             }
 
             .contact-grid {
-                gap: 25px;
+                gap: 20px;
+                padding: 0;
             }
 
             .channels-card,
             .form-card {
-                padding: 25px 20px;
-                max-width: 100%;
+                width: 100%;
+                max-width: 380px;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 20px 15px;
+                border-radius: 20px;
+                display: block;
             }
 
-            .channels-card h3,
-            .form-card h3 {
+            .channels-title,
+            .form-title {
                 font-size: 20px;
-                margin-bottom: 18px;
+                padding: 20px 0 15px;
+            }
+
+            .form-subtitle {
+                font-size: 14px;
+                margin: 0 20px 15px;
+            }
+
+            /* Reorganizar cards de contato para mobile */
+            .whatsapp-method,
+            .phone-method,
+            .instagram-method {
+                width: calc(100% - 30px);
+                margin: 12px 15px;
+                height: auto;
+                min-height: auto;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .whatsapp-icon,
+            .phone-icon,
+            .instagram-icon {
+                position: relative;
+                left: 0;
+                top: 0;
+                margin-bottom: 12px;
+                width: 48px;
+                height: 48px;
+            }
+
+            .whatsapp-info,
+            .phone-info,
+            .instagram-info {
+                position: relative;
+                left: 0;
+                top: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .whatsapp-title,
+            .phone-title,
+            .instagram-title {
+                font-size: 16px;
+                line-height: 1.4;
+            }
+
+            .whatsapp-number,
+            .phone-number,
+            .instagram-handle {
+                font-size: 16px;
+                line-height: 1.4;
+                margin-top: 6px;
+            }
+
+            .whatsapp-desc,
+            .phone-desc,
+            .instagram-desc {
+                font-size: 13px;
+                line-height: 1.4;
+                margin-top: 6px;
+            }
+
+            /* Additional Info */
+            .additional-info {
+                width: calc(100% - 30px);
+                margin: 12px 15px;
+                height: auto !important;
+                min-height: auto !important;
+                padding: 16px !important;
+            }
+
+            .info-title {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .info-item {
+                font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 10px;
+                padding: 6px 0;
+                flex-wrap: wrap;
+            }
+
+            .info-item svg {
+                flex-shrink: 0;
+                margin-right: 10px;
+            }
+
+            /* Form adjustments */
+            .contact-form {
+                margin: 0 15px;
+                width: calc(100% - 30px);
+                padding-bottom: 25px;
             }
 
             .form-group {
-                margin-bottom: 18px;
+                margin-bottom: 16px;
             }
 
             .form-group label {
@@ -697,19 +912,22 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             .form-group input,
             .form-group select,
             .form-group textarea {
-                font-size: 13px;
-                padding: 10px;
-                min-height: 40px;
+                font-size: 14px;
+                padding: 12px;
+                min-height: 44px;
+                border-radius: 8px;
             }
 
             .form-group textarea {
-                min-height: 100px;
+                min-height: 120px;
             }
 
             .submit-btn {
-                font-size: 14px;
-                padding: 12px 24px;
+                font-size: 15px;
+                padding: 14px 28px;
                 width: 100%;
+                border-radius: 10px;
+                min-height: 48px;
             }
 
             .channel-item {
@@ -730,12 +948,115 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                 width: 20px;
                 height: 20px;
             }
+        }
 
-            /* Corrigir additional-info para mobile */
+        /* Telas extra pequenas (celulares pequenos) */
+        @media (max-width: 380px) {
+            .contact-container {
+                padding: 85px 10px 15px;
+            }
+
+            .cards-section {
+                padding: 0 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-title {
+                font-size: 22px;
+            }
+
+            .hero-subtitle {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            .channels-card,
+            .form-card {
+                width: 100%;
+                max-width: 340px;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 18px 12px;
+                border-radius: 18px;
+                display: block;
+            }
+
+            .channels-title,
+            .form-title {
+                font-size: 18px;
+                padding: 18px 0 12px;
+            }
+
+            .form-subtitle {
+                font-size: 13px;
+                margin: 0 15px 12px;
+            }
+
+            .whatsapp-method,
+            .phone-method,
+            .instagram-method {
+                width: calc(100% - 24px);
+                margin: 10px 12px;
+                padding: 14px;
+            }
+
+            .whatsapp-icon,
+            .phone-icon,
+            .instagram-icon {
+                width: 44px;
+                height: 44px;
+                margin-bottom: 10px;
+            }
+
+            .whatsapp-title,
+            .phone-title,
+            .instagram-title,
+            .whatsapp-number,
+            .phone-number,
+            .instagram-handle {
+                font-size: 15px;
+            }
+
+            .whatsapp-desc,
+            .phone-desc,
+            .instagram-desc {
+                font-size: 12px;
+            }
+
             .additional-info {
-                height: auto !important;
-                min-height: 120px !important;
-                padding: 15px !important;
+                width: calc(100% - 24px);
+                margin: 10px 12px;
+                padding: 14px !important;
+            }
+
+            .info-title {
+                font-size: 15px;
+            }
+
+            .info-item {
+                font-size: 13px;
+            }
+
+            .contact-form {
+                margin: 0 12px;
+                width: calc(100% - 24px);
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .submit-btn {
+                font-size: 14px;
+                padding: 12px 24px;
+                min-height: 44px;
             }
         }
 
@@ -824,7 +1145,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                     </div>
                     <div class="phone-info">
                         <div class="phone-title">Telefone</div>
-                        <div class="phone-number">(11) 9999-9999</div>
+                        <div class="phone-number">(41) 9733-8289</div>
                         <div class="phone-desc">Seg - Sex: 9h às 18h</div>
                     </div>
                 </div>
@@ -891,7 +1212,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
 
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
-                        <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999">
+                        <input type="tel" id="telefone" name="telefone" placeholder="(41) 9733-8289">
                     </div>
 
                     <div class="form-group">
@@ -949,10 +1270,10 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos">Todos os Produtos</a></li>
-                            <li><a href="produtos?category=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?category=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?category=cases-capas">Cases & Capas</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -966,7 +1287,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>

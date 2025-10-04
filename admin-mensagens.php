@@ -253,13 +253,12 @@ foreach ($mensagens as $msg) {
             background: transparent;
             border-bottom: none;
             padding: 0 40px;
-            height: var(--header-height);
+            height: auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 90;
+            position: relative;
+            margin-bottom: 0;
         }
 
         .header-title {
@@ -536,9 +535,66 @@ foreach ($mensagens as $msg) {
             border-color: var(--secondary);
         }
 
+        /* MOBILE MENU BUTTON */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 200;
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(82, 1, 0, 0.3);
+        }
+
+        .mobile-menu-btn::before,
+        .mobile-menu-btn::after {
+            content: none !important;
+        }
+
+        .mobile-menu-btn:hover {
+            background: #6b0100;
+            border-color: #6b0100;
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(82, 1, 0, 0.4);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 140;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
             .admin-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 150;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
@@ -550,6 +606,22 @@ foreach ($mensagens as $msg) {
             .admin-main {
                 margin-left: 0;
                 width: 100%;
+            }
+
+            .admin-header {
+                padding: 20px 20px 20px 70px;
+            }
+
+            .header-title {
+                font-size: 24px;
+                word-break: break-word;
+            }
+
+            .header-subtitle {
+                font-size: 13px;
+                line-height: 1.5;
+                word-break: break-word;
+                white-space: normal;
             }
 
             .stats-cards {
@@ -566,6 +638,10 @@ foreach ($mensagens as $msg) {
                 gap: 20px;
             }
 
+            .toolbar h2 {
+                font-size: 20px;
+            }
+
             .search-box {
                 width: 100%;
             }
@@ -579,10 +655,48 @@ foreach ($mensagens as $msg) {
                 gap: 5px;
             }
         }
+
+        @media (max-width: 480px) {
+            .admin-header {
+                padding: 15px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .header-subtitle {
+                font-size: 12px;
+                margin-top: 8px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 24px;
+            }
+
+            .toolbar h2 {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
     <div class="admin-layout">
         <!-- Sidebar -->
         <aside class="admin-sidebar">
@@ -789,6 +903,30 @@ foreach ($mensagens as $msg) {
                     message.style.display = 'block';
                 } else {
                     message.style.display = 'none';
+                }
+            });
+        });
+
+        // Funções do menu mobile
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('show');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.remove('active');
+            overlay.classList.remove('show');
+        }
+
+        // Fechar sidebar ao clicar em um link (em mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeSidebar();
                 }
             });
         });

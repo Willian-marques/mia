@@ -101,6 +101,24 @@ $recentProducts = getRecentProducts(5);
         padding-top: 68px; /* Apenas altura do header, sem espaço extra */
     }
 
+    /* FORÇAR COR DOS CARDS - PRIORIDADE MÁXIMA */
+    .product-card,
+    .featured-products .product-card,
+    .all-products .product-card,
+    div.product-card,
+    * .product-card {
+        background: #fcf8f1 !important;
+        background-color: #fcf8f1 !important;
+    }
+
+    .product-info,
+    .product-card .product-info,
+    .featured-products .product-info,
+    .all-products .product-info {
+        background: #fcf8f1 !important;
+        background-color: #fcf8f1 !important;
+    }
+
         /* Garantir que o hero section cole no header */
         .hero {
             margin-top: 0 !important;
@@ -174,7 +192,7 @@ $recentProducts = getRecentProducts(5);
         /* Altura fixa para uniformidade */
         display: flex !important;
         flex-direction: column !important;
-        background: #FCF8F1 !important;
+        background: #fcf8f1 !important;
         border-radius: 20px !important;
         overflow: hidden !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
@@ -266,7 +284,7 @@ $recentProducts = getRecentProducts(5);
         min-width: 280px !important;
         width: 280px !important;
         height: auto !important;
-        background: #FCF8F1 !important;
+        background: #fcf8f1 !important;
         border-radius: 15px !important;
         overflow: hidden !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
@@ -280,7 +298,7 @@ $recentProducts = getRecentProducts(5);
         width: 100% !important;
         height: 200px !important;
         overflow: hidden !important;
-        background: #FCF8F1 !important;
+        background: #fcf8f1 !important;
         display: block !important;
     }
 
@@ -297,7 +315,7 @@ $recentProducts = getRecentProducts(5);
 
     .all-products .product-info {
         padding: 15px !important;
-        background: white !important;
+        background: #fcf8f1 !important;
         display: block !important;
     }
 
@@ -401,7 +419,7 @@ $recentProducts = getRecentProducts(5);
         background: #FCF8F1 !important;
         border-radius: 20px !important;
         overflow: hidden !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: none !important;
         transition: all 0.3s ease !important;
         height: 300px !important;
         width: 100% !important;
@@ -444,6 +462,19 @@ $recentProducts = getRecentProducts(5);
         margin: 0 !important;
         background: #FCF8F1 !important;
         line-height: 1.3 !important;
+    }
+
+    /* Estilos para links dos cards de categoria */
+    a.category-item {
+        text-decoration: none !important;
+    }
+
+    a.category-item:hover h3 {
+        color: #8A4D99 !important;
+    }
+
+    a.category-item:active {
+        transform: translateY(-5px) scale(0.98) !important;
     }
 
     /* Responsividade das categorias */
@@ -521,13 +552,13 @@ $recentProducts = getRecentProducts(5);
     .featured-products .product-card,
     .all-products .product-card,
     div.product-card {
-        background-color: #FCF8F1 !important;
-        background: #FCF8F1 !important;
+        background-color: #fcf8f1 !important;
+        background: #fcf8f1 !important;
     }
 
     /* Garantir que não há sobrescrita */
     * .product-card {
-        background: #FCF8F1 !important;
+        background: #fcf8f1 !important;
     }
 
     /* Responsividade das categorias */
@@ -712,22 +743,22 @@ $recentProducts = getRecentProducts(5);
     <section class="categories">
         <div class="container">
             <div class="categories-grid">
-                <div class="category-item">
+                <a href="produtos?filter=desconto" class="category-item">
                     <img src="img/Nece_Marrom/nece_1.jpg" alt="Desconto - Produtos com Desconto">
                     <h3>DESCONTO</h3>
-                </div>
-                <div class="category-item">
+                </a>
+                <a href="produtos?categoria=viagem" class="category-item">
                     <img src="img/Passaporte_Marrom/passaporte_1.JPG" alt="Viagem - Acessórios para Viajar">
                     <h3>Viagem</h3>
-                </div>
-                <div class="category-item">
+                </a>
+                <a href="produtos?categoria=bolsas" class="category-item">
                     <img src="img/Zephira_Preta/bolsa_1.JPG" alt="Bolsas Femininas">
                     <h3>Bolsa</h3>
-                </div>
-                <div class="category-item">
+                </a>
+                <a href="produtos?categoria=carteiras" class="category-item">
                     <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Produtos para o Dia a Dia">
                     <h3>Dia a dia</h3>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -896,7 +927,7 @@ $recentProducts = getRecentProducts(5);
                     <img src="icon s/MiaCourolegitimo 1.svg" alt="Mia Couro Legítimo" class="footer-logo">
                     <p>Única, para quem também é</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Instagram">
+                        <a href="https://www.instagram.com/mia.mianet" target="_blank" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -916,10 +947,10 @@ $recentProducts = getRecentProducts(5);
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos?categoria=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?categoria=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?categoria=cases-capas">Cases & Capas</a></li>
-                            <li><a href="produtos?categoria=escritorio">Escritório</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -927,14 +958,13 @@ $recentProducts = getRecentProducts(5);
                         <ul>
                             <li><a href="#">Contato</a></li>
                             <li><a href="#">Sobre Nós</a></li>
-                            <li><a href="#">Trocas</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>
@@ -942,7 +972,7 @@ $recentProducts = getRecentProducts(5);
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Mia. Todos os direitos reservados.</p>
-                <p>Desenvolvido por <strong>L&W Digital</strong></p>
+                <p>Desenvolvido por <strong>Aether Design</strong></p>
             </div>
         </div>
     </footer>

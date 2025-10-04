@@ -335,6 +335,11 @@
     text-align: center;
 }
 
+a.category-item {
+    text-decoration: none;
+    display: inline-block;
+}
+
 .category-item img {
     width: 100%;
     height: 230px;
@@ -342,6 +347,10 @@
     border-radius: 30px;
     margin-bottom: 20px;
     transition: transform 0.3s ease;
+}
+
+a.category-item:hover h3 {
+    color: #8A4D99;
 }
 
 /* ========================================
@@ -739,6 +748,23 @@
     /* Footer */
     .footer {
         padding: 40px 0;
+    }
+
+    .footer-brand {
+        text-align: center;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-logo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .social-links {
+        justify-content: center;
     }
 
     .footer-links {

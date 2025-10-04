@@ -86,6 +86,10 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .main-image img {
@@ -111,6 +115,10 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             border: 3px solid transparent;
             transition: all 0.3s ease;
             opacity: 0.7;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .thumbnail:hover {
@@ -132,18 +140,203 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
         }
 
         /* Responsividade para galeria */
+        @media (max-width: 1400px) {
+            .product-detail > div {
+                gap: 80px !important;
+                padding: 0 60px !important;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .product-detail > div {
+                gap: 60px !important;
+                padding: 0 40px !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .product-detail > div {
+                flex-direction: column !important;
+                gap: 40px !important;
+                padding: 0 30px !important;
+            }
+
+            .product-images {
+                width: 100% !important;
+            }
+
+            .product-info {
+                width: 100% !important;
+            }
+        }
+
         @media (max-width: 768px) {
+            .product-detail {
+                padding: 30px 0 !important;
+                margin-top: 30px !important;
+            }
+
+            .product-detail > div {
+                padding: 0 20px !important;
+                gap: 30px !important;
+            }
+
             .product-images {
                 width: 100%;
             }
 
             .main-image {
                 height: 400px;
+                background: white;
+            }
+
+            .main-image img {
+                object-fit: cover;
             }
 
             .thumbnail {
                 width: 60px;
                 height: 60px;
+                background: white;
+            }
+
+            .thumbnail img {
+                object-fit: cover;
+            }
+
+            .product-info h1 {
+                font-size: 32px !important;
+                line-height: 40px !important;
+            }
+
+            .product-price span:first-child {
+                font-size: 36px !important;
+            }
+
+            .product-price span:nth-child(2) {
+                font-size: 20px !important;
+            }
+
+            .product-price span:nth-child(3) {
+                font-size: 14px !important;
+                padding: 6px 12px !important;
+            }
+
+            .color-selector label,
+            .size-selector label {
+                font-size: 16px !important;
+            }
+
+            .color-option {
+                width: 36px !important;
+                height: 36px !important;
+            }
+
+            .size-option {
+                padding: 10px 20px !important;
+                font-size: 14px !important;
+            }
+
+            .whatsapp-btn {
+                font-size: 16px !important;
+                padding: 14px 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-detail {
+                padding: 20px 0 !important;
+                margin-top: 20px !important;
+            }
+
+            .product-detail > div {
+                padding: 0 15px !important;
+                gap: 20px !important;
+            }
+
+            .main-image {
+                height: 300px;
+                border-radius: 12px;
+                background: white;
+            }
+
+            .main-image img {
+                object-fit: contain;
+            }
+
+            .thumbnail {
+                width: 50px;
+                height: 50px;
+                background: white;
+            }
+
+            .thumbnail img {
+                object-fit: contain;
+            }
+
+            .thumbnail-images {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .product-info h1 {
+                font-size: 24px !important;
+                line-height: 32px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .product-info > div:nth-child(2) {
+                font-size: 16px !important;
+                margin-bottom: 24px !important;
+            }
+
+            .product-price {
+                flex-wrap: wrap;
+                margin-bottom: 30px !important;
+            }
+
+            .product-price span:first-child {
+                font-size: 32px !important;
+            }
+
+            .product-price span:nth-child(2) {
+                font-size: 18px !important;
+            }
+
+            .product-price span:nth-child(3) {
+                font-size: 12px !important;
+                padding: 4px 10px !important;
+            }
+
+            .color-selector,
+            .size-selector {
+                margin-bottom: 24px !important;
+            }
+
+            .color-selector label,
+            .size-selector label {
+                font-size: 14px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .color-option {
+                width: 32px !important;
+                height: 32px !important;
+            }
+
+            .size-option {
+                padding: 8px 16px !important;
+                font-size: 13px !important;
+            }
+
+            .whatsapp-btn {
+                font-size: 15px !important;
+                padding: 12px 16px !important;
+            }
+
+            .whatsapp-btn svg {
+                width: 20px;
+                height: 20px;
             }
         }
 
@@ -436,7 +629,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
     </div>
 
     <!-- Produto Principal -->
-    <section class="product-detail" style="background: #FCF8F1; padding: 56px 0;">
+    <section class="product-detail" style="background: #FCF8F1; padding: 56px 0; margin-top: 40px;">
         <div style="display: flex; gap: 145px; max-width: none; margin: 0; padding: 0 223px;">
             <!-- Imagens do Produto -->
             <div class="product-images">
@@ -597,9 +790,10 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                         <h4>Produtos</h4>
                         <ul>
                             <li><a href="produtos">Todos os Produtos</a></li>
-                            <li><a href="produtos?category=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?category=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?category=cases-capas">Cases & Capas</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -613,7 +807,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>

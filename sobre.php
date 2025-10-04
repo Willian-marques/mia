@@ -364,10 +364,10 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
                     <div class="footer-column">
                         <h4>Produtos</h4>
                         <ul>
-                            <li><a href="produtos">Todos os Produtos</a></li>
-                            <li><a href="produtos?category=bolsas">Bolsas</a></li>
-                            <li><a href="produtos?category=carteiras">Carteiras</a></li>
-                            <li><a href="produtos?category=cases-capas">Cases & Capas</a></li>
+                            <li><a href="produtos?categoria=viagem">Viagem</a></li>
+                            <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
+                            <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
+                            <li><a href="produtos?filter=desconto">Desconto</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -381,7 +381,7 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li>+55 (41) 9733-8289</li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>
