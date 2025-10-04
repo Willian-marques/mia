@@ -487,7 +487,7 @@ $recentProducts = getRecentProducts(5);
     }
 
     .featured-products .product-info p {
-        font-size: 14px !important;
+        font-size: 16px !important;
         color: #666 !important;
         margin-bottom: 12px !important;
         height: 40px !important;
@@ -509,14 +509,14 @@ $recentProducts = getRecentProducts(5);
     }
 
     .featured-products .old-price {
-        font-size: 14px !important;
+        font-size: 16px !important;
         color: #999 !important;
         text-decoration: line-through !important;
     }
 
     .featured-products .new-price,
     .featured-products .current-price {
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: 700 !important;
         color: #520100 !important;
     }
@@ -578,13 +578,13 @@ $recentProducts = getRecentProducts(5);
     }
 
     .all-products .product-info p {
-        font-size: 14px !important;
+        font-size: 16px !important;
         color: #666 !important;
         margin: 0 0 10px 0 !important;
     }
 
     .all-products .price {
-        font-size: 16px !important;
+        font-size: 18px !important;
         color: #520100 !important;
         font-weight: bold !important;
         display: block !important;
@@ -705,7 +705,7 @@ $recentProducts = getRecentProducts(5);
         display: flex !important;
         align-items: flex-start !important;
         justify-content: center !important;
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: 600 !important;
         color: #520100 !important;
         padding: 15px 15px 20px 15px !important;
@@ -733,7 +733,7 @@ $recentProducts = getRecentProducts(5);
 
         .category-item h3 {
             height: 80px !important;
-            font-size: 17px !important;
+            font-size: 19px !important;
             padding: 15px 15px 20px 15px !important;
             align-items: flex-start !important;
         }
@@ -756,7 +756,7 @@ $recentProducts = getRecentProducts(5);
 
         .category-item h3 {
             height: 80px !important;
-            font-size: 16px !important;
+            font-size: 18px !important;
             padding: 15px 12px 20px 12px !important;
             align-items: flex-start !important;
         }
