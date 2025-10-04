@@ -66,25 +66,103 @@ $recentProducts = getRecentProducts(5);
 
 <head>
     <meta charset="UTF-8">
-    <meta n /* Responsividade das categorias */ @media (max-width: 1024px) { .categories-grid { grid-template-columns:
-        repeat(2, 1fr) !important; gap: 20px !important; padding: 30px 15px !important; } .category-item { height: 280px
-        !important; } .category-item img { height: 200px !important; } .category-item h3 { font-size: 17px !important;
-        height: 80px !important; padding: 15px !important; } } @media (max-width: 768px) { .categories-grid {
-        grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; padding: 20px 10px !important; }
-        .category-item { height: 250px !important; } .category-item img { height: 180px !important; } .category-item h3
-        { font-size: 16px !important; height: 70px !important; padding: 12px !important; } } @media (max-width: 480px) {
-        .categories-grid { grid-template-columns: 1fr !important; gap: 15px !important; padding: 20px 15px !important; }
-        .category-item { height: 220px !important; } .category-item img { height: 160px !important; } .category-item h3
-        { font-size: 18px !important; height: 60px !important; padding: 15px !important; }
-        }nt="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mia Couro Legítimo - Produtos Artesanais em Couro</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-global.css">
     <link rel="stylesheet" href="image-optimize.css">
     <link rel="stylesheet" href="hero-styles.css">
     <link rel="stylesheet" href="menu-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
+    /* Garantir que o header seja visível - igual página contato */
+    .header {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        width: 100vw !important;
+        z-index: 1000 !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Forçar header responsive */
+    @media (max-width: 768px) {
+        .header {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        .header * {
+            box-sizing: border-box !important;
+        }
+
+        .menu-toggle, .logo {
+            flex-shrink: 0 !important;
+        }
+    }
+
+    /* Container principal com padding para header fixo */
+    * {
+        box-sizing: border-box !important;
+    }
+
+    html, body {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Reset completo para evitar espaços */
+    body::before, body::after,
+    html::before, html::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* Aplicar margin-top apenas no hero para evitar espaço branco */
+    .hero {
+        margin-top: 68px !important; /* Altura do header */
+        padding-top: 0 !important;
+    }
+
+    /* Garantir que não há espaços extras */
+    @media (max-width: 768px) {
+        .hero {
+            margin-top: 68px !important;
+            padding-top: 0 !important;
+        }
+        
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+    }
+
+    /* Prevenir overflow horizontal em qualquer elemento */
+    @media (max-width: 768px) {
+        * {
+            max-width: 100vw !important;
+        }
+        
+        .container {
+            max-width: 100% !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+    }
+
     /* Menu Animations - Aplicação direta */
     .nav-menu {
         position: fixed !important;
@@ -102,6 +180,17 @@ $recentProducts = getRecentProducts(5);
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         transform: translateX(-100%) !important;
         opacity: 0 !important;
+    }
+
+    /* Mobile: Menu ocupa tela toda */
+    @media (max-width: 768px) {
+        .nav-menu {
+            width: 100vw !important;
+            left: 0 !important;
+            right: 0 !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
     }
 
     .nav-menu.active {
@@ -234,10 +323,141 @@ $recentProducts = getRecentProducts(5);
         visibility: visible !important;
     }
 
+    /* Mobile: Menu ativo ocupa tela toda */
+    @media (max-width: 768px) {
+        .nav-menu.active {
+            width: 100vw !important;
+            height: 100vh !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin: 0 !important;
+            background: #520100 !important;
+            transform: translateX(0) !important;
+        }
+    }
+
     .nav-menu.active>* {
         opacity: 1 !important;
         visibility: visible !important;
         display: block !important;
+    }
+
+    /* Responsividade do Menu Mobile */
+    @media (max-width: 1024px) {
+        .nav-menu {
+            width: 70vw !important;
+            padding: 40px !important;
+            gap: 30px !important;
+        }
+
+        .nav-menu a {
+            font-size: 50px !important;
+        }
+
+        .nav-menu.active::before {
+            left: 70vw !important;
+            width: 30vw !important;
+        }
+
+        .nav-menu .menu-title {
+            font-size: 30px !important;
+            right: 40px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .nav-menu {
+            width: 100vw !important;
+            padding: 30px !important;
+            gap: 25px !important;
+        }
+
+        .nav-menu a {
+            font-size: 36px !important;
+        }
+
+        .nav-menu.active::before {
+            display: none !important;
+        }
+
+        .nav-menu .menu-title {
+            font-size: 24px !important;
+            right: 30px !important;
+            top: 15px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .nav-menu {
+            width: 100vw !important;
+            padding: 20px !important;
+            gap: 20px !important;
+        }
+
+        .nav-menu a {
+            font-size: 28px !important;
+        }
+
+        .nav-menu.active::before {
+            display: none !important;
+        }
+
+        .nav-menu .menu-title {
+            font-size: 20px !important;
+            right: 20px !important;
+            top: 12px !important;
+        }
+    }
+
+    @media (max-width: 320px) {
+        .nav-menu {
+            width: 100vw !important;
+            padding: 15px !important;
+            gap: 15px !important;
+        }
+
+        .nav-menu a {
+            font-size: 24px !important;
+        }
+
+        .nav-menu.active::before {
+            display: none !important;
+        }
+
+        .nav-menu .menu-title {
+            font-size: 18px !important;
+            right: 15px !important;
+            top: 10px !important;
+        }
+    }
+
+    /* Responsividade do botão menu toggle */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            transform: scale(0.9) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .menu-toggle {
+            transform: scale(0.8) !important;
+        }
+        
+        .menu-toggle:hover {
+            transform: scale(0.85) !important;
+        }
+    }
+
+    @media (max-width: 320px) {
+        .menu-toggle {
+            transform: scale(0.7) !important;
+        }
+        
+        .menu-toggle:hover {
+            transform: scale(0.75) !important;
+        }
     }
 
     /* Fix para imagens dos produtos em destaque */
@@ -634,6 +854,73 @@ $recentProducts = getRecentProducts(5);
     /* Garantir que não há sobrescrita */
     * .product-card {
         background: #FCF8F1 !important;
+    }
+
+    /* Responsividade das categorias */
+    @media (max-width: 1024px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+            padding: 30px 15px !important;
+        }
+
+        .category-item {
+            height: 280px !important;
+        }
+
+        .category-item img {
+            height: 200px !important;
+        }
+
+        .category-item h3 {
+            font-size: 17px !important;
+            height: 80px !important;
+            padding: 15px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 15px !important;
+            padding: 20px 10px !important;
+        }
+
+        .category-item {
+            height: 250px !important;
+        }
+
+        .category-item img {
+            height: 180px !important;
+        }
+
+        .category-item h3 {
+            font-size: 16px !important;
+            height: 70px !important;
+            padding: 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .categories-grid {
+            grid-template-columns: 1fr !important;
+            gap: 15px !important;
+            padding: 20px 15px !important;
+        }
+
+        .category-item {
+            height: 220px !important;
+        }
+
+        .category-item img {
+            height: 160px !important;
+        }
+
+        .category-item h3 {
+            font-size: 18px !important;
+            height: 60px !important;
+            padding: 15px !important;
+        }
     }
     </style>
 </head>
