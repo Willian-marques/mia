@@ -76,40 +76,6 @@ $recentProducts = getRecentProducts(5);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
-    /* Garantir que o header seja visível - igual página contato */
-    .header {
-        display: flex !important;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        width: 100vw !important;
-        z-index: 1000 !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    /* Forçar header responsive */
-    @media (max-width: 768px) {
-        .header {
-            width: 100vw !important;
-            max-width: 100vw !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-        }
-
-        .header * {
-            box-sizing: border-box !important;
-        }
-
-        .menu-toggle, .logo {
-            flex-shrink: 0 !important;
-        }
-    }
-
     /* Container principal com padding para header fixo */
     * {
         box-sizing: border-box !important;
