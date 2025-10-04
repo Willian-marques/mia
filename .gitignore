@@ -46,3 +46,4 @@ node_modules/
 
 # Composer (se usar)
 vendor/
+.env

@@ -99,6 +99,7 @@
         "status": "nova"
     },
     {
+<<<<<<< HEAD
         "id": "68e11a51b21cb",
         "data_envio": "2025-10-04 15:00:01",
         "nome": "fe",
@@ -118,6 +119,27 @@
         "telefone": "fe",
         "assunto": "suporte",
         "mensagem": "i",
+=======
+        "id": "68e11441be3a4",
+        "data_envio": "2025-10-04 14:34:09",
+        "nome": "tht",
+        "sobrenome": "ht",
+        "email": "jjgrandao@gmail.com",
+        "telefone": "ht",
+        "assunto": "orcamento",
+        "mensagem": "ht",
+        "status": "nova"
+    },
+    {
+        "id": "68e11ca158c53",
+        "data_envio": "2025-10-04 15:09:53",
+        "nome": "Fernanda",
+        "sobrenome": "Pech",
+        "email": "leocalegari04@gmail.com",
+        "telefone": "41992740409",
+        "assunto": "suporte",
+        "mensagem": "Edr",
+>>>>>>> e1784d7d7eea74f6babba703bcbb502dd3a1cbc5
         "status": "nova"
     }
 ]
