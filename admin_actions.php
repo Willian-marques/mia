@@ -1,4 +1,6 @@
 <?php
+// Prevenir qualquer output antes do JSON
+ob_start();
 
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
@@ -6,20 +8,21 @@ ini_set('error_log', __DIR__ . '/php-error.log');
 if (session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 
-
+// Limpar qualquer output buffer anterior
+ob_clean();
 
 $action = $_POST['action'] ?? $_GET['action'] ?? null;
 
 // Se não há action, retorna erro
 if ($action === null) {
     http_response_code(400);
-    header('Content-Type: application/json');
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['error' => 'Parâmetro action é obrigatório']);
     exit;
 }
 
 // Sempre definir header JSON para responses
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 // Verificar se está logado (exceto para action=test que é para verificar conectividade)
 if ($action !== 'test' && (!isset($_SESSION['admin_logged']) || !$_SESSION['admin_logged'])) {
@@ -90,6 +93,9 @@ function createSlug($title)
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 try {
+    // Limpar buffer antes de processar
+    ob_clean();
+    
     switch ($action) {
         case 'add':
             addProduct();
@@ -109,19 +115,20 @@ try {
         case 'test':
         case 'test1':
         case 'connection_test':
-            echo json_encode(['success' => true, 'message' => 'Conexão OK', 'action' => $action, 'session' => isset($_SESSION['admin_logged'])]);
+            echo json_encode(['success' => true, 'message' => 'Conexão OK', 'action' => $action, 'session' => isset($_SESSION['admin_logged'])], JSON_UNESCAPED_UNICODE);
             break;
         case 'upload-avatar':
             uploadAvatar();
             break;
         default:
             // Para qualquer action não reconhecida, retorna sucesso genérico
-            echo json_encode(['success' => true, 'message' => 'Action processada', 'action' => $action]);
+            echo json_encode(['success' => true, 'message' => 'Action processada', 'action' => $action], JSON_UNESCAPED_UNICODE);
             break;
     }
 } catch (Exception $e) {
+    ob_clean();
     http_response_code(500);
-    echo json_encode(['error' => 'Erro interno: ' . $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+    echo json_encode(['error' => 'Erro interno: ' . $e->getMessage(), 'trace' => $e->getTraceAsString()], JSON_UNESCAPED_UNICODE);
 }
 
 function addProduct()
@@ -334,17 +341,39 @@ function getProduct()
 {
     try {
         $produtos = loadProductsData();
-        $productId = intval($_GET['productId']);
+        $productId = intval($_GET['productId'] ?? 0);
+
+        if ($productId <= 0) {
+            throw new Exception('ID do produto inválido');
+        }
 
         if (!isset($produtos[$productId])) {
             throw new Exception('Produto não encontrado');
         }
 
-        echo json_encode(['success' => true, 'product' => $produtos[$productId]]);
+        // Garantir que todas as propriedades estão definidas
+        $product = $produtos[$productId];
+        $product['id'] = $productId;
+        $product['title'] = $product['title'] ?? '';
+        $product['category'] = $product['category'] ?? '';
+        $product['price'] = floatval($product['price'] ?? 0);
+        $product['oldPrice'] = isset($product['oldPrice']) ? floatval($product['oldPrice']) : null;
+        $product['description'] = $product['description'] ?? '';
+        $product['specifications'] = $product['specifications'] ?? '';
+        $product['status'] = $product['status'] ?? 'ativo';
+        $product['stock'] = intval($product['stock'] ?? 0);
+        $product['images'] = $product['images'] ?? [];
+        $product['colors'] = $product['colors'] ?? [];
+        $product['sizes'] = $product['sizes'] ?? [];
+
+        // Limpar buffer e enviar JSON
+        ob_clean();
+        echo json_encode(['success' => true, 'product' => $product], JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $e) {
+        ob_clean();
         http_response_code(404);
-        echo json_encode(['error' => $e->getMessage()]);
+        echo json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
     }
 }
 
@@ -391,11 +420,14 @@ function getProductId()
             throw new Exception('Produto não encontrado');
         }
 
-        echo json_encode(['success' => true, 'product' => $produtos[$productId]]);
+        echo json_encode(['success' => true, 'product' => $produtos[$productId]], JSON_UNESCAPED_UNICODE);
 
     } catch (Exception $e) {
         http_response_code(404);
-        echo json_encode(['error' => $e->getMessage()]);
+        echo json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
     }
 }
+
+// Garantir que o buffer seja enviado
+ob_end_flush();
 ?>

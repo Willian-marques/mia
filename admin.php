@@ -3209,7 +3209,16 @@ if ($logged_in) {
                     .then(text => {
                         console.log('Resposta recebida:', text);
                         try {
-                            const data = JSON.parse(text);
+                            // Verificar se a resposta é válida antes de fazer parse
+                            if (!text || text.trim() === '') {
+                                throw new Error('Resposta vazia do servidor');
+                            }
+                            
+                            // Remover possíveis caracteres invisíveis
+                            const cleanText = text.trim().replace(/^\uFEFF/, '');
+                            console.log('Texto limpo:', cleanText);
+                            
+                            const data = JSON.parse(cleanText);
                             if (data.success) {
                                 const product = data.product;
                                 document.getElementById('productId').value = product.id;
@@ -3269,7 +3278,17 @@ if ($logged_in) {
                             }
                         } catch (e) {
                             console.error('JSON Parse Error:', e);
-                            alert('Erro: Resposta inválida do servidor\n' + text.substring(0, 200));
+                            console.error('Resposta completa:', text);
+                            console.error('Primeiro 500 caracteres:', text.substring(0, 500));
+                            
+                            let errorMsg = `Erro de JSON Parse:\n`;
+                            errorMsg += `Erro: ${e.message}\n`;
+                            errorMsg += `Tipo de erro: ${e.name}\n`;
+                            errorMsg += `Resposta (primeiros 200 caracteres): ${text.substring(0, 200)}\n`;
+                            errorMsg += `Tamanho da resposta: ${text.length} caracteres`;
+                            
+                            alert(errorMsg);
+                            notifications.error('Erro JSON', 'Resposta inválida do servidor. Verifique o console.');
                         }
                     })
                         .catch(error => {
