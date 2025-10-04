@@ -180,6 +180,8 @@ $recentProducts = getRecentProducts(5);
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
         transform: translateX(-100%) !important;
         opacity: 0 !important;
+        visibility: hidden !important;
+        display: none !important;
     }
 
     /* Mobile: Menu ocupa tela toda */
@@ -194,6 +196,8 @@ $recentProducts = getRecentProducts(5);
     }
 
     .nav-menu.active {
+        display: flex !important;
+        visibility: visible !important;
         transform: translateX(0) !important;
         opacity: 1 !important;
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
@@ -1274,100 +1278,7 @@ $recentProducts = getRecentProducts(5);
         </div>
     </footer>
 
-    <script>
-    // Menu suave - Versão simplificada e funcional
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Script carregado!'); // Debug
-
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        console.log('MenuToggle encontrado:', menuToggle); // Debug
-        console.log('NavMenu encontrado:', navMenu); // Debug
-
-        if (menuToggle && navMenu) {
-            // Estado inicial do menu
-            navMenu.style.display = 'none';
-
-            // Event listener para o botão hambúrguer
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                console.log('Clique no menu detectado!'); // Debug
-
-                const isActive = navMenu.classList.contains('active');
-                console.log('Menu está ativo:', isActive); // Debug
-
-                if (!isActive) {
-                    // Abrir menu
-                    console.log('Abrindo menu...'); // Debug
-                    navMenu.style.display = 'flex';
-
-                    setTimeout(() => {
-                        menuToggle.classList.add('active');
-                        navMenu.classList.add('active');
-
-                        // Forçar visibilidade dos elementos internos
-                        const menuTitle = navMenu.querySelector('.menu-title');
-                        const menuLinks = navMenu.querySelectorAll('a');
-
-                        if (menuTitle) menuTitle.style.opacity = '1';
-                        menuLinks.forEach(link => {
-                            link.style.opacity = '1';
-                            link.style.visibility = 'visible';
-                        });
-                    }, 10);
-
-                } else {
-                    // Fechar menu  
-                    console.log('Fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                }
-            });
-
-            // Fechar menu ao clicar nos links
-            const navLinks = navMenu.querySelectorAll('a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    console.log('Link clicado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                });
-            });
-
-            // Fechar menu ao clicar fora
-            document.addEventListener('click', function(e) {
-                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
-                    .contains('active')) {
-                    console.log('Clique fora detectado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
-                }
-            });
-
-        } else {
-            console.error('Elementos do menu não encontrados!');
-        }
-    });
-
-    // Carregar script original para outras funcionalidades
-    const script = document.createElement('script');
-    script.src = 'script.js';
-    script.onload = function() {
-        console.log('Script.js carregado como backup');
-    };
-    document.head.appendChild(script);
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>

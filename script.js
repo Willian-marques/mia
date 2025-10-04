@@ -10,36 +10,50 @@ document.addEventListener('DOMContentLoaded', function () {
     initNavigationFix();
 });
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle - Versão Simplificada e Robusta
 function initMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
 
+    console.log('Inicializando menu mobile...'); // Debug
+    console.log('MenuToggle:', menuToggle); // Debug
+    console.log('NavMenu:', navMenu); // Debug
+
     if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function () {
-            const isActive = this.classList.contains('active');
+        // Garantir estado inicial
+        navMenu.style.display = 'none';
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+
+        menuToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Clique no botão menu'); // Debug
+            
+            const isActive = navMenu.classList.contains('active');
+            console.log('Menu atualmente ativo:', isActive); // Debug
             
             if (!isActive) {
                 // Abrir menu
+                console.log('Abrindo menu...'); // Debug
                 navMenu.style.display = 'flex';
-                // Force reflow
-                navMenu.offsetHeight;
-                this.classList.add('active');
-                navMenu.classList.add('active');
                 
-                // Adicionar classe ao body para efeitos adicionais
-                document.body.classList.add('menu-open');
+                // Pequeno delay para permitir que o display seja aplicado
+                requestAnimationFrame(() => {
+                    menuToggle.classList.add('active');
+                    navMenu.classList.add('active');
+                });
+                
             } else {
                 // Fechar menu
-                this.classList.remove('active');
+                console.log('Fechando menu...'); // Debug
+                menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
                 
                 // Aguardar animação antes de ocultar
                 setTimeout(() => {
-                    if (!navMenu.classList.contains('active')) {
-                        navMenu.style.display = 'none';
-                    }
+                    navMenu.style.display = 'none';
                 }, 400);
             }
         });
@@ -48,6 +62,7 @@ function initMobileMenu() {
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', function () {
+                console.log('Link clicado, fechando menu...'); // Debug
                 closeMenuSmooth();
             });
         });
@@ -55,7 +70,10 @@ function initMobileMenu() {
         // Close menu when clicking outside
         document.addEventListener('click', function (e) {
             if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                closeMenuSmooth();
+                if (navMenu.classList.contains('active')) {
+                    console.log('Clique fora detectado, fechando menu...'); // Debug
+                    closeMenuSmooth();
+                }
             }
         });
         
@@ -64,15 +82,24 @@ function initMobileMenu() {
             if (menuToggle.classList.contains('active')) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
                 
                 setTimeout(() => {
-                    if (!navMenu.classList.contains('active')) {
-                        navMenu.style.display = 'none';
-                    }
+                    navMenu.style.display = 'none';
                 }, 400);
             }
         }
+        
+        // Adicionar evento de tecla ESC para fechar menu
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                console.log('ESC pressionado, fechando menu...'); // Debug
+                closeMenuSmooth();
+            }
+        });
+        
+        console.log('Menu mobile inicializado com sucesso!'); // Debug
+    } else {
+        console.error('Elementos do menu não encontrados!');
     }
 }
 
@@ -422,6 +449,51 @@ function initLazyLoading() {
 // Error Handling
 window.addEventListener('error', function (e) {
     console.error('JavaScript Error:', e.error);
+});
+
+// Fallback para garantir que o menu funcione
+document.addEventListener('DOMContentLoaded', function() {
+    // Pequeno delay para garantir que tudo carregou
+    setTimeout(function() {
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (menuToggle && navMenu && !menuToggle.hasAttribute('data-initialized')) {
+            console.log('Aplicando fallback do menu...'); // Debug
+            
+            // Marcar como inicializado
+            menuToggle.setAttribute('data-initialized', 'true');
+            
+            // Garantir estado inicial
+            navMenu.style.display = 'none';
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+            
+            // Adicionar evento simples
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isActive = navMenu.classList.contains('active');
+                
+                if (!isActive) {
+                    navMenu.style.display = 'flex';
+                    setTimeout(() => {
+                        navMenu.classList.add('active');
+                        menuToggle.classList.add('active');
+                    }, 10);
+                } else {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                }
+            });
+            
+            console.log('Fallback do menu aplicado!'); // Debug
+        }
+    }, 500);
 });
 
 // Active Navigation Highlighting
