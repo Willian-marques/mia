@@ -23,6 +23,144 @@ $filtroInicial = isset($_GET['filter']) ? $_GET['filter'] : null;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+    /* CSS para corrigir layout dos filtros */
+    .filters-container {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+        padding: 0 20px !important;
+        max-width: 800px !important;
+        margin: 20px auto 0 auto !important;
+        width: 100% !important;
+    }
+    
+    .filter-dropdown {
+        width: 100% !important;
+        position: relative !important;
+    }
+    
+    .filter-dropdown select {
+        width: 100% !important;
+        padding: 10px 12px !important;
+        font-size: 14px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 6px !important;
+        background: white !important;
+        color: #333 !important;
+        font-family: 'Poppins', sans-serif !important;
+        cursor: pointer !important;
+        transition: border-color 0.2s ease !important;
+        appearance: none !important;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+        background-position: right 8px center !important;
+        background-repeat: no-repeat !important;
+        background-size: 16px !important;
+        padding-right: 35px !important;
+    }
+    
+    .filter-dropdown select:hover {
+        border-color: #520100 !important;
+    }
+    
+    .filter-dropdown select:focus {
+        outline: none !important;
+        border-color: #520100 !important;
+        box-shadow: 0 0 0 2px rgba(82, 1, 0, 0.1) !important;
+    }
+    
+    /* Melhorar hero section no mobile */
+    @media (max-width: 768px) {
+        .products-hero-content h1 {
+            font-size: 24px !important;
+            margin-bottom: 8px !important;
+        }
+        
+        .products-hero-content p {
+            font-size: 14px !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .products-hero {
+            padding: 20px 0 25px 0 !important;
+        }
+    }
+    
+    /* Tablet */
+    @media (max-width: 768px) {
+        .filters-container {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+            padding: 0 15px !important;
+            margin: 15px auto 0 auto !important;
+        }
+        
+        .filter-dropdown select {
+            font-size: 13px !important;
+            padding: 9px 10px !important;
+            padding-right: 30px !important;
+        }
+    }
+    
+    /* Mobile */
+    @media (max-width: 480px) {
+        .filters-container {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 6px !important;
+            padding: 0 10px !important;
+            margin: 15px auto 0 auto !important;
+            max-width: 100% !important;
+        }
+        
+        .filter-dropdown select {
+            font-size: 11px !important;
+            padding: 6px 8px !important;
+            padding-right: 25px !important;
+            height: 35px !important;
+            background-size: 14px !important;
+            background-position: right 6px center !important;
+        }
+        
+        .products-hero {
+            padding: 15px 0 20px 0 !important;
+        }
+        
+        .products-hero-content h1 {
+            font-size: 20px !important;
+            margin-bottom: 5px !important;
+        }
+        
+        .products-hero-content p {
+            font-size: 12px !important;
+            margin-bottom: 10px !important;
+        }
+    }
+    
+    /* Mobile muito pequeno */
+    @media (max-width: 360px) {
+        .filters-container {
+            grid-template-columns: 1fr !important;
+            gap: 4px !important;
+            margin: 10px auto 0 auto !important;
+        }
+        
+        .filter-dropdown select {
+            font-size: 10px !important;
+            padding: 5px 6px !important;
+            padding-right: 22px !important;
+            height: 32px !important;
+        }
+        
+        .products-hero-content h1 {
+            font-size: 18px !important;
+        }
+        
+        .products-hero-content p {
+            font-size: 11px !important;
+        }
+    }
+    </style>
 </head>
 
 <body>

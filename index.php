@@ -70,12 +70,19 @@ $recentProducts = getRecentProducts(5);
     <title>Mia Couro Legítimo - Produtos Artesanais em Couro</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-global.css">
-    <link rel="stylesheet" href="image-optimize.css">
-    <link rel="stylesheet" href="hero-styles.css">
-    <link rel="stylesheet" href="menu-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
+    /* Garantir que o header seja visível - igual página contato */
+    .header {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+    }
+
     /* Container principal com padding para header fixo */
     * {
         box-sizing: border-box !important;
@@ -90,354 +97,44 @@ $recentProducts = getRecentProducts(5);
         box-sizing: border-box !important;
     }
 
-    /* Reset completo para evitar espaços */
-    body::before, body::after,
-    html::before, html::after {
-        content: none !important;
-        display: none !important;
+    body {
+        padding-top: 68px; /* Apenas altura do header, sem espaço extra */
     }
 
-    /* Aplicar margin-top apenas no hero para evitar espaço branco */
-    .hero {
-        margin-top: 68px !important; /* Altura do header */
-        padding-top: 0 !important;
-    }
-
-    /* Garantir que não há espaços extras */
-    @media (max-width: 768px) {
+        /* Garantir que o hero section cole no header */
         .hero {
-            margin-top: 68px !important;
-            padding-top: 0 !important;
-        }
-        
-        body {
-            padding-top: 0 !important;
             margin-top: 0 !important;
-        }
-    }
-
-    /* Prevenir overflow horizontal em qualquer elemento */
-    @media (max-width: 768px) {
-        * {
-            max-width: 100vw !important;
-        }
-        
-        .container {
-            max-width: 100% !important;
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-    }
-
-    /* Menu Animations - Aplicação direta */
-    .nav-menu {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 33.33vw !important;
-        height: 100vh !important;
-        background: #520100 !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-        padding: 60px !important;
-        gap: 30px !important;
-        z-index: 1001 !important;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        transform: translateX(-100%) !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        display: none !important;
-    }
-
-    /* Mobile: Menu ocupa tela toda */
-    @media (max-width: 768px) {
-        .nav-menu {
-            width: 100vw !important;
-            left: 0 !important;
-            right: 0 !important;
-            margin: 0 !important;
-            box-sizing: border-box !important;
-        }
-    }
-
-    .nav-menu.active {
-        display: flex !important;
-        visibility: visible !important;
-        transform: translateX(0) !important;
-        opacity: 1 !important;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .nav-menu a {
-        color: #FCF8F1 !important;
-        font-size: 70px !important;
-        font-weight: 500 !important;
-        text-decoration: none !important;
-        line-height: 1.2 !important;
-        transition: all 0.4s ease !important;
-        opacity: 0 !important;
-        border-bottom: none !important;
-    }
-
-    .nav-menu.active a {
-        opacity: 1 !important;
-        transform: translateX(0) !important;
-        animation: slideInMenu 0.6s ease-out forwards !important;
-    }
-
-    .nav-menu.active a:nth-child(2) {
-        animation-delay: 0.1s !important;
-    }
-
-    .nav-menu.active a:nth-child(3) {
-        animation-delay: 0.2s !important;
-    }
-
-    .nav-menu.active a:nth-child(4) {
-        animation-delay: 0.3s !important;
-    }
-
-    .nav-menu.active a:nth-child(5) {
-        animation-delay: 0.4s !important;
-    }
-
-    .nav-menu.active a:nth-child(6) {
-        animation-delay: 0.5s !important;
-    }
-
-    @keyframes slideInMenu {
-        from {
-            opacity: 0;
-            transform: translateX(-30px);
+            padding-top: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
         }
 
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .nav-menu.active::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 33.33vw;
-        width: 66.67vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(3px);
-        z-index: -1;
-        animation: fadeInBackdrop 0.4s ease-out forwards;
-    }
-
-    @keyframes fadeInBackdrop {
-        from {
-            opacity: 0;
+        /* Ajustar layout do hero para colocar botão embaixo */
+        .hero-content {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            height: 100% !important;
         }
 
-        to {
-            opacity: 1;
-        }
-    }
-
-    .menu-toggle {
-        width: 100px !important;
-        height: 70px !important;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-    }
-
-    .menu-toggle:hover {
-        transform: scale(1.05) !important;
-        box-shadow: 0 4px 15px rgba(137, 16, 16, 0.3) !important;
-    }
-
-    .menu-toggle:active {
-        transform: scale(0.98) !important;
-        transition: all 0.15s ease !important;
-    }
-
-    .menu-toggle span {
-        width: 30px !important;
-        height: 4px !important;
-        background: #FCF8F1 !important;
-        border-radius: 2px !important;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-        transform-origin: center !important;
-    }
-
-    .nav-menu.active a:hover {
-        transform: translateX(10px) !important;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .nav-menu .menu-title {
-        position: absolute !important;
-        top: 17px !important;
-        right: 60px !important;
-        color: #FCF8F1 !important;
-        font-size: 40px !important;
-        font-weight: 500 !important;
-        opacity: 0 !important;
-    }
-
-    .nav-menu.active .menu-title {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        animation: slideInMenu 0.4s ease-out forwards !important;
-        animation-delay: 0.05s !important;
-    }
-
-    .nav-menu.active .sale-link {
-        color: #8A4D99 !important;
-        font-weight: 600 !important;
-    }
-
-    /* Força visibilidade total quando menu está ativo */
-    .nav-menu.active {
-        visibility: visible !important;
-    }
-
-    /* Mobile: Menu ativo ocupa tela toda */
-    @media (max-width: 768px) {
-        .nav-menu.active {
-            width: 100vw !important;
-            height: 100vh !important;
-            left: 0 !important;
-            right: 0 !important;
-            top: 0 !important;
-            bottom: 0 !important;
-            margin: 0 !important;
-            background: #520100 !important;
-            transform: translateX(0) !important;
-        }
-    }
-
-    .nav-menu.active>* {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-    }
-
-    /* Responsividade do Menu Mobile */
-    @media (max-width: 1024px) {
-        .nav-menu {
-            width: 70vw !important;
-            padding: 40px !important;
-            gap: 30px !important;
+        .hero-text {
+            margin-bottom: auto !important;
         }
 
-        .nav-menu a {
-            font-size: 50px !important;
+        .hero .cta-button {
+            margin-top: auto !important;
+            margin-bottom: 30px !important;
+            align-self: center !important;
         }
 
-        .nav-menu.active::before {
-            left: 70vw !important;
-            width: 30vw !important;
+        @media (max-width: 768px) {
+            .hero .cta-button {
+                margin-bottom: 20px !important;
+            }
         }
 
-        .nav-menu .menu-title {
-            font-size: 30px !important;
-            right: 40px !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .nav-menu {
-            width: 100vw !important;
-            padding: 30px !important;
-            gap: 25px !important;
-        }
-
-        .nav-menu a {
-            font-size: 36px !important;
-        }
-
-        .nav-menu.active::before {
-            display: none !important;
-        }
-
-        .nav-menu .menu-title {
-            font-size: 24px !important;
-            right: 30px !important;
-            top: 15px !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .nav-menu {
-            width: 100vw !important;
-            padding: 20px !important;
-            gap: 20px !important;
-        }
-
-        .nav-menu a {
-            font-size: 28px !important;
-        }
-
-        .nav-menu.active::before {
-            display: none !important;
-        }
-
-        .nav-menu .menu-title {
-            font-size: 20px !important;
-            right: 20px !important;
-            top: 12px !important;
-        }
-    }
-
-    @media (max-width: 320px) {
-        .nav-menu {
-            width: 100vw !important;
-            padding: 15px !important;
-            gap: 15px !important;
-        }
-
-        .nav-menu a {
-            font-size: 24px !important;
-        }
-
-        .nav-menu.active::before {
-            display: none !important;
-        }
-
-        .nav-menu .menu-title {
-            font-size: 18px !important;
-            right: 15px !important;
-            top: 10px !important;
-        }
-    }
-
-    /* Fix para imagens dos produtos em destaque */
-    
-    /* Aumentar fonte dos botões */
-    .cta-button {
-        font-size: 20px !important;
-        font-weight: 600 !important;
-        padding: 15px 30px !important;
-        background: #520100 !important;
-        color: #FCF8F1 !important;
-        border: none !important;
-        border-radius: 25px !important;
-        cursor: pointer !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    .cta-button:hover {
-        background: #891010 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(82, 1, 0, 0.3) !important;
-    }
-    
-    .purchase-button {
-        font-size: 30px !important;
-        font-weight: 700 !important;
-    }
-    
-    .carousel-btn {
-        font-size: 18px !important;
-    }
+        /* Usar CSS padrão do styles.css - SEM customizações */    /* Fix para imagens dos produtos em destaque */
     .featured-products .product-image {
         background: #f5f5f5 !important;
         border: 1px solid #eee !important;
@@ -521,7 +218,7 @@ $recentProducts = getRecentProducts(5);
     }
 
     .featured-products .product-info p {
-        font-size: 16px !important;
+        font-size: 14px !important;
         color: #666 !important;
         margin-bottom: 12px !important;
         height: 40px !important;
@@ -543,14 +240,14 @@ $recentProducts = getRecentProducts(5);
     }
 
     .featured-products .old-price {
-        font-size: 16px !important;
+        font-size: 14px !important;
         color: #999 !important;
         text-decoration: line-through !important;
     }
 
     .featured-products .new-price,
     .featured-products .current-price {
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: 700 !important;
         color: #520100 !important;
     }
@@ -612,13 +309,13 @@ $recentProducts = getRecentProducts(5);
     }
 
     .all-products .product-info p {
-        font-size: 16px !important;
+        font-size: 14px !important;
         color: #666 !important;
         margin: 0 0 10px 0 !important;
     }
 
     .all-products .price {
-        font-size: 18px !important;
+        font-size: 16px !important;
         color: #520100 !important;
         font-weight: bold !important;
         display: block !important;
@@ -739,7 +436,7 @@ $recentProducts = getRecentProducts(5);
         display: flex !important;
         align-items: flex-start !important;
         justify-content: center !important;
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: 600 !important;
         color: #520100 !important;
         padding: 15px 15px 20px 15px !important;
@@ -767,7 +464,7 @@ $recentProducts = getRecentProducts(5);
 
         .category-item h3 {
             height: 80px !important;
-            font-size: 19px !important;
+            font-size: 17px !important;
             padding: 15px 15px 20px 15px !important;
             align-items: flex-start !important;
         }
@@ -790,7 +487,7 @@ $recentProducts = getRecentProducts(5);
 
         .category-item h3 {
             height: 80px !important;
-            font-size: 18px !important;
+            font-size: 16px !important;
             padding: 15px 12px 20px 12px !important;
             align-items: flex-start !important;
         }
@@ -915,13 +612,12 @@ $recentProducts = getRecentProducts(5);
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>
-            <a href="index">Início</a>
+            <a href="index" class="active">Início</a>
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
             <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
         </nav>
-
     </header>
 
     <!-- Hero Section -->
@@ -1251,7 +947,100 @@ $recentProducts = getRecentProducts(5);
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+    // Menu suave - Versão simplificada e funcional
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Script carregado!'); // Debug
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        console.log('MenuToggle encontrado:', menuToggle); // Debug
+        console.log('NavMenu encontrado:', navMenu); // Debug
+
+        if (menuToggle && navMenu) {
+            // Estado inicial do menu
+            navMenu.style.display = 'none';
+
+            // Event listener para o botão hambúrguer
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Clique no menu detectado!'); // Debug
+
+                const isActive = navMenu.classList.contains('active');
+                console.log('Menu está ativo:', isActive); // Debug
+
+                if (!isActive) {
+                    // Abrir menu
+                    console.log('Abrindo menu...'); // Debug
+                    navMenu.style.display = 'flex';
+
+                    setTimeout(() => {
+                        menuToggle.classList.add('active');
+                        navMenu.classList.add('active');
+
+                        // Forçar visibilidade dos elementos internos
+                        const menuTitle = navMenu.querySelector('.menu-title');
+                        const menuLinks = navMenu.querySelectorAll('a');
+
+                        if (menuTitle) menuTitle.style.opacity = '1';
+                        menuLinks.forEach(link => {
+                            link.style.opacity = '1';
+                            link.style.visibility = 'visible';
+                        });
+                    }, 10);
+
+                } else {
+                    // Fechar menu  
+                    console.log('Fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                }
+            });
+
+            // Fechar menu ao clicar nos links
+            const navLinks = navMenu.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    console.log('Link clicado, fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                });
+            });
+
+            // Fechar menu ao clicar fora
+            document.addEventListener('click', function(e) {
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
+                    .contains('active')) {
+                    console.log('Clique fora detectado, fechando menu...'); // Debug
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    setTimeout(() => {
+                        navMenu.style.display = 'none';
+                    }, 400);
+                }
+            });
+
+        } else {
+            console.error('Elementos do menu não encontrados!');
+        }
+    });
+
+    // Carregar script original para outras funcionalidades
+    const script = document.createElement('script');
+    script.src = 'script.js';
+    script.onload = function() {
+        console.log('Script.js carregado como backup');
+    };
+    document.head.appendChild(script);
+    </script>
 </body>
 
 </html>
