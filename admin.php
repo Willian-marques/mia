@@ -2391,7 +2391,7 @@ if ($logged_in) {
             background: #f3e8f7 !important;
         }
 
-        .size-option input[type="checkbox"]:checked + span {
+        .size-option input[type="checkbox"]:checked+span {
             color: #8A4D99;
         }
 
@@ -3553,18 +3553,22 @@ if ($logged_in) {
                                 <div class="sizes-section">
                                     <div class="section-header">
                                         <h4>Tamanhos Disponíveis</h4>
-                                        <small style="color: #666; font-size: 12px;">Selecione os tamanhos disponíveis para este produto</small>
+                                        <small style="color: #666; font-size: 12px;">Selecione os tamanhos disponíveis para
+                                            este produto</small>
                                     </div>
                                     <div class="sizes-grid" style="display: flex; gap: 15px; margin-top: 10px;">
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
+                                        <label class="size-option"
+                                            style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
                                             <input type="checkbox" id="sizeP" name="sizes[]" value="P" style="margin: 0;">
                                             <span style="font-weight: 600; font-size: 16px;">P</span>
                                         </label>
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
+                                        <label class="size-option"
+                                            style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
                                             <input type="checkbox" id="sizeM" name="sizes[]" value="M" style="margin: 0;">
                                             <span style="font-weight: 600; font-size: 16px;">M</span>
                                         </label>
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
+                                        <label class="size-option"
+                                            style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
                                             <input type="checkbox" id="sizeG" name="sizes[]" value="G" style="margin: 0;">
                                             <span style="font-weight: 600; font-size: 16px;">G</span>
                                         </label>
