@@ -1,30 +1,36 @@
 RewriteEngine On
-
+SetEnvIf X-Forwarded-Proto https HTTPS=on
 # Ignorar arquivos estáticos primeiro (não reescrever)
 RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|ico|woff|woff2|ttf|eot)$ [NC]
 RewriteRule .* - [L]
 
-# Permitir acesso direto aos arquivos PHP do admin
+# ✅ Permitir URLs de produto antes das rotas do admin
+RewriteRule ^produto-unico/?$ produto-unico.php [L]
+RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
+
+# ✅ Permitir acesso direto a arquivos PHP específicos
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteCond %{REQUEST_URI} (admin\.php|admin-mensagens\.php|admin_actions\.php|api\.php|delete-message\.php)$
 RewriteRule .* - [L]
 
-# Exceção: /admin ou /admin/ deve cair em admin.php (sem loop)
+# ✅ Admin
 RewriteRule ^admin/?$ admin.php [L]
-
-# Subrotas do admin (ex: /admin/produto/1, /admin/usuarios/3)
 RewriteRule ^admin/(.*)$ admin.php?rota=$1 [L,QSA]
 
-# URLs amigáveis para produtos
-RewriteRule ^produto/([0-9]+)/?$ produto-unico.php?id=$1 [NC,L]
+# ✅ Regras fixas de produtos antigos (URLs html)
+RewriteRule ^produto-bolsa-siena\.html$ produto-unico.php?id=1 [R=301,L]
+RewriteRule ^produto-carteira-madrid\.html$ produto-unico.php?id=2 [R=301,L]
+RewriteRule ^produto-case-notebook\.html$ produto-unico.php?id=4 [R=301,L]
+RewriteRule ^produto-porta-cartao\.html$ produto-unico.php?id=3 [R=301,L]
+RewriteRule ^produto-porta-vinho\.html$ produto-unico.php?id=5 [R=301,L]
 
-# Se a URL não tem .php e o arquivo .php existe, carrega o arquivo .php
+# ✅ Se a URL não tem .php e o arquivo .php existe, carrega ele
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php [L]
 
-# Cache de arquivos estáticos
+# ✅ Cache de arquivos estáticos
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/css "access plus 1 month"
@@ -36,14 +42,11 @@ RewriteRule ^(.*)$ $1.php [L]
     ExpiresByType image/svg+xml "access plus 1 year"
 </IfModule>
 
-# Headers para melhorar navegação
+# ✅ Headers de segurança
 <IfModule mod_headers.c>
-    # Evitar cache em .php
     Header always set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{REQUEST_URI} =~ /\.php$/"
     Header always set Pragma "no-cache" "expr=%{REQUEST_URI} =~ /\.php$/"
     Header always set Expires "0" "expr=%{REQUEST_URI} =~ /\.php$/"
-
-    # Segurança básica
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set X-Content-Type-Options "nosniff"
 </IfModule>

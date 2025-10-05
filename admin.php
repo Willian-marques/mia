@@ -2432,7 +2432,7 @@ if ($logged_in) {
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="admin-mensagens.php" class="nav-link">
+                    <a href="/admin-mensagens.php" class="nav-link">
                         <i class="nav-icon fas fa-envelope"></i>
                         <span>Mensagens</span>
                     </a>
@@ -2597,7 +2597,7 @@ if ($logged_in) {
                                     </td>
                                     <td>
                                         <div class="action-btns">
-                                            <a href="./produto-unico.php?id=<?php echo $produto['id']; ?>" target="_blank"
+                                            <a href="/produto-unico.php?id=<?php echo $produto['id']; ?>" target="_blank"
                                                 class="view-btn" title="Visualizar produto">Ver</a>
                                             <a href="#" class="edit-btn"
                                                 onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
@@ -2617,7 +2617,7 @@ if ($logged_in) {
                     <div class="table-header">
                         <h2>Mensagens de Contato - Últimas 5</h2>
                         <div style="display: flex; gap: 15px; align-items: center;">
-                            <a href="admin-mensagens" class="btn-secondary" target="_blank"
+                            <a href="/admin-mensagens" class="btn-secondary" target="_blank"
                                 style="text-decoration: none;">
                                 Ver Todas as Mensagens
                             </a>
@@ -2752,7 +2752,7 @@ if ($logged_in) {
 
                     <?php if (count($todas_mensagens) > 5): ?>
                     <div style="text-align: center; margin-top: 20px;">
-                        <a href="admin-mensagens" target="_blank" style="
+                        <a href="/admin-mensagens" target="_blank" style="
                             background: #520100; 
                             color: white; 
                             padding: 12px 24px; 
@@ -2904,21 +2904,40 @@ if ($logged_in) {
 
                         if (isset($_POST['action']) && $_POST['action'] == 'save_review') {
                             $tipo_foto = $_POST['review_tipo_foto'] ?? 'iniciais';
-                            $foto_data = $_POST['review_foto'];
+                            $foto_data = $_POST['review_foto'] ?? '';
 
                             if ($tipo_foto === 'iniciais') {
                                 $nome_partes = explode(' ', trim($_POST['review_nome']));
                                 $iniciais = '';
                                 if (count($nome_partes) >= 2) {
                                     $iniciais = strtoupper(substr($nome_partes[0], 0, 1) . substr(end($nome_partes), 0, 1));
-                                } else if (count($nome_partes) === 1) {
+                                } else {
                                     $iniciais = strtoupper(substr($nome_partes[0], 0, 2));
                                 }
 
                                 $cor_inicial = $_POST['cor_inicial'] ?? '#e91e63';
                                 $foto_final = 'iniciais';
                             } else {
-                                $foto_final = $foto_data;
+                                $foto_final = '';
+                                if (isset($_FILES['review_foto']) && $_FILES['review_foto']['error'] === UPLOAD_ERR_OK) {
+                                    $uploadDir = __DIR__ . '/uploads/';
+                                    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+
+                                    $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', basename($_FILES['review_foto']['name'])) ?: 'sem_nome.jpg';
+                                    $uploadPath = $uploadDir . $fileName;
+
+                                    if (move_uploaded_file($_FILES['review_foto']['tmp_name'], $uploadPath)) {
+                                        $foto_final = 'uploads/' . $fileName;
+                                        if (!file_exists(__DIR__ . '/../' . $foto_final)) {
+                                            $foto_final = 'admin/' . $foto_final;
+                                        }
+                                    } else {
+                                        $foto_final = 'img/default-product.png';
+                                    }
+                                } else {
+                                    $foto_final = $_POST['existing_foto'] ?? 'img/default-product.png';
+                                }
+
                                 $iniciais = '';
                                 $cor_inicial = '';
                             }
@@ -2944,16 +2963,15 @@ if ($logged_in) {
                                 $success_message = "Avaliação atualizada com sucesso!";
                             } else {
                                 $new_id = count($avaliacoes) + 1;
-                                while (isset($avaliacoes[$new_id])) {
-                                    $new_id++;
-                                }
+                                while (isset($avaliacoes[$new_id])) $new_id++;
                                 $review_data['id'] = $new_id;
                                 $avaliacoes[$new_id] = $review_data;
                                 $success_message = "Avaliação adicionada com sucesso!";
                             }
 
-                            file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT));
-                        }
+                            file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                        }   
+
 
                         if (isset($_POST['action']) && $_POST['action'] == 'delete_review') {
                             $review_id = $_POST['review_id'];
@@ -3029,11 +3047,18 @@ if ($logged_in) {
                                         ">
                                         <?php echo htmlspecialchars($avaliacao['iniciais'] ?? 'XX'); ?>
                                     </div>
-                                    <?php else: ?>
-                                    <!-- Foto carregada -->
-                                    <img src="<?php echo htmlspecialchars($avaliacao['foto']); ?>"
-                                        alt="<?php echo htmlspecialchars($avaliacao['nome']); ?>"
-                                        style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;">
+                                   <?php else: ?>
+                                        <!-- Foto carregada -->
+                                        <?php
+                                        $baseUrl = 'https://miamianet.com.br/';
+                                        $fotoPath = $avaliacao['foto'] ?? 'img/default-product.png';
+                                        if (strpos($fotoPath, 'uploads/') === 0) {
+                                            $fotoPath = $baseUrl . ltrim($fotoPath, '/');
+                                        }
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($fotoPath); ?>"
+                                            alt="<?php echo htmlspecialchars($avaliacao['nome']); ?>"
+                                            style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;">
                                     <?php endif; ?>
                                 </div>
 
@@ -3109,7 +3134,7 @@ if ($logged_in) {
                         <span class="close" onclick="closeReviewModal()">&times;</span>
                     </div>
                     <div class="modal-body">
-                        <form id="reviewForm" method="POST">
+                        <form id="reviewForm" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="action" value="save_review">
                             <input type="hidden" id="reviewId" name="review_id">
 
@@ -3218,8 +3243,6 @@ if ($logged_in) {
                                         <div style="margin-bottom: 10px; font-size: 24px;"></div>
                                         <p style="margin: 0; color: #666;">Clique para selecionar uma foto</p>
                                         <small style="color: #999;">JPG, PNG, GIF ou WebP - máx. 2MB</small>
-                                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;"
-                                            onchange="previewAvatar(this)">
                                     </div>
 
                                     <!-- Preview da foto carregada -->
@@ -3246,8 +3269,9 @@ if ($logged_in) {
                                     </div>
                                 </div>
 
-                                <input type="hidden" id="reviewFoto" name="review_foto">
-                                <input type="hidden" id="reviewTipoFoto" name="review_tipo_foto" value="iniciais">
+                                <input type="file" id="reviewFile" name="review_foto" accept="image/*" onchange="previewAvatar(this)">
+                                <input type="hidden" id="reviewFoto" name="review_foto_hidden">
+
                             </div>
 
                             <!-- Produto Relacionado -->
@@ -3752,10 +3776,17 @@ if ($logged_in) {
                 document.getElementById('modalTitle').textContent = 'Editar Produto';
 
                 console.log('Tentando carregar produto ID:', id);
-                const url = `./admin_actions.php?action=get&productId=${id}`;
+                const url = `/admin_actions.php?action=get&productId=${id}`;
                 console.log('URL da requisição:', url);
 
-                fetch(url)
+                fetch(url, {
+                    method: 'GET',
+                    credentials: 'include', // envia cookies da sessão
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                })
+
                     .then(response => {
                         console.log('Status da resposta:', response.status);
                         console.log('URL final:', response.url);
@@ -3919,7 +3950,7 @@ if ($logged_in) {
                 saveBtn.textContent = 'Salvando...';
                 saveBtn.disabled = true;
 
-                fetch('./admin_actions.php', {
+                fetch('/admin_actions.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -3965,7 +3996,7 @@ if ($logged_in) {
                     formData.append('action', 'delete');
                     formData.append('productId', id);
 
-                    fetch('./admin_actions.php', {
+                    fetch('/admin_actions.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -4053,7 +4084,9 @@ if ($logged_in) {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'preview-item existing-image';
                     previewItem.innerHTML = `
-                <img src="${imagePath}" alt="Imagem existente" onerror="this.src='img/default-product.png'">
+                <img src="${imagePath.startsWith('/') ? imagePath : '/' + imagePath}" 
+                    alt="Imagem existente" 
+                    onerror="this.src='/img/default-product.png'">
                 <button type="button" class="remove-image" onclick="removeExistingImage(${index}, '${imagePath}')">×</button>
                 <span class="image-type">Existente</span>
             `;
@@ -4101,31 +4134,46 @@ if ($logged_in) {
             }
 
             function testConnection() {
-                fetch('./admin_actions.php?action=test')
-                    .then(response => {
-                        console.log('Connection test status:', response.status);
-                        return response.text();
-                    })
-                    .then(text => {
-                        console.log('Connection test response:', text);
-                        try {
-                            const data = JSON.parse(text);
-                            if (data.success) {
-                                console.log('Conexão OK com o servidor');
-                            } else {
-                                console.error('Erro na conexão:', data.error);
-                                alert('Erro de conexão com o servidor: ' + data.error);
-                            }
-                        } catch (e) {
-                            console.error('Resposta inválida:', text);
-                            alert('Erro: Servidor retornou resposta inválida\n' + text.substring(0, 300));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro de rede:', error);
-                        alert('Erro de rede: ' + error.message + '\n\nVerifique se o XAMPP está rodando!');
-                    });
-            }
+            const url = 'https://miamianet.com.br/admin_actions.php?action=test';
+
+            fetch(url, {
+                method: 'GET',
+                credentials: 'include',           // <- garante envio do cookie de sessão
+                cache: 'no-store',                // <- evita resposta velha
+            })
+            .then(async (response) => {
+                console.log('Status:', response.status);
+                console.log('URL final:', response.url);
+                const text = await response.text();
+                console.log('Raw response:', text);
+
+                if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+                }
+
+                // Se vier HTML (ex: <!DOCTYPE), é porque o Apache te redirecionou pro login
+                if (text.trim().startsWith('<!DOCTYPE')) {
+                throw new Error('Recebi HTML em vez de JSON (provável redirect para login).');
+                }
+
+                const data = JSON.parse(text);
+                if (data.success) {
+                console.log('Conexão OK com o servidor');
+                } else {
+                console.error('Erro na conexão:', data.error);
+                alert('Erro de conexão com o servidor: ' + (data.error || 'desconhecido'));
+                }
+            })
+            .catch((err) => {
+                console.error('Erro testConnection:', err);
+                alert(
+                'Falha no teste de conexão:\n' +
+                err.message +
+                '\n\nDica: verifique se /admin_actions.php NÃO está sendo reescrito e se o Nginx está forçando HTTPS no proxy.'
+                );
+            });
+            }   
+
 
             document.addEventListener('DOMContentLoaded', function() {
                 // testConnection(); // Removido: só faz teste quando explicitamente solicitado
@@ -4305,7 +4353,7 @@ if ($logged_in) {
                         uploadData.append('action', 'upload-avatar');
                         uploadData.append('avatar', fileInput.files[0]);
 
-                        const uploadResponse = await fetch('./admin_actions.php', {
+                        const uploadResponse = await fetch('/admin_actions.php', {
                             method: 'POST',
                             body: uploadData
                         });
@@ -4397,12 +4445,14 @@ if ($logged_in) {
                 if (input.files && input.files[0]) {
                     const file = input.files[0];
 
+                    // 🔹 Validação de tamanho
                     if (file.size > 2 * 1024 * 1024) {
                         notifications.warning('Arquivo Grande', 'A foto deve ter no máximo 2MB');
                         input.value = '';
                         return;
                     }
 
+                    // 🔹 Validação de tipo
                     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
                     if (!allowedTypes.includes(file.type.toLowerCase())) {
                         notifications.warning('Formato Inválido', 'Use apenas JPG, PNG, GIF ou WebP');
@@ -4410,16 +4460,26 @@ if ($logged_in) {
                         return;
                     }
 
+                    // 🔹 Preview da imagem
                     const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('previewImg').src = e.target.result;
-                        document.getElementById('avatarPreview').style.display = 'block';
+                    reader.onload = function (e) {
+                        const previewImg = document.getElementById('previewImg');
+                        if (previewImg) {
+                            previewImg.src = e.target.result;
+                            previewImg.onerror = () => previewImg.src = '/img/default-product.png';
+                        }
 
-                        document.getElementById('reviewFoto').value = 'upload_pending';
+                        const avatarPreview = document.getElementById('avatarPreview');
+                        if (avatarPreview) avatarPreview.style.display = 'block';
+
+                        // ✅ Usa o input hidden agora, não o de arquivo
+                        const hiddenInput = document.getElementById('reviewFoto');
+                        if (hiddenInput) hiddenInput.value = 'upload_pending';
                     };
                     reader.readAsDataURL(file);
                 }
             }
+
 
             function removeAvatar() {
                 document.getElementById('avatarUpload').value = '';

@@ -706,19 +706,19 @@ foreach ($mensagens as $msg) {
 
             <nav class="sidebar-nav">
                 <div class="nav-item">
-                    <a href="admin.php#dashboard" class="nav-link">
+                    <a href="/admin.php#dashboard" class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="admin.php#produtos" class="nav-link">
+                    <a href="/admin.php#produtos" class="nav-link">
                         <i class="nav-icon fas fa-box"></i>
                         <span>Produtos</span>
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="admin-mensagens.php" class="nav-link active">
+                    <a href="/admin-mensagens.php" class="nav-link active">
                         <i class="nav-icon fas fa-envelope"></i>
                         <span>Mensagens</span>
                     </a>
@@ -730,7 +730,7 @@ foreach ($mensagens as $msg) {
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="admin.php?logout=1" class="nav-link">
+                    <a href="/admin.php?logout=1" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <span>Sair</span>
                     </a>

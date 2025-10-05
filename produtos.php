@@ -251,7 +251,7 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                 <?php else: ?>
                     <?php foreach ($todos_produtos as $produto): ?>
                         <?php if ($produto['status'] === 'ativo'): ?>
-                        <a href="produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog" data-category="<?php echo htmlspecialchars($produto['category']); ?>" data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>" data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>" data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
+                        <a href="/produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog" data-category="<?php echo htmlspecialchars($produto['category']); ?>" data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>" data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>" data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
                             <div class="product-image-catalog">
                                 <?php 
                                 $primeira_imagem = $produto['images'][0];

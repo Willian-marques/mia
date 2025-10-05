@@ -741,7 +741,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             <h2>Outros Produtos</h2>
             <div class="related-grid">
                 <?php foreach ($produtosRelacionados as $prod): ?>
-                    <a href="produto-unico.php?id=<?php echo $prod['id']; ?>" class="related-card">
+                    <a href="/produto-unico.php?id=<?php echo $prod['id']; ?>" class="related-card">
                         <div class="product-image">
                             <img src="<?php echo htmlspecialchars($prod['images'][0]); ?>"
                                 alt="<?php echo htmlspecialchars($prod['title']); ?>">

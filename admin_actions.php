@@ -1,14 +1,36 @@
 <?php
-// Prevenir qualquer output antes do JSON
 ob_start();
-
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php-error.log');
-if (session_status() !== PHP_SESSION_ACTIVE)
-    session_start();
 
-// Limpar qualquer output buffer anterior
+// 🔥 Força o PHP a usar o mesmo nome de sessão que o painel usa
+session_name('PHPSESSID');
+
+// 🔥 Define o caminho da sessão para a raiz do site (não só /admin)
+session_set_cookie_params([
+    'path' => '/',
+    'secure' => true,         // importante para HTTPS
+    'httponly' => true,
+    'samesite' => 'None'      // necessário para cookies entre HTTPS
+]);
+
+// 🔥 Corrige HTTPS atrás do proxy (Nginx)
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+// Inicia a sessão
+session_start();
+
+// Log para debug
+if (!isset($_SESSION['admin_logged'])) {
+    error_log("⚠ Sessão não encontrada no admin_actions.php. Cookies: " . json_encode($_COOKIE));
+} else {
+    error_log("✅ Sessão reconhecida no admin_actions.php. Usuário logado.");
+}
+
+// Limpa qualquer saída antes de mandar JSON
 ob_clean();
 
 $action = $_POST['action'] ?? $_GET['action'] ?? null;

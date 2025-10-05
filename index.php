@@ -675,7 +675,7 @@ $recentProducts = getRecentProducts(5);
             <div class="products-grid">
                 <?php if (!empty($featuredProducts)): ?>
                 <?php foreach ($featuredProducts as $produto): ?>
-                <a href="produto-unico?id=<?php echo $produto['id']; ?>" style="text-decoration: none; color: inherit;">
+                <a href="/produto-unico?id=<?php echo $produto['id']; ?>" style="text-decoration: none; color: inherit;">
                     <div class="product-card">
                         <div class="product-image">
                             <?php 
@@ -774,7 +774,7 @@ $recentProducts = getRecentProducts(5);
                 <div class="products-grid-extended">
                     <?php if (!empty($recentProducts)): ?>
                     <?php foreach ($recentProducts as $produto): ?>
-                    <a href="produto-unico?id=<?php echo $produto['id']; ?>"
+                    <a href="/produto-unico?id=<?php echo $produto['id']; ?>"
                         style="text-decoration: none; color: inherit;">
                         <div class="product-card">
                             <div class="product-image">

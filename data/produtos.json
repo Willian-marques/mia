@@ -1,36 +1,4 @@
 {
-    "1": {
-        "id": 1,
-        "slug": "aa",
-        "title": "aa",
-        "category": "bolsas",
-        "price": 0.01,
-        "oldPrice": null,
-        "discount": null,
-        "images": [
-            "uploads\/1759501028_0_Gemini_Generated_Image_6tzt2n6tzt2n6tzt11.png",
-            "uploads\/1759614957_0_504289588_18375789208192396_4827431109246341412_n.jpg"
-        ],
-        "colors": [
-            {
-                "name": "preto",
-                "color": "#000000",
-                "title": "Preto"
-            }
-        ],
-        "sizes": [
-            "Único"
-        ],
-        "description": "aaa",
-        "specifications": "aaa",
-        "status": "ativo",
-        "stock": 1,
-        "sales": 0,
-        "isFeatured": true,
-        "isBestseller": false,
-        "created_at": "2025-10-03 16:17:08",
-        "updated_at": "2025-10-04 23:55:57"
-    },
     "2": {
         "id": 2,
         "slug": "fef",
@@ -40,7 +8,10 @@
         "oldPrice": 1.41,
         "discount": 99,
         "images": [
-            "uploads\/1759586145_0_504289588_18375789208192396_4827431109246341412_n.jpg"
+            "uploads\/1759586145_0_504289588_18375789208192396_4827431109246341412_n.jpg",
+            "uploads\/1759621691_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+            "uploads\/1759621892_0_504289588_18375789208192396_4827431109246341412_n.jpg",
+            "uploads\/1759623940_0_78209787-d2a3-435e-aa50-e26f7fd43ff5.png"
         ],
         "colors": [
             {
@@ -110,6 +81,6 @@
         "isFeatured": false,
         "isBestseller": true,
         "created_at": "2025-10-04 15:55:45",
-        "updated_at": "2025-10-04 15:55:45"
+        "updated_at": "2025-10-05 02:25:44"
     }
 }
