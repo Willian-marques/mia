@@ -52,547 +52,547 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
     <link rel="stylesheet" href="product-card-universal.css?v=20250924">
     <link rel="stylesheet" href="responsive-global.css?v=20250924">
     <style>
-        /* Remove sublinhados grossos do menu */
-        .nav-menu a {
-            text-decoration: none !important;
-            border-bottom: none !important;
+    /* Remove sublinhados grossos do menu */
+    .nav-menu a {
+        text-decoration: none !important;
+        border-bottom: none !important;
+    }
+
+    /* Garante que o pseudo-elemento seja fino */
+    .nav-menu a::after {
+        height: 1px !important;
+    }
+
+    /* Remove qualquer sublinhado do browser */
+    .nav-menu a:link,
+    .nav-menu a:visited,
+    .nav-menu a:hover,
+    .nav-menu a:active {
+        text-decoration: none !important;
+        border-bottom: none !important;
+    }
+
+    /* CSS para galeria de imagens do produto */
+    .product-images {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 600px;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 600px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .thumbnail-images {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s ease;
+        opacity: 0.7;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .thumbnail:hover {
+        opacity: 1;
+        border-color: #8A4D99;
+        transform: scale(1.05);
+    }
+
+    .thumbnail.active {
+        border-color: #520100;
+        opacity: 1;
+        box-shadow: 0 2px 10px rgba(82, 1, 0, 0.3);
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Responsividade para galeria */
+    @media (max-width: 1400px) {
+        .product-detail>div {
+            gap: 80px !important;
+            padding: 0 60px !important;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .product-detail>div {
+            gap: 60px !important;
+            padding: 0 40px !important;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .product-detail>div {
+            flex-direction: column !important;
+            gap: 40px !important;
+            padding: 0 30px !important;
         }
 
-        /* Garante que o pseudo-elemento seja fino */
-        .nav-menu a::after {
-            height: 1px !important;
-        }
-
-        /* Remove qualquer sublinhado do browser */
-        .nav-menu a:link,
-        .nav-menu a:visited,
-        .nav-menu a:hover,
-        .nav-menu a:active {
-            text-decoration: none !important;
-            border-bottom: none !important;
-        }
-
-        /* CSS para galeria de imagens do produto */
         .product-images {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 600px;
+            width: 100% !important;
+        }
+
+        .product-info {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-detail {
+            padding: 30px 0 !important;
+            margin-top: 30px !important;
+        }
+
+        .product-detail>div {
+            padding: 0 20px !important;
+            gap: 30px !important;
+        }
+
+        .product-images {
+            width: 100%;
         }
 
         .main-image {
-            width: 100%;
-            height: 600px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: 400px;
             background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .main-image img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .thumbnail-images {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-start;
-            flex-wrap: wrap;
         }
 
         .thumbnail {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            opacity: 0.7;
+            width: 60px;
+            height: 60px;
             background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .thumbnail:hover {
-            opacity: 1;
-            border-color: #8A4D99;
-            transform: scale(1.05);
-        }
-
-        .thumbnail.active {
-            border-color: #520100;
-            opacity: 1;
-            box-shadow: 0 2px 10px rgba(82, 1, 0, 0.3);
         }
 
         .thumbnail img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
         }
 
-        /* Responsividade para galeria */
-        @media (max-width: 1400px) {
-            .product-detail > div {
-                gap: 80px !important;
-                padding: 0 60px !important;
-            }
+        .product-info h1 {
+            font-size: 32px !important;
+            line-height: 40px !important;
         }
 
-        @media (max-width: 1200px) {
-            .product-detail > div {
-                gap: 60px !important;
-                padding: 0 40px !important;
-            }
+        .product-price span:first-child {
+            font-size: 36px !important;
         }
 
-        @media (max-width: 992px) {
-            .product-detail > div {
-                flex-direction: column !important;
-                gap: 40px !important;
-                padding: 0 30px !important;
-            }
-
-            .product-images {
-                width: 100% !important;
-            }
-
-            .product-info {
-                width: 100% !important;
-            }
+        .product-price span:nth-child(2) {
+            font-size: 20px !important;
         }
 
-        @media (max-width: 768px) {
-            .product-detail {
-                padding: 30px 0 !important;
-                margin-top: 30px !important;
-            }
-
-            .product-detail > div {
-                padding: 0 20px !important;
-                gap: 30px !important;
-            }
-
-            .product-images {
-                width: 100%;
-            }
-
-            .main-image {
-                height: 400px;
-                background: white;
-            }
-
-            .main-image img {
-                object-fit: cover;
-            }
-
-            .thumbnail {
-                width: 60px;
-                height: 60px;
-                background: white;
-            }
-
-            .thumbnail img {
-                object-fit: cover;
-            }
-
-            .product-info h1 {
-                font-size: 32px !important;
-                line-height: 40px !important;
-            }
-
-            .product-price span:first-child {
-                font-size: 36px !important;
-            }
-
-            .product-price span:nth-child(2) {
-                font-size: 20px !important;
-            }
-
-            .product-price span:nth-child(3) {
-                font-size: 14px !important;
-                padding: 6px 12px !important;
-            }
-
-            .color-selector label,
-            .size-selector label {
-                font-size: 16px !important;
-            }
-
-            .color-option {
-                width: 36px !important;
-                height: 36px !important;
-            }
-
-            .size-option {
-                padding: 10px 20px !important;
-                font-size: 14px !important;
-            }
-
-            .whatsapp-btn {
-                font-size: 16px !important;
-                padding: 14px 20px !important;
-            }
+        .product-price span:nth-child(3) {
+            font-size: 14px !important;
+            padding: 6px 12px !important;
         }
 
-        @media (max-width: 480px) {
-            .product-detail {
-                padding: 20px 0 !important;
-                margin-top: 20px !important;
-            }
-
-            .product-detail > div {
-                padding: 0 15px !important;
-                gap: 20px !important;
-            }
-
-            .main-image {
-                height: 300px;
-                border-radius: 12px;
-                background: white;
-            }
-
-            .main-image img {
-                object-fit: contain;
-            }
-
-            .thumbnail {
-                width: 50px;
-                height: 50px;
-                background: white;
-            }
-
-            .thumbnail img {
-                object-fit: contain;
-            }
-
-            .thumbnail-images {
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-
-            .product-info h1 {
-                font-size: 24px !important;
-                line-height: 32px !important;
-                margin-bottom: 12px !important;
-            }
-
-            .product-info > div:nth-child(2) {
-                font-size: 16px !important;
-                margin-bottom: 24px !important;
-            }
-
-            .product-price {
-                flex-wrap: wrap;
-                margin-bottom: 30px !important;
-            }
-
-            .product-price span:first-child {
-                font-size: 32px !important;
-            }
-
-            .product-price span:nth-child(2) {
-                font-size: 18px !important;
-            }
-
-            .product-price span:nth-child(3) {
-                font-size: 12px !important;
-                padding: 4px 10px !important;
-            }
-
-            .color-selector,
-            .size-selector {
-                margin-bottom: 24px !important;
-            }
-
-            .color-selector label,
-            .size-selector label {
-                font-size: 14px !important;
-                margin-bottom: 12px !important;
-            }
-
-            .color-option {
-                width: 32px !important;
-                height: 32px !important;
-            }
-
-            .size-option {
-                padding: 8px 16px !important;
-                font-size: 13px !important;
-            }
-
-            .whatsapp-btn {
-                font-size: 15px !important;
-                padding: 12px 16px !important;
-            }
-
-            .whatsapp-btn svg {
-                width: 20px;
-                height: 20px;
-            }
+        .color-selector label,
+        .size-selector label {
+            font-size: 16px !important;
         }
 
-        /* CSS para seção de descrição dinâmica */
-        .description-section {
-            width: 100%;
-            background: #FCF8F1;
+        .color-option {
+            width: 36px !important;
+            height: 36px !important;
         }
 
+        .size-option {
+            padding: 10px 20px !important;
+            font-size: 14px !important;
+        }
+
+        .whatsapp-btn {
+            font-size: 16px !important;
+            padding: 14px 20px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .product-detail {
+            padding: 20px 0 !important;
+            margin-top: 20px !important;
+        }
+
+        .product-detail>div {
+            padding: 0 15px !important;
+            gap: 20px !important;
+        }
+
+        .main-image {
+            height: 300px;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .main-image img {
+            object-fit: contain;
+        }
+
+        .thumbnail {
+            width: 50px;
+            height: 50px;
+            background: white;
+        }
+
+        .thumbnail img {
+            object-fit: contain;
+        }
+
+        .thumbnail-images {
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .product-info h1 {
+            font-size: 24px !important;
+            line-height: 32px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .product-info>div:nth-child(2) {
+            font-size: 16px !important;
+            margin-bottom: 24px !important;
+        }
+
+        .product-price {
+            flex-wrap: wrap;
+            margin-bottom: 30px !important;
+        }
+
+        .product-price span:first-child {
+            font-size: 32px !important;
+        }
+
+        .product-price span:nth-child(2) {
+            font-size: 18px !important;
+        }
+
+        .product-price span:nth-child(3) {
+            font-size: 12px !important;
+            padding: 4px 10px !important;
+        }
+
+        .color-selector,
+        .size-selector {
+            margin-bottom: 24px !important;
+        }
+
+        .color-selector label,
+        .size-selector label {
+            font-size: 14px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .color-option {
+            width: 32px !important;
+            height: 32px !important;
+        }
+
+        .size-option {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+        }
+
+        .whatsapp-btn {
+            font-size: 15px !important;
+            padding: 12px 16px !important;
+        }
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    /* CSS para seção de descrição dinâmica */
+    .description-section {
+        width: 100%;
+        background: #FCF8F1;
+    }
+
+    .description-tab {
+        width: 230px;
+        height: 54px;
+        background: transparent;
+        border-bottom: 2px solid #520100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .description-content {
+        padding: 60px 56px;
+        border: 1px solid #E5E7EB;
+        border-top: none;
+        min-height: auto;
+    }
+
+    .description-text {
+        color: black;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 26px;
+        text-align: justify;
+        margin-bottom: 32px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .specifications-text {
+        color: black;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 26px;
+        text-align: justify;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Responsividade para descrição */
+    @media (max-width: 768px) {
         .description-tab {
-            width: 230px;
-            height: 54px;
-            background: transparent;
-            border-bottom: 2px solid #520100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 180px;
+            height: 48px;
+        }
+
+        .description-tab span {
+            font-size: 20px !important;
         }
 
         .description-content {
-            padding: 60px 56px;
-            border: 1px solid #E5E7EB;
-            border-top: none;
-            min-height: auto;
+            padding: 40px 30px;
         }
 
-        .description-text {
-            color: black;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 26px;
-            text-align: justify;
-            margin-bottom: 32px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
+        .description-text,
         .specifications-text {
-            color: black;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 26px;
-            text-align: justify;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .description-tab {
+            width: 150px;
+            height: 44px;
         }
 
-        /* Responsividade para descrição */
-        @media (max-width: 768px) {
-            .description-tab {
-                width: 180px;
-                height: 48px;
-            }
-
-            .description-tab span {
-                font-size: 20px !important;
-            }
-
-            .description-content {
-                padding: 40px 30px;
-            }
-
-            .description-text,
-            .specifications-text {
-                font-size: 16px;
-                line-height: 24px;
-            }
+        .description-tab span {
+            font-size: 18px !important;
         }
 
-        @media (max-width: 480px) {
-            .description-tab {
-                width: 150px;
-                height: 44px;
-            }
-
-            .description-tab span {
-                font-size: 18px !important;
-            }
-
-            .description-content {
-                padding: 30px 20px;
-            }
-
-            .description-text,
-            .specifications-text {
-                font-size: 15px;
-                line-height: 22px;
-            }
+        .description-content {
+            padding: 30px 20px;
         }
 
-        /* CSS para produtos relacionados - baseado no backup */
-        .related-products {
-            width: 100%;
-            background: #FCF8F1;
-            padding: 40px 0 80px;
+        .description-text,
+        .specifications-text {
+            font-size: 15px;
+            line-height: 22px;
         }
+    }
 
-        .related-products h2 {
-            font-size: 36px;
-            font-weight: 400;
-            color: #520100;
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    /* CSS para produtos relacionados - baseado no backup */
+    .related-products {
+        width: 100%;
+        background: #FCF8F1;
+        padding: 40px 0 80px;
+    }
 
+    .related-products h2 {
+        font-size: 36px;
+        font-weight: 400;
+        color: #520100;
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .related-grid {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 70px;
+        flex-wrap: wrap;
+        flex-direction: row;
+        padding: 0 121px;
+    }
+
+    .related-card {
+        width: 286px;
+        background: #FCF8F1;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        will-change: transform;
+        transform: translateZ(0);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .related-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .related-card .product-image {
+        width: 100%;
+        height: 283px;
+        overflow: hidden;
+    }
+
+    .related-card .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        will-change: transform;
+        transform: translateZ(0);
+    }
+
+    .related-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .related-card .related-card-content {
+        padding: 14px 8px 20px;
+    }
+
+    .related-card .related-card-content h3 {
+        font-size: 24px;
+        font-weight: 500;
+        color: #520100;
+        margin-bottom: 8px;
+    }
+
+    .related-card .related-card-content p {
+        font-size: 18px;
+        font-weight: 400;
+        color: #4B5563;
+        margin-bottom: 12px;
+    }
+
+    .related-card .price-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .related-card .product-info {
+        padding: 14px 8px 20px;
+    }
+
+    .related-card .product-info h3 {
+        font-size: 24px;
+        font-weight: 500;
+        color: #520100;
+        margin-bottom: 8px;
+    }
+
+    .related-card .product-info p {
+        font-size: 18px;
+        font-weight: 400;
+        color: #4B5563;
+        margin-bottom: 12px;
+    }
+
+    .related-card .price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .related-card .old-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #520100;
+        text-decoration: line-through;
+    }
+
+    .related-card .new-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #8A4D99;
+    }
+
+    .related-card .current-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #520100;
+    }
+
+    /* Responsividade para produtos relacionados */
+    @media (max-width: 1200px) {
         .related-grid {
-            display: flex;
+            gap: 60px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .related-grid {
+            flex-direction: row !important;
             justify-content: center;
-            align-items: flex-start;
-            gap: 70px;
             flex-wrap: wrap;
-            flex-direction: row;
-            padding: 0 121px;
+            gap: 20px;
+            padding: 0 20px;
         }
 
         .related-card {
-            width: 286px;
-            background: #FCF8F1;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            will-change: transform;
-            transform: translateZ(0);
-            text-decoration: none;
-            color: inherit;
+            width: calc(50% - 10px);
+            min-width: 280px;
+            max-width: 320px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .related-grid {
+            gap: 15px;
+            padding: 0 15px;
+            flex-direction: row !important;
         }
 
-        .related-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15);
-            text-decoration: none;
-            color: inherit;
+        .related-card {
+            width: calc(50% - 7.5px);
+            min-width: 140px;
         }
-
-        .related-card .product-image {
-            width: 100%;
-            height: 283px;
-            overflow: hidden;
-        }
-
-        .related-card .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-            will-change: transform;
-            transform: translateZ(0);
-        }
-
-        .related-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .related-card .related-card-content {
-            padding: 14px 8px 20px;
-        }
-
-        .related-card .related-card-content h3 {
-            font-size: 24px;
-            font-weight: 500;
-            color: #520100;
-            margin-bottom: 8px;
-        }
-
-        .related-card .related-card-content p {
-            font-size: 18px;
-            font-weight: 400;
-            color: #4B5563;
-            margin-bottom: 12px;
-        }
-
-        .related-card .price-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .related-card .product-info {
-            padding: 14px 8px 20px;
-        }
-
-        .related-card .product-info h3 {
-            font-size: 24px;
-            font-weight: 500;
-            color: #520100;
-            margin-bottom: 8px;
-        }
-
-        .related-card .product-info p {
-            font-size: 18px;
-            font-weight: 400;
-            color: #4B5563;
-            margin-bottom: 12px;
-        }
-
-        .related-card .price {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .related-card .old-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #520100;
-            text-decoration: line-through;
-        }
-
-        .related-card .new-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #8A4D99;
-        }
-
-        .related-card .current-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #520100;
-        }
-
-        /* Responsividade para produtos relacionados */
-        @media (max-width: 1200px) {
-            .related-grid {
-                gap: 60px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .related-grid {
-                flex-direction: row !important;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 20px;
-                padding: 0 20px;
-            }
-
-            .related-card {
-                width: calc(50% - 10px);
-                min-width: 280px;
-                max-width: 320px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .related-grid {
-                gap: 15px;
-                padding: 0 15px;
-                flex-direction: row !important;
-            }
-
-            .related-card {
-                width: calc(50% - 7.5px);
-                min-width: 140px;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -634,16 +634,23 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             <!-- Imagens do Produto -->
             <div class="product-images">
                 <div class="main-image">
-                    <img src="<?php echo htmlspecialchars($product['images'][0]); ?>"
+                    <?php
+                    // Se o produto tem colorImages, usar a primeira cor disponível
+                    $hasColorImages = isset($product['colorImages']) && !empty($product['colorImages']);
+                    $initialImages = $hasColorImages 
+                        ? reset($product['colorImages']) 
+                        : $product['images'];
+                    ?>
+                    <img src="<?php echo htmlspecialchars($initialImages[0]); ?>"
                         alt="<?php echo htmlspecialchars($product['title']); ?>" id="mainImage">
                 </div>
-                <div class="thumbnail-images">
-                    <?php foreach ($product['images'] as $index => $image): ?>
-                        <div class="thumbnail <?php echo $index === 0 ? 'active' : ''; ?>"
-                            onclick="changeImage('<?php echo addslashes(htmlspecialchars($image)); ?>', this)"
-                            data-image="<?php echo htmlspecialchars($image); ?>">
-                            <img src="<?php echo htmlspecialchars($image); ?>" alt="Imagem <?php echo $index + 1; ?>">
-                        </div>
+                <div class="thumbnail-images" id="thumbnailContainer">
+                    <?php foreach ($initialImages as $index => $image): ?>
+                    <div class="thumbnail <?php echo $index === 0 ? 'active' : ''; ?>"
+                        onclick="changeImage('<?php echo addslashes(htmlspecialchars($image)); ?>', this)"
+                        data-image="<?php echo htmlspecialchars($image); ?>">
+                        <img src="<?php echo htmlspecialchars($image); ?>" alt="Imagem <?php echo $index + 1; ?>">
+                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -659,44 +666,44 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                     <span
                         style="color: #8A4D99; font-size: 48px; font-weight: 700;"><?php echo formatPrice($product['price']); ?></span>
                     <?php if ($product['oldPrice']): ?>
-                        <span
-                            style="color: #520100; font-size: 24px; font-weight: 400; text-decoration: line-through;"><?php echo formatPrice($product['oldPrice']); ?></span>
-                        <span
-                            style="background: #8A4D99; color: white; padding: 8px 16px; border-radius: 20px; font-size: 16px; font-weight: 600;"><?php echo $product['discount']; ?>%
-                            OFF</span>
+                    <span
+                        style="color: #520100; font-size: 24px; font-weight: 400; text-decoration: line-through;"><?php echo formatPrice($product['oldPrice']); ?></span>
+                    <span
+                        style="background: #8A4D99; color: white; padding: 8px 16px; border-radius: 20px; font-size: 16px; font-weight: 600;"><?php echo $product['discount']; ?>%
+                        OFF</span>
                     <?php endif; ?>
                 </div>
 
                 <?php if (count($product['colors']) > 1): ?>
-                    <div class="color-selector" style="margin-bottom: 32px;">
-                        <label
-                            style="color: #262523; font-size: 18px; font-weight: 500; display: block; margin-bottom: 16px;">Cor:</label>
-                        <div class="color-options" style="display: flex; gap: 12px;">
-                            <?php foreach ($product['colors'] as $index => $color): ?>
-                                <div class="color-option <?php echo $index === 0 ? 'selected' : ''; ?>"
-                                    style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid <?php echo $index === 0 ? '#520100' : 'transparent'; ?>; background-color: <?php echo $color['color']; ?>;"
-                                    data-color="<?php echo $color['name']; ?>" title="<?php echo $color['title']; ?>"
-                                    onclick="selectColor(this)">
-                                </div>
-                            <?php endforeach; ?>
+                <div class="color-selector" style="margin-bottom: 32px;">
+                    <label
+                        style="color: #262523; font-size: 18px; font-weight: 500; display: block; margin-bottom: 16px;">Cor:</label>
+                    <div class="color-options" style="display: flex; gap: 12px;">
+                        <?php foreach ($product['colors'] as $index => $color): ?>
+                        <div class="color-option <?php echo $index === 0 ? 'selected' : ''; ?>"
+                            style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid <?php echo $index === 0 ? '#520100' : 'transparent'; ?>; background-color: <?php echo $color['color']; ?>;"
+                            data-color="<?php echo $color['name']; ?>" title="<?php echo $color['title']; ?>"
+                            onclick="selectColor(this, '<?php echo $color['name']; ?>')">
                         </div>
+                        <?php endforeach; ?>
                     </div>
+                </div>
                 <?php endif; ?>
 
                 <?php if (count($product['sizes']) > 1): ?>
-                    <div class="size-selector" style="margin-bottom: 40px;">
-                        <label
-                            style="color: #262523; font-size: 18px; font-weight: 500; display: block; margin-bottom: 16px;">Tamanho:</label>
-                        <div class="size-options" style="display: flex; gap: 12px;">
-                            <?php foreach ($product['sizes'] as $index => $size): ?>
-                                <button class="size-option <?php echo $index === 0 ? 'selected' : ''; ?>"
-                                    style="padding: 12px 24px; border: 2px solid <?php echo $index === 0 ? '#520100' : '#E5E7EB'; ?>; background: <?php echo $index === 0 ? '#520100' : 'white'; ?>; color: <?php echo $index === 0 ? 'white' : '#262523'; ?>; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500;"
-                                    data-size="<?php echo strtolower($size); ?>" onclick="selectSize(this)">
-                                    <?php echo htmlspecialchars($size); ?>
-                                </button>
-                            <?php endforeach; ?>
-                        </div>
+                <div class="size-selector" style="margin-bottom: 40px;">
+                    <label
+                        style="color: #262523; font-size: 18px; font-weight: 500; display: block; margin-bottom: 16px;">Tamanho:</label>
+                    <div class="size-options" style="display: flex; gap: 12px;">
+                        <?php foreach ($product['sizes'] as $index => $size): ?>
+                        <button class="size-option <?php echo $index === 0 ? 'selected' : ''; ?>"
+                            style="padding: 12px 24px; border: 2px solid <?php echo $index === 0 ? '#520100' : '#E5E7EB'; ?>; background: <?php echo $index === 0 ? '#520100' : 'white'; ?>; color: <?php echo $index === 0 ? 'white' : '#262523'; ?>; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500;"
+                            data-size="<?php echo strtolower($size); ?>" onclick="selectSize(this)">
+                            <?php echo htmlspecialchars($size); ?>
+                        </button>
+                        <?php endforeach; ?>
                     </div>
+                </div>
                 <?php endif; ?>
 
                 <button class="whatsapp-btn"
@@ -729,7 +736,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                 <?php
                 $specs = explode('|', $product['specifications']);
                 foreach ($specs as $spec): ?>
-                    • <?php echo htmlspecialchars($spec); ?><br />
+                • <?php echo htmlspecialchars($spec); ?><br />
                 <?php endforeach; ?>
             </div>
         </div>
@@ -737,29 +744,29 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
 
     <!-- Produtos Relacionados -->
     <?php if (!empty($produtosRelacionados)): ?>
-        <section class="related-products">
-            <h2>Outros Produtos</h2>
-            <div class="related-grid">
-                <?php foreach ($produtosRelacionados as $prod): ?>
-                    <a href="/produto-unico.php?id=<?php echo $prod['id']; ?>" class="related-card">
-                        <div class="product-image">
-                            <img src="<?php echo htmlspecialchars($prod['images'][0]); ?>"
-                                alt="<?php echo htmlspecialchars($prod['title']); ?>">
-                        </div>
-                        <div class="product-info">
-                            <h3><?php echo htmlspecialchars($prod['title']); ?></h3>
-                            <p><?php echo htmlspecialchars(substr($prod['description'], 0, 80)); ?>...</p>
-                            <div class="price">
-                                <?php if ($prod['oldPrice']): ?>
-                                    <span class="old-price"><?php echo formatPrice($prod['oldPrice']); ?></span>
-                                <?php endif; ?>
-                                <span class="current-price"><?php echo formatPrice($prod['price']); ?></span>
-                            </div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </section>
+    <section class="related-products">
+        <h2>Outros Produtos</h2>
+        <div class="related-grid">
+            <?php foreach ($produtosRelacionados as $prod): ?>
+            <a href="/produto-unico.php?id=<?php echo $prod['id']; ?>" class="related-card">
+                <div class="product-image">
+                    <img src="<?php echo htmlspecialchars($prod['images'][0]); ?>"
+                        alt="<?php echo htmlspecialchars($prod['title']); ?>">
+                </div>
+                <div class="product-info">
+                    <h3><?php echo htmlspecialchars($prod['title']); ?></h3>
+                    <p><?php echo htmlspecialchars(substr($prod['description'], 0, 80)); ?>...</p>
+                    <div class="price">
+                        <?php if ($prod['oldPrice']): ?>
+                        <span class="old-price"><?php echo formatPrice($prod['oldPrice']); ?></span>
+                        <?php endif; ?>
+                        <span class="current-price"><?php echo formatPrice($prod['price']); ?></span>
+                    </div>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+    </section>
     <?php endif; ?>
 
     <!-- Footer -->
@@ -807,7 +814,8 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank"
+                                    style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>
@@ -822,72 +830,114 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
     </footer>
 
     <script>
-        // Funções de interação
-        function changeImage(src, thumbnailElement) {
-            console.log('Mudando imagem para:', src);
-            const mainImage = document.getElementById('mainImage');
-            if (mainImage) {
-                mainImage.src = src;
-            } else {
-                console.error('Elemento mainImage não encontrado');
-            }
+    // Dados do produto em JSON
+    const productData = <?php echo json_encode([
+            'colorImages' => isset($product['colorImages']) ? $product['colorImages'] : null,
+            'images' => $product['images'],
+            'colors' => $product['colors']
+        ]); ?>;
 
-            document.querySelectorAll('.thumbnail').forEach(thumb => {
-                thumb.classList.remove('active');
-            });
+    const hasColorImages = productData.colorImages !== null && Object.keys(productData.colorImages).length > 0;
 
-            thumbnailElement.classList.add('active');
+    // Funções de interação
+    function changeImage(src, thumbnailElement) {
+        console.log('Mudando imagem para:', src);
+        const mainImage = document.getElementById('mainImage');
+        if (mainImage) {
+            mainImage.src = src;
+        } else {
+            console.error('Elemento mainImage não encontrado');
         }
 
-        // Inicializar carrossel quando DOM carregar
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('DOM carregado, inicializando carrossel');
-
-            // Adicionar event listeners para thumbnails
-            document.querySelectorAll('.thumbnail').forEach((thumbnail, index) => {
-                thumbnail.addEventListener('click', function () {
-                    const imageSrc = this.getAttribute('data-image');
-                    changeImage(imageSrc, this);
-                });
-            });
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.classList.remove('active');
         });
 
-        function selectColor(element) {
-            document.querySelectorAll('.color-option').forEach(opt => {
-                opt.classList.remove('selected');
-                opt.style.border = '3px solid transparent';
+        thumbnailElement.classList.add('active');
+    }
+
+    // Inicializar carrossel quando DOM carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM carregado, inicializando carrossel');
+        console.log('Has color images:', hasColorImages);
+        console.log('Product data:', productData);
+
+        // Adicionar event listeners para thumbnails
+        document.querySelectorAll('.thumbnail').forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                const imageSrc = this.getAttribute('data-image');
+                changeImage(imageSrc, this);
             });
-            element.classList.add('selected');
-            element.style.border = '3px solid #520100';
-        }
+        });
+    });
 
-        function selectSize(element) {
-            document.querySelectorAll('.size-option').forEach(opt => {
-                opt.classList.remove('selected');
-                opt.style.border = '2px solid #E5E7EB';
-                opt.style.background = 'white';
-                opt.style.color = '#262523';
+    function selectColor(element, colorName) {
+        // Atualizar visual das opções de cor
+        document.querySelectorAll('.color-option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.style.border = '3px solid transparent';
+        });
+        element.classList.add('selected');
+        element.style.border = '3px solid #520100';
+
+        // Se o produto tem imagens por cor, trocar as imagens
+        if (hasColorImages && productData.colorImages[colorName]) {
+            const colorImages = productData.colorImages[colorName];
+            const thumbnailContainer = document.getElementById('thumbnailContainer');
+            const mainImage = document.getElementById('mainImage');
+
+            // Atualizar imagem principal
+            if (colorImages.length > 0) {
+                mainImage.src = colorImages[0];
+            }
+
+            // Atualizar miniaturas
+            thumbnailContainer.innerHTML = '';
+            colorImages.forEach((image, index) => {
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                thumbnailDiv.setAttribute('data-image', image);
+                thumbnailDiv.onclick = function() {
+                    changeImage(image, this);
+                };
+
+                const img = document.createElement('img');
+                img.src = image;
+                img.alt = 'Imagem ' + (index + 1);
+
+                thumbnailDiv.appendChild(img);
+                thumbnailContainer.appendChild(thumbnailDiv);
             });
-            element.classList.add('selected');
-            element.style.border = '2px solid #520100';
-            element.style.background = '#520100';
-            element.style.color = 'white';
         }
+    }
 
-        function sendToWhatsApp() {
-            const productName = '<?php echo addslashes($product['title']); ?>';
-            const price = '<?php echo addslashes(formatPrice($product['price'])); ?>';
+    function selectSize(element) {
+        document.querySelectorAll('.size-option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.style.border = '2px solid #E5E7EB';
+            opt.style.background = 'white';
+            opt.style.color = '#262523';
+        });
+        element.classList.add('selected');
+        element.style.border = '2px solid #520100';
+        element.style.background = '#520100';
+        element.style.color = 'white';
+    }
 
-            const colorElement = document.querySelector('.color-option.selected');
-            const sizeElement = document.querySelector('.size-option.selected');
+    function sendToWhatsApp() {
+        const productName = '<?php echo addslashes($product['title']); ?>';
+        const price = '<?php echo addslashes(formatPrice($product['price'])); ?>';
 
-            const color = colorElement ? colorElement.getAttribute('data-color') : 'padrão';
-            const size = sizeElement ? sizeElement.getAttribute('data-size') : 'único';
+        const colorElement = document.querySelector('.color-option.selected');
+        const sizeElement = document.querySelector('.size-option.selected');
 
-            const message = `Olá! Tenho interesse no(a) ${productName} por ${price}. Cor: ${color}, Tamanho: ${size}.`;
-            const whatsappUrl = `https://wa.me/5541973382889?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
+        const color = colorElement ? colorElement.getAttribute('data-color') : 'padrão';
+        const size = sizeElement ? sizeElement.getAttribute('data-size') : 'único';
+
+        const message = `Olá! Tenho interesse no(a) ${productName} por ${price}. Cor: ${color}, Tamanho: ${size}.`;
+        const whatsappUrl = `https://wa.me/5541973382889?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    }
     </script>
 
     <script src="script.js"></script>

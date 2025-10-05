@@ -36,7 +36,6 @@ function collectProducts() {
 function initializeFilters() {
     const categoryFilter = document.getElementById('productFilter');
     const priceFilter = document.getElementById('priceFilter');
-    const typeFilter = document.getElementById('typeFilter');
     const sortFilter = document.getElementById('sortFilter');
     
     // Adicionar eventos de mudança
@@ -48,11 +47,6 @@ function initializeFilters() {
     if (priceFilter) {
         priceFilter.addEventListener('change', applyFilters);
         console.log('✅ Filtro de preço inicializado');
-    }
-    
-    if (typeFilter) {
-        typeFilter.addEventListener('change', applyFilters);
-        console.log('✅ Filtro de tipo inicializado');
     }
     
     if (sortFilter) {
@@ -67,7 +61,6 @@ function applyFilters() {
     
     const categoryFilter = document.getElementById('productFilter');
     const priceFilter = document.getElementById('priceFilter');
-    const typeFilter = document.getElementById('typeFilter');
     const sortFilter = document.getElementById('sortFilter');
     
     let filtered = [...allProducts];
@@ -90,34 +83,6 @@ function applyFilters() {
                 return category === categoryFilter.value;
             });
             console.log(`📂 Filtro categoria: ${categoryFilter.value}`);
-        }
-    }
-    
-    // Filtro por tipo (desconto, etc)
-    if (typeFilter && typeFilter.value) {
-        if (typeFilter.value === 'desconto') {
-            filtered = filtered.filter(product => {
-                // Verificar se tem old-price (preço riscado)
-                const hasOldPrice = product.querySelector('.old-price') !== null;
-                
-                // Verificar se tem data-discount maior que 0
-                const discountData = product.dataset.discount;
-                const hasDiscount = discountData && parseFloat(discountData) > 0;
-                
-                // Verificar se o preço atual é menor que o oldPrice
-                const oldPriceElement = product.querySelector('.old-price');
-                const newPriceElement = product.querySelector('.current-price, .new-price, .price');
-                let hasPriceDiscount = false;
-                
-                if (oldPriceElement && newPriceElement) {
-                    const oldPrice = parseFloat(oldPriceElement.textContent.replace(/[^0-9,]/g, '').replace(',', '.'));
-                    const newPrice = parseFloat(newPriceElement.textContent.replace(/[^0-9,]/g, '').replace(',', '.'));
-                    hasPriceDiscount = newPrice < oldPrice;
-                }
-                
-                return hasOldPrice || hasDiscount || hasPriceDiscount;
-            });
-            console.log('🏷️ Filtro desconto aplicado - produtos com desconto encontrados');
         }
     }
     
@@ -234,8 +199,7 @@ function clearFilters() {
     
     const filters = [
         'productFilter',
-        'priceFilter', 
-        'typeFilter',
+        'priceFilter',
         'sortFilter'
     ];
     
@@ -262,9 +226,9 @@ function applyInitialFilter() {
 function applySaleFilter() {
     console.log('🏷️ Aplicando filtro Desconto...');
     
-    const typeFilter = document.getElementById('typeFilter');
-    if (typeFilter) {
-        typeFilter.value = 'desconto';
+    const categoryFilter = document.getElementById('productFilter');
+    if (categoryFilter) {
+        categoryFilter.value = 'desconto';
         applyFilters();
     }
     
@@ -277,7 +241,7 @@ function debugFilters() {
     console.log('- Produtos totais:', allProducts.length);
     console.log('- Produtos filtrados:', filteredProducts.length);
     
-    const filters = ['productFilter', 'priceFilter', 'typeFilter', 'sortFilter'];
+    const filters = ['productFilter', 'priceFilter', 'sortFilter'];
     filters.forEach(filterId => {
         const filter = document.getElementById(filterId);
         console.log(`- ${filterId}:`, filter ? filter.value : 'NÃO ENCONTRADO');

@@ -117,7 +117,7 @@ $action = $_POST['action'] ?? $_GET['action'] ?? '';
 try {
     // Limpar buffer antes de processar
     ob_clean();
-    
+
     switch ($action) {
         case 'add':
             addProduct();
@@ -164,22 +164,60 @@ function addProduct()
             throw new Exception('Campos obrigatórios não preenchidos');
         }
 
-        // Processar upload de imagens
+        // Verificar se usa imagens por cor
+        $useColorImages = isset($_POST['useColorImages']) && $_POST['useColorImages'] === '1';
+
         $images = [];
-        if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
+        $colorImages = [];
+
+        if ($useColorImages) {
+            // Processar imagens por cor
+            $colorImagesData = !empty($_POST['colorImagesData']) ? json_decode($_POST['colorImagesData'], true) : [];
             $uploadDir = __DIR__ . '/uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
 
-            foreach ($_FILES['images']['tmp_name'] as $key => $tmpName) {
-                if (!empty($tmpName)) {
-                    $fileName = time() . '_' . $key . '_' . $_FILES['images']['name'][$key];
-                    $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
-                    $uploadPath = $uploadDir . $fileName;
+            foreach ($colorImagesData as $colorName) {
+                $colorImages[$colorName] = [];
 
-                    if (move_uploaded_file($tmpName, $uploadPath)) {
-                        $images[] = 'uploads/' . $fileName;
+                // Verificar se há uploads para esta cor
+                if (isset($_FILES["colorImages_{$colorName}"]) && !empty($_FILES["colorImages_{$colorName}"]['name'][0])) {
+                    foreach ($_FILES["colorImages_{$colorName}"]['tmp_name'] as $key => $tmpName) {
+                        if (!empty($tmpName)) {
+                            $fileName = time() . '_' . $key . '_' . $_FILES["colorImages_{$colorName}"]['name'][$key];
+                            $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
+                            $uploadPath = $uploadDir . $fileName;
+
+                            if (move_uploaded_file($tmpName, $uploadPath)) {
+                                $colorImages[$colorName][] = 'uploads/' . $fileName;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Para compatibilidade, criar array de todas as imagens
+            foreach ($colorImages as $imgs) {
+                $images = array_merge($images, $imgs);
+            }
+        } else {
+            // Processar upload de imagens normal
+            if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
+                $uploadDir = __DIR__ . '/uploads/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+
+                foreach ($_FILES['images']['tmp_name'] as $key => $tmpName) {
+                    if (!empty($tmpName)) {
+                        $fileName = time() . '_' . $key . '_' . $_FILES['images']['name'][$key];
+                        $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
+                        $uploadPath = $uploadDir . $fileName;
+
+                        if (move_uploaded_file($tmpName, $uploadPath)) {
+                            $images[] = 'uploads/' . $fileName;
+                        }
                     }
                 }
             }
@@ -224,6 +262,11 @@ function addProduct()
             'updated_at' => date('Y-m-d H:i:s')
         ];
 
+        // Adicionar colorImages se estiver usando
+        if ($useColorImages && !empty($colorImages)) {
+            $newProduct['colorImages'] = $colorImages;
+        }
+
         $produtos[$newId] = $newProduct;
 
         if (saveProductsToJson($produtos)) {
@@ -248,41 +291,91 @@ function editProduct()
             throw new Exception('Produto não encontrado');
         }
 
-        // Manter imagens existentes se não houver novas
+        // Verificar se usa imagens por cor
+        $useColorImages = isset($_POST['useColorImages']) && $_POST['useColorImages'] === '1';
+
         $images = $produtos[$productId]['images'];
+        $colorImages = isset($produtos[$productId]['colorImages']) ? $produtos[$productId]['colorImages'] : [];
 
-        // Carregar imagens existentes (se especificadas)
-        $existingImages = [];
-        if (!empty($_POST['existingImages'])) {
-            $existingImages = json_decode($_POST['existingImages'], true) ?: [];
-        }
+        if ($useColorImages) {
+            // Modo de imagens por cor
+            $colorImagesData = !empty($_POST['colorImagesData']) ? json_decode($_POST['colorImagesData'], true) : [];
+            $existingColorImages = !empty($_POST['existingColorImages']) ? json_decode($_POST['existingColorImages'], true) : [];
 
-        // Processar upload de novas imagens
-        $newImages = [];
-        if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
             $uploadDir = __DIR__ . '/uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
 
-            foreach ($_FILES['images']['tmp_name'] as $key => $tmpName) {
-                if (!empty($tmpName)) {
-                    $fileName = time() . '_' . $key . '_' . $_FILES['images']['name'][$key];
-                    $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
-                    $uploadPath = $uploadDir . $fileName;
+            $colorImages = [];
 
-                    if (move_uploaded_file($tmpName, $uploadPath)) {
-                        $newImages[] = 'uploads/' . $fileName;
+            foreach ($colorImagesData as $colorName) {
+                $colorImages[$colorName] = [];
+
+                // Adicionar imagens existentes desta cor
+                if (isset($existingColorImages[$colorName])) {
+                    $colorImages[$colorName] = $existingColorImages[$colorName];
+                }
+
+                // Processar novos uploads para esta cor
+                if (isset($_FILES["colorImages_{$colorName}"]) && !empty($_FILES["colorImages_{$colorName}"]['name'][0])) {
+                    foreach ($_FILES["colorImages_{$colorName}"]['tmp_name'] as $key => $tmpName) {
+                        if (!empty($tmpName)) {
+                            $fileName = time() . '_' . $key . '_' . $_FILES["colorImages_{$colorName}"]['name'][$key];
+                            $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
+                            $uploadPath = $uploadDir . $fileName;
+
+                            if (move_uploaded_file($tmpName, $uploadPath)) {
+                                $colorImages[$colorName][] = 'uploads/' . $fileName;
+                            }
+                        }
                     }
                 }
             }
-        }
 
-        // Combinar imagens existentes + novas imagens
-        if (!empty($existingImages) || !empty($newImages)) {
-            $images = array_merge($existingImages, $newImages);
-        }
+            // Atualizar array de imagens para compatibilidade
+            $images = [];
+            foreach ($colorImages as $imgs) {
+                $images = array_merge($images, $imgs);
+            }
+        } else {
+            // Modo normal de imagens
+            // Carregar imagens existentes (se especificadas)
+            $existingImages = [];
+            if (!empty($_POST['existingImages'])) {
+                $existingImages = json_decode($_POST['existingImages'], true) ?: [];
+            }
 
-        // Se não há imagens nenhuma, manter as originais do produto
-        if (empty($images)) {
-            $images = $produtos[$productId]['images']; // Manter imagens existentes
+            // Processar upload de novas imagens
+            $newImages = [];
+            if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
+                $uploadDir = __DIR__ . '/uploads/';
+
+                foreach ($_FILES['images']['tmp_name'] as $key => $tmpName) {
+                    if (!empty($tmpName)) {
+                        $fileName = time() . '_' . $key . '_' . $_FILES['images']['name'][$key];
+                        $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
+                        $uploadPath = $uploadDir . $fileName;
+
+                        if (move_uploaded_file($tmpName, $uploadPath)) {
+                            $newImages[] = 'uploads/' . $fileName;
+                        }
+                    }
+                }
+            }
+
+            // Combinar imagens existentes + novas imagens
+            if (!empty($existingImages) || !empty($newImages)) {
+                $images = array_merge($existingImages, $newImages);
+            }
+
+            // Se não há imagens nenhuma, manter as originais do produto
+            if (empty($images)) {
+                $images = $produtos[$productId]['images']; // Manter imagens existentes
+            }
+
+            // Remover colorImages se não está usando
+            $colorImages = [];
         }
 
         // Atualizar produto
@@ -295,7 +388,7 @@ function editProduct()
         $price = $discountPrice ? $discountPrice : $originalPrice; // Se não há desconto, price = original
         $oldPrice = $discountPrice ? $originalPrice : null; // Se há desconto, oldPrice = original
 
-        $produtos[$productId] = array_merge($produtos[$productId], [
+        $updatedProduct = array_merge($produtos[$productId], [
             'title' => $_POST['productName'],
             'category' => $_POST['productCategory'],
             'price' => $price,
@@ -312,6 +405,15 @@ function editProduct()
             'isBestseller' => isset($_POST['isBestseller']) ? true : false,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
+
+        // Adicionar ou remover colorImages
+        if ($useColorImages && !empty($colorImages)) {
+            $updatedProduct['colorImages'] = $colorImages;
+        } else {
+            unset($updatedProduct['colorImages']);
+        }
+
+        $produtos[$productId] = $updatedProduct;
 
         if (saveProductsToJson($produtos)) {
             echo json_encode(['success' => true, 'message' => 'Produto atualizado com sucesso!', 'product' => $produtos[$productId]]);

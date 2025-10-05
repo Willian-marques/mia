@@ -181,7 +181,7 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="#" class="sale-link" onclick="applySaleFilter()">Desconto</a>
+            <a href="#" class="sale-link" onclick="applySaleFilter()">Sale</a>
         </nav>
     </header>
 
@@ -192,45 +192,61 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
             <p>Explore Nossa Linha Completa de Produtos</p>
 
             <!-- Filtros -->
-            <div class="filters-container">
-                <div class="filter-dropdown">
-                    <select id="productFilter">
-                        <option value="">Todas as Categorias</option>
-                        <option value="viagem">Viagem</option>
-                        <option value="carteiras">Dia a Dia</option>
-                        <option value="bolsas">Bolsa</option>
-                        <option value="desconto">Desconto</option>
-                    </select>
-                </div>
-                <div class="filter-dropdown">
-                    <select id="priceFilter">
-                        <option>Faixa de Preço</option>
-                        <option>R$ 0 - R$ 50</option>
-                        <option>R$ 51 - R$ 100</option>
-                        <option>R$ 101 - R$ 200</option>
-                        <option>R$ 201 - R$ 500</option>
-                        <option>Acima de R$ 500</option>
-                    </select>
-                </div>
-                <div class="filter-dropdown">
-                    <select id="typeFilter">
-                        <option value="">Tipo de Produto</option>
-                        <option value="desconto">Desconto</option>
-                        <option value="viagem">Viagem</option>
-                        <option value="dia-a-dia">Dia a dia</option>
-                    </select>
-                </div>
-                <div class="filter-dropdown">
-                    <select id="sortFilter">
-                        <option>Ordenar: Mais vendidos</option>
-                        <option>Menor preço</option>
-                        <option>Maior preço</option>
-                        <option>Mais recentes</option>
-                        <option>A-Z</option>
-                        <option>Z-A</option>
-                    </select>
-                </div>
+            <div class="filters-responsive" style="display: flex; justify-content: center; align-items: center; margin: 40px 0; width: 100%; gap: 15px; flex-wrap: wrap; padding: 0 20px;">
+                <select id="productFilter" style="width: 260px; height: 58px; padding: 14px 16px; background: #FCF8F1; border: 1px solid #262523; border-radius: 8px; font-size: 18px; color: #262523; font-family: 'BR Sonoma', Arial, sans-serif; cursor: pointer; outline: none;">
+                    <option value="">Todas as Categorias</option>
+                    <option value="viagem">Viagem</option>
+                    <option value="carteiras">Dia a Dia</option>
+                    <option value="bolsas">Bolsa</option>
+                    <option value="desconto">Sale</option>
+                </select>
+                <select id="priceFilter" style="width: 260px; height: 58px; padding: 14px 16px; background: #FCF8F1; border: 1px solid #262523; border-radius: 8px; font-size: 18px; color: #262523; font-family: 'BR Sonoma', Arial, sans-serif; cursor: pointer; outline: none;">
+                    <option>Faixa de Preço</option>
+                    <option>R$ 0 - R$ 50</option>
+                    <option>R$ 51 - R$ 100</option>
+                    <option>R$ 101 - R$ 200</option>
+                    <option>R$ 201 - R$ 500</option>
+                    <option>Acima de R$ 500</option>
+                </select>
+                <select id="sortFilter" style="width: 260px; height: 58px; padding: 14px 16px; background: #FCF8F1; border: 1px solid #262523; border-radius: 8px; font-size: 18px; color: #262523; font-family: 'BR Sonoma', Arial, sans-serif; cursor: pointer; outline: none;">
+                    <option>Ordenar: Mais vendidos</option>
+                    <option>Menor preço</option>
+                    <option>Maior preço</option>
+                    <option>Mais recentes</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                </select>
             </div>
+
+            <style>
+                @media (max-width: 768px) {
+                    .filters-responsive {
+                        flex-direction: column !important;
+                        gap: 10px !important;
+                        margin: 20px 0 !important;
+                        padding: 0 10px !important;
+                    }
+                    .filters-responsive select {
+                        width: 100% !important;
+                        max-width: 350px !important;
+                        height: 50px !important;
+                        font-size: 16px !important;
+                        padding: 12px 14px !important;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .filters-responsive {
+                        padding: 0 5px !important;
+                    }
+                    .filters-responsive select {
+                        max-width: 100% !important;
+                        height: 48px !important;
+                        font-size: 15px !important;
+                        padding: 10px 12px !important;
+                    }
+                }
+            </style>
         </div>
     </section>
 
@@ -338,7 +354,7 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                             <li><a href="produtos?categoria=viagem">Viagem</a></li>
                             <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
                             <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
-                            <li><a href="produtos?filter=desconto">Desconto</a></li>
+                            <li><a href="produtos?filter=desconto">Sale</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">

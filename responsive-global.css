@@ -410,16 +410,17 @@ a.category-item:hover h3 {
 }
 
 .filters-container {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 40px;
-    flex-wrap: wrap;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin: 40px auto 0 auto !important;
+    flex-wrap: wrap !important;
+    width: fit-content !important;
 }
 
 .filter-dropdown select {
-    width: 100%;
-    min-width: 200px;
+    width: 260px !important;
     height: 58px;
     padding: 14px 40px 14px 16px;
     background: #FCF8F1;

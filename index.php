@@ -647,7 +647,7 @@ $recentProducts = getRecentProducts(5);
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
+            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
         </nav>
     </header>
 
@@ -744,8 +744,8 @@ $recentProducts = getRecentProducts(5);
         <div class="container">
             <div class="categories-grid">
                 <a href="produtos?filter=desconto" class="category-item">
-                    <img src="img/Nece_Marrom/nece_1.jpg" alt="Desconto - Produtos com Desconto">
-                    <h3>DESCONTO</h3>
+                    <img src="img/Nece_Marrom/nece_1.jpg" alt="Sale - Produtos com Sale">
+                    <h3>SALE</h3>
                 </a>
                 <a href="produtos?categoria=viagem" class="category-item">
                     <img src="img/Passaporte_Marrom/passaporte_1.JPG" alt="Viagem - Acessórios para Viajar">
@@ -950,7 +950,7 @@ $recentProducts = getRecentProducts(5);
                             <li><a href="produtos?categoria=viagem">Viagem</a></li>
                             <li><a href="produtos?categoria=carteiras">Dia a Dia</a></li>
                             <li><a href="produtos?categoria=bolsas">Bolsa</a></li>
-                            <li><a href="produtos?filter=desconto">Desconto</a></li>
+                            <li><a href="produtos?filter=desconto">Sale</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
