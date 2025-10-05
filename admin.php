@@ -3567,7 +3567,7 @@ if ($logged_in) {
                                         <div class="image-upload"
                                             onclick="document.getElementById('productImages').click()">
                                             <p>📸 Clique para adicionar imagens</p>
-                                            <small>Suporte: JPG, PNG, WebP (máx. 5MB cada) - Mínimo 1 imagem</small>
+                                            <small>Suporte: JPG, PNG, WebP (máx. 10MB cada) - Mínimo 1 imagem</small>
                                             <input type="file" id="productImages" accept="image/*" multiple>
                                         </div>
                                         <div id="imagePreview" class="image-preview"></div>
@@ -4109,7 +4109,7 @@ if ($logged_in) {
                         const preview = document.getElementById('imagePreview');
 
                         files.forEach(file => {
-                            if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
+                            if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
                                 selectedImages.push(file);
 
                                 const reader = new FileReader();
@@ -4125,7 +4125,7 @@ if ($logged_in) {
                                 reader.readAsDataURL(file);
                             } else {
                                 notifications.warning('Arquivo Inválido',
-                                    `O arquivo "${file.name}" não é válido. Apenas imagens até 5MB são permitidas.`
+                                    `O arquivo "${file.name}" não é válido. Apenas imagens até 10MB são permitidas.`
                                 );
                             }
                         });
@@ -4298,11 +4298,11 @@ if ($logged_in) {
                         if (!window.colorImages[colorName]) window.colorImages[colorName] = [];
 
                         Array.from(files).forEach(file => {
-                            if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
+                            if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
                                 window.colorImages[colorName].push(file);
                             } else {
                                 notifications.warning('Arquivo Inválido',
-                                    `O arquivo "${file.name}" não é válido. Apenas imagens até 5MB são permitidas.`);
+                                    `O arquivo "${file.name}" não é válido. Apenas imagens até 10MB são permitidas.`);
                             }
                         });
 
