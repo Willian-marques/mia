@@ -1,12 +1,6 @@
 RewriteEngine On
 SetEnvIf X-Forwarded-Proto https HTTPS=on
 
-# Configurações para upload de arquivos grandes
-php_value upload_max_filesize 200M
-php_value post_max_size 200M
-php_value max_execution_time 600
-php_value max_input_time 600
-php_value memory_limit 512M
 
 # Ignorar arquivos estáticos primeiro (não reescrever)
 RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|ico|woff|woff2|ttf|eot)$ [NC]
