@@ -3860,7 +3860,7 @@ if ($logged_in) {
                         document.getElementById('modalTitle').textContent = 'Editar Produto';
 
                         console.log('Tentando carregar produto ID:', id);
-                        const url = `/admin_actions.php?action=get&productId=${id}`;
+                        const url = `admin_actions.php?action=get&productId=${id}`;
                         console.log('URL da requisição:', url);
 
                         fetch(url, {
@@ -4095,7 +4095,7 @@ if ($logged_in) {
                         saveBtn.textContent = 'Salvando...';
                         saveBtn.disabled = true;
 
-                        fetch('/admin_actions.php', {
+                        fetch('admin_actions.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -4141,7 +4141,7 @@ if ($logged_in) {
                             formData.append('action', 'delete');
                             formData.append('productId', id);
 
-                            fetch('/admin_actions.php', {
+                            fetch('admin_actions.php', {
                                 method: 'POST',
                                 body: formData
                             })
@@ -4631,7 +4631,7 @@ if ($logged_in) {
                                 uploadData.append('action', 'upload-avatar');
                                 uploadData.append('avatar', fileInput.files[0]);
 
-                                const uploadResponse = await fetch('/admin_actions.php', {
+                                const uploadResponse = await fetch('admin_actions.php', {
                                     method: 'POST',
                                     body: uploadData
                                 });

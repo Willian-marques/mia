@@ -4,6 +4,13 @@ error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php-error.log');
 
+// Configurações para upload de arquivos grandes
+ini_set('upload_max_filesize', '200M');
+ini_set('post_max_size', '200M');
+ini_set('max_execution_time', 600);
+ini_set('max_input_time', 600);
+ini_set('memory_limit', '512M');
+
 // 🔥 Força o PHP a usar o mesmo nome de sessão que o painel usa
 session_name('PHPSESSID');
 
