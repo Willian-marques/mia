@@ -381,7 +381,8 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li><a href="https://wa.me/5541973382289" target="_blank" style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
+                            <li><a href="https://wa.me/5541973382289" target="_blank"
+                                    style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
                     </div>
