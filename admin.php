@@ -3944,6 +3944,7 @@ if ($logged_in) {
                                 document.querySelectorAll('input[name="sizes[]"]').forEach(checkbox => {
                                     checkbox.checked = false;
                                 });
+<<<<<<< HEAD
                                 if (product.sizes && Array.isArray(product.sizes)) {
                                     product.sizes.forEach(size => {
                                         const sizeCheckbox = document.querySelector(
@@ -3980,6 +3981,58 @@ if ($logged_in) {
                                     useColorSpecificImages = false;
 
                                     loadExistingImages(product.images || []);
+=======
+                            });
+
+                            // Enviar imagens existentes por cor
+                            if (currentProductId && window.existingColorImages) {
+                                formData.append('existingColorImages', JSON.stringify(window.existingColorImages));
+                            }
+                        } else {
+                            // Modo simples - enviar imagens normalmente
+                            selectedImages.forEach((image) => {
+                                formData.append('images[]', image);
+                            });
+
+                            if (currentProductId && window.existingImages) {
+                                formData.append('existingImages', JSON.stringify(window.existingImages));
+                            }
+                        }
+
+                        const saveBtn = document.querySelector('.btn-primary');
+                        const originalText = saveBtn.textContent;
+                        saveBtn.textContent = 'Salvando...';
+                        saveBtn.disabled = true;
+
+                        fetch('admin_actions.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => {
+                                console.log('Response status:', response.status);
+                                if (!response.ok) {
+                                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                                }
+                                return response.text();
+                            })
+                            .then(text => {
+                                console.log('Response text:', text);
+                                try {
+                                    const data = JSON.parse(text);
+                                    if (data.success) {
+                                        notifications.success('Produto Salvo!', data.message);
+                                        closeProductModal();
+                                        setTimeout(() => location.reload(), 1500);
+                                    } else {
+                                        notifications.error('Erro ao Salvar', data.error || 'Erro desconhecido');
+                                        if (data.debug) console.log('Debug:', data.debug);
+                                    }
+                                } catch (e) {
+                                    console.error('JSON Parse Error:', e);
+                                    console.error('Response text that caused error:', text);
+                                    notifications.error('Erro de Servidor', 
+                                        `Resposta inválida do servidor: ${text.substring(0, 200)}...`);
+>>>>>>> fd76700d03042fe3a3ee44d037f6896c2f3d808e
                                 }
 
                                 // Verificar automaticamente se deve ativar modo por cor baseado nas cores selecionadas
@@ -3987,7 +4040,30 @@ if ($logged_in) {
                                     checkAndToggleImageMode();
                                 }, 100);
 
+<<<<<<< HEAD
                                 document.getElementById('imageError').style.display = 'none';
+=======
+                            fetch('admin_actions.php', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        notifications.success('Produto Excluído!', data.message);
+                                        setTimeout(() => location.reload(), 1500);
+                                    } else {
+                                        notifications.error('Erro ao Excluir', data.error);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro:', error);
+                                    notifications.error('Erro de Conexão',
+                                        'Não foi possível excluir o produto. Verifique a conexão.');
+                                });
+                        }
+                    }
+>>>>>>> fd76700d03042fe3a3ee44d037f6896c2f3d808e
 
                                 document.getElementById('productModal').style.display = 'block';
                             } else {
@@ -4653,9 +4729,54 @@ if ($logged_in) {
 
                         document.getElementById('reviewFoto').value = uploadResult.path;
 
+<<<<<<< HEAD
                     } catch (error) {
                         notifications.error('Erro no Upload', 'Erro ao enviar a foto: ' + error.message);
                         return;
+=======
+                        if (!nome || !texto) {
+                            notifications.warning('Campos Obrigatórios', 'Nome e depoimento são obrigatórios.');
+                            return;
+                        }
+
+                        if (tipoFoto === 'upload') {
+                            const fileInput = document.getElementById('avatarUpload');
+
+                            if (!fileInput.files || fileInput.files.length === 0) {
+                                notifications.warning('Foto Obrigatória', 'Selecione uma foto ou escolha usar iniciais.');
+                                return;
+                            }
+
+                            try {
+                                notifications.info('Enviando...', 'Fazendo upload da foto...');
+
+                                const uploadData = new FormData();
+                                uploadData.append('action', 'upload-avatar');
+                                uploadData.append('avatar', fileInput.files[0]);
+
+                                const uploadResponse = await fetch('admin_actions.php', {
+                                    method: 'POST',
+                                    body: uploadData
+                                });
+
+                                const uploadResult = await uploadResponse.json();
+
+                                if (!uploadResult.success) {
+                                    notifications.error('Erro no Upload', uploadResult.error);
+                                    return;
+                                }
+
+                                document.getElementById('reviewFoto').value = uploadResult.path;
+
+                            } catch (error) {
+                                notifications.error('Erro no Upload', 'Erro ao enviar a foto: ' + error.message);
+                                return;
+                            }
+                        }
+
+                        notifications.info('Salvando...', 'Salvando avaliação...');
+                        form.submit();
+>>>>>>> fd76700d03042fe3a3ee44d037f6896c2f3d808e
                     }
                 }
 

@@ -1,59 +1,23 @@
 {
-    "2": {
-        "id": 2,
-        "slug": "fef",
-        "title": "fef",
-        "category": "cases-capas",
+    "1": {
+        "id": 1,
+        "slug": "bolsa-zephira",
+        "title": "Bolsa Zephira",
+        "category": "bolsas",
         "price": 0.01,
-        "oldPrice": 1.41,
-        "discount": 99,
+        "oldPrice": null,
+        "discount": null,
         "images": [
-            "uploads\/1759586145_0_504289588_18375789208192396_4827431109246341412_n.jpg",
-            "uploads\/1759621691_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-            "uploads\/1759621892_0_504289588_18375789208192396_4827431109246341412_n.jpg",
-            "uploads\/1759623940_0_78209787-d2a3-435e-aa50-e26f7fd43ff5.png"
+            "uploads\/1759675787_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+            "uploads\/1759675787_1_504289588_18375789208192396_4827431109246341412_n.jpg",
+            "uploads\/1759675787_2_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+            "uploads\/1759675787_3_504289588_18375789208192396_4827431109246341412_n.jpg",
+            "uploads\/1759675776_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+            "uploads\/1759675776_1_78209787-d2a3-435e-aa50-e26f7fd43ff5.png",
+            "uploads\/1759673995_0_1.JPG",
+            "uploads\/1759674765_0_IMG_8533_VSCO2.JPG"
         ],
         "colors": [
-            {
-                "name": "preto",
-                "color": "#000000",
-                "title": "Preto"
-            },
-            {
-                "name": "vermelho",
-                "color": "#DC143C",
-                "title": "Vermelho"
-            },
-            {
-                "name": "caramelo",
-                "color": "#D2691E",
-                "title": "Caramelo"
-            },
-            {
-                "name": "azul-marinho",
-                "color": "#001F3F",
-                "title": "Azul Marinho"
-            },
-            {
-                "name": "verde",
-                "color": "#228B22",
-                "title": "Verde"
-            },
-            {
-                "name": "framboesa",
-                "color": "#C72C48",
-                "title": "Framboesa"
-            },
-            {
-                "name": "amarelo",
-                "color": "#FFD700",
-                "title": "Amarelo"
-            },
-            {
-                "name": "gelo",
-                "color": "#E0F2F7",
-                "title": "Gelo"
-            },
             {
                 "name": "grafite",
                 "color": "#4A5568",
@@ -73,14 +37,30 @@
         "sizes": [
             "Único"
         ],
-        "description": "eeef",
-        "specifications": "efefeff",
+        "description": "Bolsa inteiramente em couro legítimo, personalizada com suas iniciais e acompanhada de alça regulável, adaptando-se a diferentes ocasiões. Seu design atemporal faz dela uma peça versátil, que transita com elegância do dia a dia às produções da noite. \r\n",
+        "specifications": "Altura: 13 \r\nLargura: 23cm \r\nProfundidade: 6cm\r\nTamanho da alça: 60cm a 120cm",
         "status": "ativo",
-        "stock": 710,
+        "stock": 1,
         "sales": 0,
         "isFeatured": false,
-        "isBestseller": true,
-        "created_at": "2025-10-04 15:55:45",
-        "updated_at": "2025-10-05 02:25:44"
+        "isBestseller": false,
+        "created_at": "2025-10-05 16:19:55",
+        "updated_at": "2025-10-05 16:54:50",
+        "colorImages": {
+            "pitaya": [
+                "uploads\/1759675787_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+                "uploads\/1759675787_1_504289588_18375789208192396_4827431109246341412_n.jpg",
+                "uploads\/1759675787_2_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+                "uploads\/1759675787_3_504289588_18375789208192396_4827431109246341412_n.jpg"
+            ],
+            "champanhe": [
+                "uploads\/1759675776_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
+                "uploads\/1759675776_1_78209787-d2a3-435e-aa50-e26f7fd43ff5.png"
+            ],
+            "grafite": [
+                "uploads\/1759673995_0_1.JPG",
+                "uploads\/1759674765_0_IMG_8533_VSCO2.JPG"
+            ]
+        }
     }
 }
