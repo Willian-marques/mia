@@ -4095,7 +4095,7 @@ if ($logged_in) {
                         saveBtn.textContent = 'Salvando...';
                         saveBtn.disabled = true;
 
-                        fetch('/admin_actions.php', {
+                        fetch('admin_actions.php', {
                             method: 'POST',
                             body: formData
                         })
@@ -4120,8 +4120,9 @@ if ($logged_in) {
                                     }
                                 } catch (e) {
                                     console.error('JSON Parse Error:', e);
-                                    notifications.error('Erro de Servidor',
-                                        'Resposta inválida do servidor. Verifique o console para detalhes.');
+                                    console.error('Response text that caused error:', text);
+                                    notifications.error('Erro de Servidor', 
+                                        `Resposta inválida do servidor: ${text.substring(0, 200)}...`);
                                 }
                             })
                             .catch(error => {
@@ -4141,7 +4142,7 @@ if ($logged_in) {
                             formData.append('action', 'delete');
                             formData.append('productId', id);
 
-                            fetch('/admin_actions.php', {
+                            fetch('admin_actions.php', {
                                 method: 'POST',
                                 body: formData
                             })
@@ -4631,7 +4632,7 @@ if ($logged_in) {
                                 uploadData.append('action', 'upload-avatar');
                                 uploadData.append('avatar', fileInput.files[0]);
 
-                                const uploadResponse = await fetch('/admin_actions.php', {
+                                const uploadResponse = await fetch('admin_actions.php', {
                                     method: 'POST',
                                     body: uploadData
                                 });
