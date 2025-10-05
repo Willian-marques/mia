@@ -3800,8 +3800,6 @@ if ($logged_in) {
                         document.getElementById('simpleImageUpload').style.display = 'block';
                         document.getElementById('colorImageUpload').style.display = 'none';
 
-                        document.getElementById('productImages').required = true;
-
                         // Selecionar apenas preto por padrão
                         document.querySelectorAll('.color-option').forEach(option => {
                             option.classList.remove('active');
@@ -3930,8 +3928,6 @@ if ($logged_in) {
 
                                         document.getElementById('imageError').style.display = 'none';
 
-                                        document.getElementById('productImages').required = false;
-
                                         document.getElementById('productModal').style.display = 'block';
                                     } else {
                                         notifications.error('Erro ao Carregar',
@@ -3981,39 +3977,6 @@ if ($logged_in) {
                         // Validação de imagens - determinar automaticamente o modo baseado nas cores selecionadas
                         const selectedColors = getSelectedColors();
                         const useColorImages = selectedColors.length >= 2;
-
-                        if (useColorImages) {
-                            // Modo de imagens por cor (2+ cores)
-                            let hasAllImages = true;
-                            let missingColors = [];
-
-                            selectedColors.forEach(color => {
-                                const colorImgs = window.colorImages?.[color.name] || [];
-                                if (colorImgs.length === 0) {
-                                    hasAllImages = false;
-                                    missingColors.push(color.title);
-                                }
-                            });
-
-                            if (!hasAllImages) {
-                                document.getElementById('imageError').style.display = 'block';
-                                notifications.warning('Imagens Faltando',
-                                    `Adicione pelo menos 1 imagem para: ${missingColors.join(', ')}`);
-                                return;
-                            }
-                        } else {
-                            // Modo simples (1 cor)
-                            if (!currentProductId && selectedImages.length === 0) {
-                                document.getElementById('imageError').style.display = 'block';
-                                notifications.warning('Imagem Obrigatória',
-                                    'Pelo menos uma imagem é obrigatória para produtos novos!');
-                                return;
-                            } else if (currentProductId && selectedImages.length === 0 && (!window.existingImages || window
-                                .existingImages.length === 0)) {
-                                notifications.warning('Imagem Obrigatória', 'O produto deve ter pelo menos uma imagem!');
-                                return;
-                            }
-                        }
 
                         document.getElementById('imageError').style.display = 'none';
 
