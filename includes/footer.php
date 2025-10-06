@@ -33,7 +33,7 @@ $product_categories = [
                 <h3>Mia Couro Legítimo</h3>
             </div>
             <p class="footer-description">
-                Produtos artesanais em couro genuíno, feitos com amor e tradição. 
+                Produtos artesanais em couro genuíno, feitos com amor e tradição.
                 Qualidade e elegância em cada detalhe.
             </p>
             <div class="social-media">

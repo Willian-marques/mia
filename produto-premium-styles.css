@@ -282,9 +282,7 @@
         text-decoration: none;
     }
 
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
+    
 
     .product-badge {
         padding: 5px 10px;

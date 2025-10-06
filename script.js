@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     initButtonInteractions();
     initActiveNavHighlight();
     initNavigationFix();
-    
+
     // Debug: Test logo click
     const logoLink = document.querySelector('.navbar-brand a');
     if (logoLink) {
-        logoLink.addEventListener('click', function(e) {
+        logoLink.addEventListener('click', function (e) {
             console.log('Logo clicked!', e.target);
             // Remove this line if you want the default behavior
             // e.preventDefault();
@@ -28,7 +28,7 @@ function initMobileMenu() {
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', function () {
             const isActive = this.classList.contains('active');
-            
+
             if (!isActive) {
                 // Abrir menu
                 navMenu.style.display = 'flex';
@@ -36,7 +36,7 @@ function initMobileMenu() {
                 navMenu.offsetHeight;
                 this.classList.add('active');
                 navMenu.classList.add('active');
-                
+
                 // Adicionar classe ao body para efeitos adicionais
                 document.body.classList.add('menu-open');
             } else {
@@ -44,7 +44,7 @@ function initMobileMenu() {
                 this.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                
+
                 // Aguardar animação antes de ocultar
                 setTimeout(() => {
                     if (!navMenu.classList.contains('active')) {
@@ -68,14 +68,14 @@ function initMobileMenu() {
                 closeMenuSmooth();
             }
         });
-        
+
         // Função para fechamento suave do menu
         function closeMenuSmooth() {
             if (menuToggle.classList.contains('active')) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.classList.remove('menu-open');
-                
+
                 setTimeout(() => {
                     if (!navMenu.classList.contains('active')) {
                         navMenu.style.display = 'none';
@@ -224,7 +224,7 @@ function closeMobileMenu() {
         menuToggle.classList.remove('active');
         navMenu.classList.remove('active');
         document.body.classList.remove('menu-open');
-        
+
         setTimeout(() => {
             if (!navMenu.classList.contains('active')) {
                 navMenu.style.display = 'none';
@@ -474,7 +474,7 @@ function initActiveNavHighlight() {
 // Correção para problemas de navegação de volta
 function initNavigationFix() {
     // Interceptar navegação e melhorar histórico
-    window.addEventListener('beforeunload', function() {
+    window.addEventListener('beforeunload', function () {
         // Limpar cache se necessário
         if (window.performance && window.performance.navigation.type === 1) {
             // Página foi recarregada
@@ -485,9 +485,9 @@ function initNavigationFix() {
     // Gerenciar estado de navegação
     const currentPage = window.location.pathname;
     sessionStorage.setItem('lastPage', currentPage);
-    
+
     // Corrigir problemas com botão voltar do navegador
-    window.addEventListener('popstate', function(event) {
+    window.addEventListener('popstate', function (event) {
         // Recarregar página se necessário para evitar erros de estado
         if (event.state === null && window.history.length > 1) {
             window.location.reload();
@@ -498,10 +498,10 @@ function initNavigationFix() {
     const allLinks = document.querySelectorAll('a[href]');
     allLinks.forEach(link => {
         const href = link.getAttribute('href');
-        
+
         // Apenas para links internos (PHP)
         if (href && (href.endsWith('.php') || href === 'index.php' || href === 'produtos.php' || href === 'produto.php')) {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 // Adicionar uma pequena animação de loading
                 const loadingOverlay = document.createElement('div');
                 loadingOverlay.style.cssText = `
@@ -520,7 +520,7 @@ function initNavigationFix() {
                 `;
                 loadingOverlay.innerHTML = 'Carregando...';
                 document.body.appendChild(loadingOverlay);
-                
+
                 // Remover overlay após um tempo (caso a página não carregue)
                 setTimeout(() => {
                     if (document.body.contains(loadingOverlay)) {

@@ -1922,7 +1922,7 @@ body.menu-open {
     .navbar-toggle {
         display: flex;
     }
-    
+
     .navbar-nav {
         position: absolute;
         top: 68px;
@@ -1933,16 +1933,16 @@ body.menu-open {
         padding: 20px 0;
         display: none;
     }
-    
+
     .navbar-nav.active {
         display: flex;
     }
-    
+
     .nav-item {
         text-align: center;
         margin: 10px 0;
     }
-    
+
     .nav-menu {
         width: 100vw !important;
     }
@@ -1959,4 +1959,61 @@ body.menu-open {
         font-size: 32px !important;
         right: 30px !important;
     }
+}
+
+/* FORÇA REMOÇÃO COMPLETA DE SUBLINHADOS EM PRODUTOS - TODAS AS PÁGINAS */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+    text-decoration: none !important;
+}
+
+.product-card h3,
+.product-card-catalog h3,
+.featured-products .product-card h3,
+.all-products .product-card h3,
+div.product-card h3,
+.related-card h3,
+.product-info h3,
+.product-title-container h3,
+.product-info-catalog h3 {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
+}
+
+a .product-card h3,
+a.product-card h3,
+a .product-card-catalog h3,
+a.product-card-catalog h3,
+.product-card a h3,
+.product-card-catalog a h3 {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
+}
+
+/* Força reset de TODOS os elementos filhos em produtos */
+.product-card *,
+.product-card-catalog *,
+.featured-products .product-card *,
+.all-products .product-card *,
+div.product-card *,
+.related-card *,
+a .product-card *,
+a.product-card *,
+a .product-card-catalog *,
+a.product-card-catalog * {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
 }

@@ -162,6 +162,54 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                 font-size: 11px !important;
             }
         }
+
+        /* FORÇA REMOÇÃO ABSOLUTA DE SUBLINHADOS EM PRODUTOS */
+        a,
+        a *,
+        a h3,
+        a.product-card-catalog,
+        a.product-card-catalog *,
+        a.product-card-catalog h3,
+        a.product-card-catalog .product-title-container,
+        a.product-card-catalog .product-title-container h3,
+        a.product-card-catalog .product-info-catalog,
+        a.product-card-catalog .product-info-catalog h3,
+        .product-card-catalog,
+        .product-card-catalog *,
+        .product-card-catalog h3,
+        .product-title-container,
+        .product-title-container *,
+        .product-title-container h3,
+        .product-info-catalog,
+        .product-info-catalog *,
+        .product-info-catalog h3 {
+            text-decoration: none !important;
+            text-decoration-line: none !important;
+            text-decoration-color: transparent !important;
+            text-underline-offset: 0 !important;
+            border-bottom: none !important;
+            -webkit-text-decoration: none !important;
+            -moz-text-decoration: none !important;
+        }
+
+        a:hover,
+        a:hover *,
+        a:hover h3,
+        a.product-card-catalog:hover,
+        a.product-card-catalog:hover *,
+        a.product-card-catalog:hover h3,
+        a.product-card-catalog:hover .product-title-container,
+        a.product-card-catalog:hover .product-title-container h3,
+        a.product-card-catalog:hover .product-info-catalog,
+        a.product-card-catalog:hover .product-info-catalog h3 {
+            text-decoration: none !important;
+            text-decoration-line: none !important;
+            text-decoration-color: transparent !important;
+            text-underline-offset: 0 !important;
+            border-bottom: none !important;
+            -webkit-text-decoration: none !important;
+            -moz-text-decoration: none !important;
+        }
     </style>
 </head>
 

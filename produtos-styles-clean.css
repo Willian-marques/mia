@@ -175,6 +175,16 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     position: relative;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.product-card-catalog:hover,
+.product-card-catalog:visited,
+.product-card-catalog:active,
+.product-card-catalog:focus {
+    text-decoration: none !important;
+    color: inherit !important;
 }
 
 /* Força os produtos ocultos a realmente desaparecerem */
@@ -286,6 +296,11 @@
     margin-bottom: 12px;
     line-height: 1.2;
     text-align: center;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
 }
 
 .product-description-container p,
@@ -529,4 +544,68 @@
     background: #891010;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(82, 1, 0, 0.4);
+}
+
+/* Força remoção de sublinhados em todos os elementos dos produtos */
+.product-card-catalog,
+.product-card-catalog *,
+.product-card-catalog h3,
+.product-card-catalog p,
+.product-card-catalog span,
+.product-card-catalog div,
+.product-info-catalog,
+.product-info-catalog *,
+.product-info-catalog h3,
+.product-info-catalog p,
+.product-title-container,
+.product-title-container *,
+.product-title-container h3,
+.product-description-container,
+.product-description-container *,
+.product-description-container p {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
+}
+
+.product-card-catalog:hover,
+.product-card-catalog:hover *,
+.product-card-catalog:hover h3,
+.product-card-catalog:hover p,
+.product-card-catalog:hover span,
+.product-card-catalog:hover div,
+.product-info-catalog:hover,
+.product-info-catalog:hover *,
+.product-info-catalog:hover h3,
+.product-info-catalog:hover p,
+.product-title-container:hover,
+.product-title-container:hover *,
+.product-title-container:hover h3,
+.product-description-container:hover,
+.product-description-container:hover *,
+.product-description-container:hover p {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
+}
+
+/* Links específicos dos produtos */
+a.product-card-catalog,
+a.product-card-catalog *,
+a.product-card-catalog h3,
+a.product-card-catalog p,
+a.product-card-catalog .product-info-catalog,
+a.product-card-catalog .product-title-container,
+a.product-card-catalog .product-title-container h3,
+a.product-card-catalog .product-description-container,
+a.product-card-catalog .product-description-container p {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-color: transparent !important;
+    text-underline-offset: 0 !important;
+    border-bottom: none !important;
 }

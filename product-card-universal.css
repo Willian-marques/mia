@@ -455,3 +455,38 @@ a.product-card:hover {
     text-decoration: none !important;
     color: inherit !important;
 }
+
+/* Força remoção completa de sublinhados em todos os elementos dos produtos */
+.product-card,
+.product-card *,
+.featured-products .product-card,
+.featured-products .product-card *,
+.all-products .product-card,
+.all-products .product-card *,
+.related-card,
+.related-card *,
+a .product-card,
+a .product-card *,
+a.product-card,
+a.product-card *,
+.product-card a,
+.product-card a * {
+    text-decoration: none !important;
+}
+
+.product-card:hover,
+.product-card:hover *,
+.featured-products .product-card:hover,
+.featured-products .product-card:hover *,
+.all-products .product-card:hover,
+.all-products .product-card:hover *,
+.related-card:hover,
+.related-card:hover *,
+a:hover .product-card,
+a:hover .product-card *,
+a.product-card:hover,
+a.product-card:hover *,
+.product-card:hover a,
+.product-card:hover a * {
+    text-decoration: none !important;
+}
