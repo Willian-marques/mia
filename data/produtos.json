@@ -1,32 +1,324 @@
 {
-    "1": {
-        "id": 1,
-        "slug": "bolsa-zephira",
-        "title": "Bolsa Zephira",
-        "category": "bolsas",
-        "price": 0.01,
+    "3": {
+        "id": 3,
+        "slug": "carteira-madrid",
+        "title": "Carteira Madrid",
+        "category": "viagem",
+        "price": 332,
         "oldPrice": null,
         "discount": null,
         "images": [
-            "uploads\/1759675787_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-            "uploads\/1759675787_1_504289588_18375789208192396_4827431109246341412_n.jpg",
-            "uploads\/1759675787_2_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-            "uploads\/1759675787_3_504289588_18375789208192396_4827431109246341412_n.jpg",
-            "uploads\/1759675776_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-            "uploads\/1759675776_1_78209787-d2a3-435e-aa50-e26f7fd43ff5.png",
-            "uploads\/1759673995_0_1.JPG",
-            "uploads\/1759674765_0_IMG_8533_VSCO2.JPG"
+            "uploads\/1759679840_0_1.JPG",
+            "uploads\/1759680580_0_2.JPG"
         ],
         "colors": [
             {
-                "name": "grafite",
-                "color": "#4A5568",
-                "title": "Grafite"
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Carteira ampla voltada para quem ama viajar com praticidade, com divisórias internas para guardar passagens, documentos, tickets e dinheiro de maneira organizada.",
+        "specifications": "Altura: 15cm | Largura: 23cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-05 17:46:33",
+        "updated_at": "2025-10-06 15:36:30"
+    },
+    "5": {
+        "id": 5,
+        "slug": "porta-carto",
+        "title": "Porta cartão",
+        "category": "carteiras",
+        "price": 99,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759680266_0_1.JPG",
+            "uploads\/1759680277_0_2.JPG",
+            "uploads\/1759680287_0_3.JPG",
+            "uploads\/1759680298_0_4.JPG",
+            "uploads\/1759680314_0_1.JPG",
+            "uploads\/1759680324_0_2.JPG",
+            "uploads\/1759680336_0_3.JPG",
+            "uploads\/1759680351_0_4.JPG",
+            "uploads\/1759680372_0_1.JPG",
+            "uploads\/1759680403_0_2.JPG",
+            "uploads\/1759680415_0_3.JPG",
+            "uploads\/1759680427_0_4.JPG",
+            "uploads\/1759680452_0_1.JPG",
+            "uploads\/1759680468_0_2.JPG",
+            "uploads\/1759680482_0_3.JPG",
+            "uploads\/1759680493_0_4.JPG",
+            "uploads\/1759680512_0_1.JPG",
+            "uploads\/1759680525_0_2.JPG",
+            "uploads\/1759680538_0_3.JPG",
+            "uploads\/1759680550_0_4.JPG"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
             },
             {
-                "name": "champanhe",
-                "color": "#F7E7CE",
-                "title": "Champanhe"
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            },
+            {
+                "name": "azul-marinho",
+                "color": "#001F3F",
+                "title": "Azul Marinho"
+            },
+            {
+                "name": "verde",
+                "color": "#228B22",
+                "title": "Verde"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Porta cartão em couro, com espaço para cartões e para carteira de motorista. Compacto e funcional, cabendo facilmente no bolso ou na bolsa.",
+        "specifications": "Altura: 11cm | Largura: 8,5cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-05 17:48:29",
+        "updated_at": "2025-10-06 15:36:46",
+        "colorImages": {
+            "preto": [
+                "uploads\/1759680266_0_1.JPG",
+                "uploads\/1759680277_0_2.JPG",
+                "uploads\/1759680287_0_3.JPG",
+                "uploads\/1759680298_0_4.JPG"
+            ],
+            "vermelho": [
+                "uploads\/1759680314_0_1.JPG",
+                "uploads\/1759680324_0_2.JPG",
+                "uploads\/1759680336_0_3.JPG",
+                "uploads\/1759680351_0_4.JPG"
+            ],
+            "caramelo": [
+                "uploads\/1759680372_0_1.JPG",
+                "uploads\/1759680403_0_2.JPG",
+                "uploads\/1759680415_0_3.JPG",
+                "uploads\/1759680427_0_4.JPG"
+            ],
+            "azul-marinho": [
+                "uploads\/1759680452_0_1.JPG",
+                "uploads\/1759680468_0_2.JPG",
+                "uploads\/1759680482_0_3.JPG",
+                "uploads\/1759680493_0_4.JPG"
+            ],
+            "verde": [
+                "uploads\/1759680512_0_1.JPG",
+                "uploads\/1759680525_0_2.JPG",
+                "uploads\/1759680538_0_3.JPG",
+                "uploads\/1759680550_0_4.JPG"
+            ]
+        }
+    },
+    "6": {
+        "id": 6,
+        "slug": "necessaire-cristal",
+        "title": "Necessaire cristal",
+        "category": "carteiras",
+        "price": 80,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759680154_0_IMG_7114_VSCO.jpg",
+            "uploads\/1759680165_0_IMG_7115_VSCO.jpg",
+            "uploads\/1759680179_0_IMG_7110_VSCO.jpg",
+            "uploads\/1759680190_0_IMG_7111_VSCO.jpg",
+            "uploads\/1759680239_0_IMG_7108_VSCO.JPG",
+            "uploads\/1759680239_1_IMG_7109_VSCO.jpg",
+            "uploads\/1759680239_0_IMG_7112_VSCO.jpg",
+            "uploads\/1759680239_1_IMG_7113_VSCO.jpg"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            },
+            {
+                "name": "amarelo",
+                "color": "#FFD700",
+                "title": "Amarelo"
+            },
+            {
+                "name": "gelo",
+                "color": "#E0F2F7",
+                "title": "Gelo"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Nécessaires transparentes feitas em plástico cristal com acabamento em couro. Disponíveis em dois tamanhos (P e M), permitindo a fácil visualização dos itens guardados.",
+        "specifications": "Tamanho P:\r\nAltura: 13cm | Largura: 18cm\r\n\r\nTamanho M: \r\nAltura: 18,5cm | Largura: 22cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-05 17:49:31",
+        "updated_at": "2025-10-06 15:37:03",
+        "colorImages": {
+            "preto": [
+                "uploads\/1759680154_0_IMG_7114_VSCO.jpg",
+                "uploads\/1759680165_0_IMG_7115_VSCO.jpg"
+            ],
+            "caramelo": [
+                "uploads\/1759680179_0_IMG_7110_VSCO.jpg",
+                "uploads\/1759680190_0_IMG_7111_VSCO.jpg"
+            ],
+            "amarelo": [
+                "uploads\/1759680239_0_IMG_7108_VSCO.JPG",
+                "uploads\/1759680239_1_IMG_7109_VSCO.jpg"
+            ],
+            "gelo": [
+                "uploads\/1759680239_0_IMG_7112_VSCO.jpg",
+                "uploads\/1759680239_1_IMG_7113_VSCO.jpg"
+            ]
+        }
+    },
+    "9": {
+        "id": 9,
+        "slug": "porta-passaporte",
+        "title": "Porta Passaporte",
+        "category": "viagem",
+        "price": 89,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759680354_0_1.JPG",
+            "uploads\/1759680363_0_2.JPG",
+            "uploads\/1759680379_0_1.JPG",
+            "uploads\/1759680389_0_2.JPG",
+            "uploads\/1759680402_0_1.JPG",
+            "uploads\/1759680413_0_2.JPG",
+            "uploads\/1759680425_0_1.JPG",
+            "uploads\/1759680438_0_2.JPG",
+            "uploads\/1759680489_0_1.JPG",
+            "uploads\/1759680501_0_2.JPG"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
+            },
+            {
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            },
+            {
+                "name": "azul-marinho",
+                "color": "#001F3F",
+                "title": "Azul Marinho"
+            },
+            {
+                "name": "framboesa",
+                "color": "#C72C48",
+                "title": "Framboesa"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Capa feita em couro para proteger o passaporte. Mantendo o documento seguro e conservado, além de facilitar o manuseio durante embarques.",
+        "specifications": "Altura: 14cm | Largura: 9,5cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-05 18:04:10",
+        "updated_at": "2025-10-06 15:37:18",
+        "colorImages": {
+            "preto": [
+                "uploads\/1759680354_0_1.JPG",
+                "uploads\/1759680363_0_2.JPG"
+            ],
+            "vermelho": [
+                "uploads\/1759680379_0_1.JPG",
+                "uploads\/1759680389_0_2.JPG"
+            ],
+            "caramelo": [
+                "uploads\/1759680402_0_1.JPG",
+                "uploads\/1759680413_0_2.JPG"
+            ],
+            "azul-marinho": [
+                "uploads\/1759680425_0_1.JPG",
+                "uploads\/1759680438_0_2.JPG"
+            ],
+            "framboesa": [
+                "uploads\/1759680489_0_1.JPG",
+                "uploads\/1759680501_0_2.JPG"
+            ]
+        }
+    },
+    "10": {
+        "id": 10,
+        "slug": "tag-de-mala",
+        "title": "Tag de mala",
+        "category": "viagem",
+        "price": 79,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759680675_0_1.JPG",
+            "uploads\/1759680685_0_2.JPG",
+            "uploads\/1759680703_0_1.JPG",
+            "uploads\/1759680719_0_2.jpg",
+            "uploads\/1759680738_0_1.JPG",
+            "uploads\/1759680750_0_2.JPG",
+            "uploads\/1759680791_0_1.JPG",
+            "uploads\/1759680804_0_2.JPG"
+        ],
+        "colors": [
+            {
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            },
+            {
+                "name": "azul-marinho",
+                "color": "#001F3F",
+                "title": "Azul Marinho"
             },
             {
                 "name": "pitaya",
@@ -37,29 +329,92 @@
         "sizes": [
             "Único"
         ],
-        "description": "Bolsa inteiramente em couro legítimo, personalizada com suas iniciais e acompanhada de alça regulável, adaptando-se a diferentes ocasiões. Seu design atemporal faz dela uma peça versátil, que transita com elegância do dia a dia às produções da noite. \r\n",
-        "specifications": "Altura: 13 \r\nLargura: 23cm \r\nProfundidade: 6cm\r\nTamanho da alça: 60cm a 120cm",
+        "description": "Tag de mala em couro para personalizar e identificar a bagagem. Possui espaço para informações, ajudando a evitar perdas em viagens.",
+        "specifications": "Altura: 11,5cm | Largura: 8cm",
         "status": "ativo",
         "stock": 1,
         "sales": 0,
         "isFeatured": false,
         "isBestseller": false,
-        "created_at": "2025-10-05 16:19:55",
-        "updated_at": "2025-10-05 16:54:50",
+        "created_at": "2025-10-05 18:10:25",
+        "updated_at": "2025-10-06 15:37:33",
         "colorImages": {
+            "vermelho": [
+                "uploads\/1759680675_0_1.JPG",
+                "uploads\/1759680685_0_2.JPG"
+            ],
+            "caramelo": [
+                "uploads\/1759680703_0_1.JPG",
+                "uploads\/1759680719_0_2.jpg"
+            ],
+            "azul-marinho": [
+                "uploads\/1759680738_0_1.JPG",
+                "uploads\/1759680750_0_2.JPG"
+            ],
             "pitaya": [
-                "uploads\/1759675787_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-                "uploads\/1759675787_1_504289588_18375789208192396_4827431109246341412_n.jpg",
-                "uploads\/1759675787_2_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-                "uploads\/1759675787_3_504289588_18375789208192396_4827431109246341412_n.jpg"
+                "uploads\/1759680791_0_1.JPG",
+                "uploads\/1759680804_0_2.JPG"
+            ]
+        }
+    },
+    "11": {
+        "id": 11,
+        "slug": "trio-barcelona",
+        "title": "Trio Barcelona",
+        "category": "viagem",
+        "price": 319,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759757930_0_1.JPG",
+            "uploads\/1759757941_0_2.JPG",
+            "uploads\/1759757953_0_3.JPG",
+            "uploads\/1759757964_0_4.JPG",
+            "uploads\/1759757978_0_5.JPG",
+            "uploads\/1759758032_0_1.JPG",
+            "uploads\/1759758043_0_2.JPG",
+            "uploads\/1759758056_0_3.JPG",
+            "uploads\/1759758067_0_4.JPG",
+            "uploads\/1759758080_0_5.JPG"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
+            },
+            {
+                "name": "vermelho",
+                "color": "#DC143C",
+                "title": "Vermelho"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Conjunto com três nécessaires em diferentes tamanhos(P, M e G), confeccionadas em couro. Ideais para organizar objetos pessoais de forma prática, seja em viagens ou no dia a dia.",
+        "specifications": "Tamanho P: \r\nAltura: 15cm | Largura: 19cm | Profundidade: 5cm \r\nTamanho M:\r\nAltura: 17cm | Largura: 23cm | Profundidade: 7cm\r\nTamanho G:\r\nAltura: 19cm | Largura: 27cm  ZProfundidade: 9cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-06 15:35:49",
+        "updated_at": "2025-10-06 15:41:20",
+        "colorImages": {
+            "preto": [
+                "uploads\/1759757930_0_1.JPG",
+                "uploads\/1759757941_0_2.JPG",
+                "uploads\/1759757953_0_3.JPG",
+                "uploads\/1759757964_0_4.JPG",
+                "uploads\/1759757978_0_5.JPG"
             ],
-            "champanhe": [
-                "uploads\/1759675776_0_tirartexto_469082280_18352213951192396_7891947702823614736_n.jpg",
-                "uploads\/1759675776_1_78209787-d2a3-435e-aa50-e26f7fd43ff5.png"
-            ],
-            "grafite": [
-                "uploads\/1759673995_0_1.JPG",
-                "uploads\/1759674765_0_IMG_8533_VSCO2.JPG"
+            "vermelho": [
+                "uploads\/1759758032_0_1.JPG",
+                "uploads\/1759758043_0_2.JPG",
+                "uploads\/1759758056_0_3.JPG",
+                "uploads\/1759758067_0_4.JPG",
+                "uploads\/1759758080_0_5.JPG"
             ]
         }
     }
