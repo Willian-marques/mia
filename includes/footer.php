@@ -70,7 +70,7 @@ $product_categories = [
                 <div class="contact-item">
                     <strong>WhatsApp:</strong>
                     <a href="https://wa.me/<?php echo $contact_info['whatsapp']; ?>" target="_blank">
-                        (41) 9733-8289
+                        +55 41 9733-8289
                     </a>
                 </div>
                 <div class="contact-item">

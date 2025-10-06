@@ -8,12 +8,22 @@ document.addEventListener('DOMContentLoaded', function () {
     initButtonInteractions();
     initActiveNavHighlight();
     initNavigationFix();
+    
+    // Debug: Test logo click
+    const logoLink = document.querySelector('.navbar-brand a');
+    if (logoLink) {
+        logoLink.addEventListener('click', function(e) {
+            console.log('Logo clicked!', e.target);
+            // Remove this line if you want the default behavior
+            // e.preventDefault();
+        });
+    }
 });
 
 // Mobile Menu Toggle
 function initMobileMenu() {
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
+    const menuToggle = document.getElementById('navbar-toggle');
+    const navMenu = document.getElementById('navbar-nav');
 
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', function () {

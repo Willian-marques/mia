@@ -27,141 +27,141 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
         rel="stylesheet">
 
     <style>
-    /* CSS para corrigir layout dos filtros */
-    .filters-container {
-        display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 12px !important;
-        padding: 0 20px !important;
-        max-width: 800px !important;
-        margin: 20px auto 0 auto !important;
-        width: 100% !important;
-    }
-
-    .filter-dropdown {
-        width: 100% !important;
-        position: relative !important;
-    }
-
-    .filter-dropdown select {
-        width: 100% !important;
-        padding: 10px 12px !important;
-        font-size: 14px !important;
-        border: 1px solid #ddd !important;
-        border-radius: 6px !important;
-        background: white !important;
-        color: #333 !important;
-        font-family: 'Poppins', sans-serif !important;
-        cursor: pointer !important;
-        transition: border-color 0.2s ease !important;
-        appearance: none !important;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
-        background-position: right 8px center !important;
-        background-repeat: no-repeat !important;
-        background-size: 16px !important;
-        padding-right: 35px !important;
-    }
-
-    .filter-dropdown select:hover {
-        border-color: #520100 !important;
-    }
-
-    .filter-dropdown select:focus {
-        outline: none !important;
-        border-color: #520100 !important;
-        box-shadow: 0 0 0 2px rgba(82, 1, 0, 0.1) !important;
-    }
-
-    /* Melhorar hero section no mobile */
-    @media (max-width: 768px) {
-        .products-hero-content h1 {
-            font-size: 24px !important;
-            margin-bottom: 8px !important;
+        /* CSS para corrigir layout dos filtros */
+        .filters-container {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 12px !important;
+            padding: 0 20px !important;
+            max-width: 800px !important;
+            margin: 20px auto 0 auto !important;
+            width: 100% !important;
         }
 
-        .products-hero-content p {
+        .filter-dropdown {
+            width: 100% !important;
+            position: relative !important;
+        }
+
+        .filter-dropdown select {
+            width: 100% !important;
+            padding: 10px 12px !important;
             font-size: 14px !important;
-            margin-bottom: 15px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 6px !important;
+            background: white !important;
+            color: #333 !important;
+            font-family: 'Poppins', sans-serif !important;
+            cursor: pointer !important;
+            transition: border-color 0.2s ease !important;
+            appearance: none !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+            background-position: right 8px center !important;
+            background-repeat: no-repeat !important;
+            background-size: 16px !important;
+            padding-right: 35px !important;
         }
 
-        .products-hero {
-            padding: 20px 0 25px 0 !important;
-        }
-    }
-
-    /* Tablet */
-    @media (max-width: 768px) {
-        .filters-container {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 10px !important;
-            padding: 0 15px !important;
-            margin: 15px auto 0 auto !important;
+        .filter-dropdown select:hover {
+            border-color: #520100 !important;
         }
 
-        .filter-dropdown select {
-            font-size: 13px !important;
-            padding: 9px 10px !important;
-            padding-right: 30px !important;
-        }
-    }
-
-    /* Mobile */
-    @media (max-width: 480px) {
-        .filters-container {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 6px !important;
-            padding: 0 10px !important;
-            margin: 15px auto 0 auto !important;
-            max-width: 100% !important;
+        .filter-dropdown select:focus {
+            outline: none !important;
+            border-color: #520100 !important;
+            box-shadow: 0 0 0 2px rgba(82, 1, 0, 0.1) !important;
         }
 
-        .filter-dropdown select {
-            font-size: 11px !important;
-            padding: 6px 8px !important;
-            padding-right: 25px !important;
-            height: 35px !important;
-            background-size: 14px !important;
-            background-position: right 6px center !important;
+        /* Melhorar hero section no mobile */
+        @media (max-width: 768px) {
+            .products-hero-content h1 {
+                font-size: 24px !important;
+                margin-bottom: 8px !important;
+            }
+
+            .products-hero-content p {
+                font-size: 14px !important;
+                margin-bottom: 15px !important;
+            }
+
+            .products-hero {
+                padding: 20px 0 25px 0 !important;
+            }
         }
 
-        .products-hero {
-            padding: 15px 0 20px 0 !important;
+        /* Tablet */
+        @media (max-width: 768px) {
+            .filters-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+                padding: 0 15px !important;
+                margin: 15px auto 0 auto !important;
+            }
+
+            .filter-dropdown select {
+                font-size: 13px !important;
+                padding: 9px 10px !important;
+                padding-right: 30px !important;
+            }
         }
 
-        .products-hero-content h1 {
-            font-size: 20px !important;
-            margin-bottom: 5px !important;
+        /* Mobile */
+        @media (max-width: 480px) {
+            .filters-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+                padding: 0 10px !important;
+                margin: 15px auto 0 auto !important;
+                max-width: 100% !important;
+            }
+
+            .filter-dropdown select {
+                font-size: 11px !important;
+                padding: 6px 8px !important;
+                padding-right: 25px !important;
+                height: 35px !important;
+                background-size: 14px !important;
+                background-position: right 6px center !important;
+            }
+
+            .products-hero {
+                padding: 15px 0 20px 0 !important;
+            }
+
+            .products-hero-content h1 {
+                font-size: 20px !important;
+                margin-bottom: 5px !important;
+            }
+
+            .products-hero-content p {
+                font-size: 12px !important;
+                margin-bottom: 10px !important;
+            }
         }
 
-        .products-hero-content p {
-            font-size: 12px !important;
-            margin-bottom: 10px !important;
-        }
-    }
+        /* Mobile muito pequeno */
+        @media (max-width: 360px) {
+            .filters-container {
+                grid-template-columns: 1fr !important;
+                gap: 4px !important;
+                margin: 10px auto 0 auto !important;
+            }
 
-    /* Mobile muito pequeno */
-    @media (max-width: 360px) {
-        .filters-container {
-            grid-template-columns: 1fr !important;
-            gap: 4px !important;
-            margin: 10px auto 0 auto !important;
-        }
+            .filter-dropdown select {
+                font-size: 10px !important;
+                padding: 5px 6px !important;
+                padding-right: 22px !important;
+                height: 32px !important;
+            }
 
-        .filter-dropdown select {
-            font-size: 10px !important;
-            padding: 5px 6px !important;
-            padding-right: 22px !important;
-            height: 32px !important;
-        }
+            .products-hero-content h1 {
+                font-size: 18px !important;
+            }
 
-        .products-hero-content h1 {
-            font-size: 18px !important;
+            .products-hero-content p {
+                font-size: 11px !important;
+            }
         }
-
-        .products-hero-content p {
-            font-size: 11px !important;
-        }
-    }
     </style>
 </head>
 
@@ -224,35 +224,35 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
             </div>
 
             <style>
-            @media (max-width: 768px) {
-                .filters-responsive {
-                    flex-direction: column !important;
-                    gap: 10px !important;
-                    margin: 20px 0 !important;
-                    padding: 0 10px !important;
+                @media (max-width: 768px) {
+                    .filters-responsive {
+                        flex-direction: column !important;
+                        gap: 10px !important;
+                        margin: 20px 0 !important;
+                        padding: 0 10px !important;
+                    }
+
+                    .filters-responsive select {
+                        width: 100% !important;
+                        max-width: 350px !important;
+                        height: 50px !important;
+                        font-size: 16px !important;
+                        padding: 12px 14px !important;
+                    }
                 }
 
-                .filters-responsive select {
-                    width: 100% !important;
-                    max-width: 350px !important;
-                    height: 50px !important;
-                    font-size: 16px !important;
-                    padding: 12px 14px !important;
-                }
-            }
+                @media (max-width: 480px) {
+                    .filters-responsive {
+                        padding: 0 5px !important;
+                    }
 
-            @media (max-width: 480px) {
-                .filters-responsive {
-                    padding: 0 5px !important;
+                    .filters-responsive select {
+                        max-width: 100% !important;
+                        height: 48px !important;
+                        font-size: 15px !important;
+                        padding: 10px 12px !important;
+                    }
                 }
-
-                .filters-responsive select {
-                    max-width: 100% !important;
-                    height: 48px !important;
-                    font-size: 15px !important;
-                    padding: 10px 12px !important;
-                }
-            }
             </style>
         </div>
     </section>
@@ -266,69 +266,69 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
             </div>
             <div class="products-grid-catalog">
                 <?php if (empty($todos_produtos)): ?>
-                <div class="no-results-message">
-                    <div>
-                        <h3>Nenhum produto encontrado</h3>
-                        <p>Não há produtos disponíveis no momento.</p>
+                    <div class="no-results-message">
+                        <div>
+                            <h3>Nenhum produto encontrado</h3>
+                            <p>Não há produtos disponíveis no momento.</p>
+                        </div>
                     </div>
-                </div>
                 <?php else: ?>
-                <?php foreach ($todos_produtos as $produto): ?>
-                <?php if ($produto['status'] === 'ativo'): ?>
-                <a href="/produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog"
-                    data-category="<?php echo htmlspecialchars($produto['category']); ?>"
-                    data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>"
-                    data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>"
-                    data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
-                    <div class="product-image-catalog">
-                        <?php 
-                                $primeira_imagem = $produto['images'][0];
-                                $caminho_completo = __DIR__ . '/' . $primeira_imagem;
-                                $imagem_existe = file_exists($caminho_completo);
-                                $imagem_final = $imagem_existe ? $primeira_imagem : 'img/default-product.png';
-                                ?>
-                        <img src="<?php echo htmlspecialchars($imagem_final); ?>"
-                            alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
-                            data-original="<?php echo htmlspecialchars($primeira_imagem); ?>"
-                            data-exists="<?php echo $imagem_existe ? 'true' : 'false'; ?>"
-                            onerror="this.onerror=null; this.src='img/default-product.png'; console.error('❌ Erro ao carregar imagem do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($primeira_imagem); ?>');"
-                            onload="console.log('✅ Imagem carregada do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($imagem_final); ?>');">
-                        <?php if (!empty($produto['discount'])): ?>
-                        <div class="discount-badge"><?php echo $produto['discount']; ?>% OFF</div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="product-info-catalog">
-                        <div class="product-title-container">
-                            <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
-                        </div>
-                        <div class="product-description-container">
-                            <p><?php echo htmlspecialchars(substr($produto['description'], 0, 50) . '...'); ?></p>
-                        </div>
-                        <div class="product-category-container">
-                            <div class="product-category"><?php 
+                    <?php foreach ($todos_produtos as $produto): ?>
+                        <?php if ($produto['status'] === 'ativo'): ?>
+                            <a href="/produto-unico?id=<?php echo $produto['id']; ?>" class="product-card-catalog"
+                                data-category="<?php echo htmlspecialchars($produto['category']); ?>"
+                                data-price="<?php echo $produto['price']; ?>" data-sales="<?php echo $produto['sales'] ?? 0; ?>"
+                                data-discount="<?php echo (isset($produto['discount']) && $produto['discount'] !== null && $produto['discount'] > 0) ? $produto['discount'] : '0'; ?>"
+                                data-tags="<?php echo isset($produto['tags']) ? implode(',', $produto['tags']) : ''; ?>">
+                                <div class="product-image-catalog">
+                                    <?php
+                                    $primeira_imagem = $produto['images'][0];
+                                    $caminho_completo = __DIR__ . '/' . $primeira_imagem;
+                                    $imagem_existe = file_exists($caminho_completo);
+                                    $imagem_final = $imagem_existe ? $primeira_imagem : 'img/default-product.png';
+                                    ?>
+                                    <img src="<?php echo htmlspecialchars($imagem_final); ?>"
+                                        alt="<?php echo htmlspecialchars($produto['title']); ?>" loading="lazy"
+                                        data-original="<?php echo htmlspecialchars($primeira_imagem); ?>"
+                                        data-exists="<?php echo $imagem_existe ? 'true' : 'false'; ?>"
+                                        onerror="this.onerror=null; this.src='img/default-product.png'; console.error('❌ Erro ao carregar imagem do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($primeira_imagem); ?>');"
+                                        onload="console.log('✅ Imagem carregada do produto <?php echo $produto['id']; ?>: <?php echo htmlspecialchars($imagem_final); ?>');">
+                                    <?php if (!empty($produto['discount'])): ?>
+                                        <div class="discount-badge"><?php echo $produto['discount']; ?>% OFF</div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="product-info-catalog">
+                                    <div class="product-title-container">
+                                        <h3><?php echo htmlspecialchars($produto['title']); ?></h3>
+                                    </div>
+                                    <div class="product-description-container">
+                                        <p><?php echo htmlspecialchars(substr($produto['description'], 0, 50) . '...'); ?></p>
+                                    </div>
+                                    <div class="product-category-container">
+                                        <div class="product-category"><?php
                                         $categoryNames = [
                                             'bolsas' => 'Bolsas',
-                                            'carteiras' => 'Carteiras', 
+                                            'carteiras' => 'Carteiras',
                                             'cases-capas' => 'Cases & Capas',
                                             'escritorio' => 'Escritório',
                                             'viagem' => 'Viagem',
                                             'acessorios' => 'Acessórios'
                                         ];
-                                        echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category'])); 
-                                    ?></div>
-                        </div>
-                        <div class="product-price-container">
-                            <div class="price-catalog">
-                                <?php if (!empty($produto['oldPrice'])): ?>
-                                <span class="old-price"><?php echo formatPrice($produto['oldPrice']); ?></span>
-                                <?php endif; ?>
-                                <span class="current-price"><?php echo formatPrice($produto['price']); ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <?php endif; ?>
-                <?php endforeach; ?>
+                                        echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category']));
+                                        ?></div>
+                                    </div>
+                                    <div class="product-price-container">
+                                        <div class="price-catalog">
+                                            <?php if (!empty($produto['oldPrice'])): ?>
+                                                <span class="old-price"><?php echo formatPrice($produto['oldPrice']); ?></span>
+                                            <?php endif; ?>
+                                            <span class="current-price"><?php echo formatPrice($produto['price']); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -349,7 +349,8 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                                     d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.80 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.44z" />
                             </svg>
                         </a>
-                        <a href="https://wa.me/5541973382889" target="_blank" aria-label="WhatsApp">
+                        <a href="https://wa.me/554197338289" target="_blank" aria-label="WhatsApp"
+                            title="+55 41 9733-8289">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -379,7 +380,7 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                         <h4>Contato</h4>
                         <ul>
                             <li>contato@mia.com.br</li>
-                            <li><a href="https://wa.me/5541973382289" target="_blank"
+                            <li><a href="https://wa.me/554197338289" target="_blank"
                                     style="color: #9CA3AF; text-decoration: none;">+55 (41) 9733-8289</a></li>
                             <li>Curitiba, PR</li>
                         </ul>
@@ -396,30 +397,30 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
     <script src="script.js"></script>
     <script src="produtos-script.js"></script>
     <script>
-    // Aplicar filtro inicial se necessário (chamado pelo PHP)
-    document.addEventListener('DOMContentLoaded', function() {
-        <?php if ($filtroInicial === 'desconto'): ?>
-        setTimeout(() => {
-            const categoryFilter = document.getElementById('productFilter');
-            if (categoryFilter) {
-                categoryFilter.value = 'desconto';
-                applyFilters();
-                console.log('🏷️ Filtro de desconto aplicado automaticamente via categoria');
-            }
-        }, 500);
-        <?php elseif ($categoriaInicial): ?>
-        setTimeout(() => {
-            const categoryFilter = document.getElementById('productFilter');
-            if (categoryFilter) {
-                categoryFilter.value = '<?php echo htmlspecialchars($categoriaInicial); ?>';
-                applyFilters();
-                console.log(
-                    '📂 Filtro de categoria aplicado: <?php echo htmlspecialchars($categoriaInicial); ?>'
-                );
-            }
-        }, 500);
-        <?php endif; ?>
-    });
+        // Aplicar filtro inicial se necessário (chamado pelo PHP)
+        document.addEventListener('DOMContentLoaded', function () {
+            <?php if ($filtroInicial === 'desconto'): ?>
+                setTimeout(() => {
+                    const categoryFilter = document.getElementById('productFilter');
+                    if (categoryFilter) {
+                        categoryFilter.value = 'desconto';
+                        applyFilters();
+                        console.log('🏷️ Filtro de desconto aplicado automaticamente via categoria');
+                    }
+                }, 500);
+            <?php elseif ($categoriaInicial): ?>
+                setTimeout(() => {
+                    const categoryFilter = document.getElementById('productFilter');
+                    if (categoryFilter) {
+                        categoryFilter.value = '<?php echo htmlspecialchars($categoriaInicial); ?>';
+                        applyFilters();
+                        console.log(
+                            '📂 Filtro de categoria aplicado: <?php echo htmlspecialchars($categoriaInicial); ?>'
+                        );
+                    }
+                }, 500);
+            <?php endif; ?>
+        });
     </script>
 </body>
 

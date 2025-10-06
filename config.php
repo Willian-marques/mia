@@ -17,7 +17,7 @@ define('ADMIN_MENSAGENS_URL', 'admin-mensagens.php');
 define('ADMIN_ACTIONS_URL', 'admin_actions.php');
 
 // Informações de contato
-define('CONTACT_WHATSAPP', '5541973382889');
+define('CONTACT_WHATSAPP', '554197338289');
 define('CONTACT_EMAIL', 'contato@miacourolego.com');
 define('CONTACT_INSTAGRAM', 'https://instagram.com/miacourolego');
 define('CONTACT_ADDRESS', 'São Paulo, SP - Brasil');
