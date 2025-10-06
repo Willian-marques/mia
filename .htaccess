@@ -1,5 +1,7 @@
 RewriteEngine On
 SetEnvIf X-Forwarded-Proto https HTTPS=on
+
+
 # Ignorar arquivos estáticos primeiro (não reescrever)
 RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|ico|woff|woff2|ttf|eot)$ [NC]
 RewriteRule .* - [L]

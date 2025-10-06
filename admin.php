@@ -2380,25 +2380,6 @@ if ($logged_in) {
                 width: 0%;
             }
         }
-
-        /* Estilos para seleção de tamanhos */
-        .sizes-section {
-            margin: 20px 0;
-        }
-
-        .size-option:hover {
-            border-color: #8A4D99 !important;
-            background: #f3e8f7 !important;
-        }
-
-        .size-option input[type="checkbox"]:checked + span {
-            color: #8A4D99;
-        }
-
-        .size-option:has(input[type="checkbox"]:checked) {
-            border-color: #8A4D99 !important;
-            background: #f3e8f7 !important;
-        }
     </style>
 </head>
 
@@ -3549,28 +3530,6 @@ if ($logged_in) {
                                     </div>
                                 </div>
 
-                                <!-- Seção de Tamanhos -->
-                                <div class="sizes-section">
-                                    <div class="section-header">
-                                        <h4>Tamanhos Disponíveis</h4>
-                                        <small style="color: #666; font-size: 12px;">Selecione os tamanhos disponíveis para este produto</small>
-                                    </div>
-                                    <div class="sizes-grid" style="display: flex; gap: 15px; margin-top: 10px;">
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
-                                            <input type="checkbox" id="sizeP" name="sizes[]" value="P" style="margin: 0;">
-                                            <span style="font-weight: 600; font-size: 16px;">P</span>
-                                        </label>
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
-                                            <input type="checkbox" id="sizeM" name="sizes[]" value="M" style="margin: 0;">
-                                            <span style="font-weight: 600; font-size: 16px;">M</span>
-                                        </label>
-                                        <label class="size-option" style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; background: #f9f9f9;">
-                                            <input type="checkbox" id="sizeG" name="sizes[]" value="G" style="margin: 0;">
-                                            <span style="font-weight: 600; font-size: 16px;">G</span>
-                                        </label>
-                                    </div>
-                                </div>
-
                                 <!-- Seção de Destaques -->
                                 <div class="highlights-section">
                                     <div class="section-header">
@@ -3935,19 +3894,6 @@ if ($logged_in) {
                                                 'active');
                                         }
                                         updateColorCounter();
-
-                                        // Carregar tamanhos selecionados
-                                        document.querySelectorAll('input[name="sizes[]"]').forEach(checkbox => {
-                                            checkbox.checked = false;
-                                        });
-                                        if (product.sizes && Array.isArray(product.sizes)) {
-                                            product.sizes.forEach(size => {
-                                                const sizeCheckbox = document.querySelector(`input[name="sizes[]"][value="${size}"]`);
-                                                if (sizeCheckbox) {
-                                                    sizeCheckbox.checked = true;
-                                                }
-                                            });
-                                        }
 
                                         // Verificar se o produto usa imagens por cor
                                         const hasColorImages = product.colorImages && Object.keys(product.colorImages).length > 0;
