@@ -10,7 +10,33 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $site_title; ?></title>
+    <title>Sobre Nós - Mia Couro Legítimo | Nossa História e Propósito</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Conheça a história da Mia Couro Legítimo. Produtos artesanais em couro genuíno, feitos com paixão e dedicação por artesãos especializados. Qualidade e exclusividade.">
+    <meta name="keywords" content="sobre mia couro, história, artesanato em couro, produtos artesanais, couro genuíno, qualidade">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miamianet.com.br/sobre">
+    <meta property="og:title" content="Sobre Nós - Mia Couro Legítimo">
+    <meta property="og:description" content="Conheça nossa história e propósito. Produtos artesanais em couro genuíno feitos com paixão.">
+    <meta property="og:image" content="https://miamianet.com.br/img/sobre/pagina_1_imagem_2.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sobre Nós - Mia Couro Legítimo">
+    <meta name="twitter:description" content="Conheça nossa história e propósito.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://miamianet.com.br/sobre">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="product-card-universal.css">
     <link rel="stylesheet" href="responsive-global.css">
@@ -244,7 +270,9 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>

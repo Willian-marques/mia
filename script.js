@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Mobile Menu Toggle
 function initMobileMenu() {
-    const menuToggle = document.getElementById('navbar-toggle');
-    const navMenu = document.getElementById('navbar-nav');
+    // Suportar ambos os IDs: navbar-toggle/navbar-nav E menuToggle/navMenu
+    const menuToggle = document.getElementById('navbar-toggle') || document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navbar-nav') || document.getElementById('navMenu');
 
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', function () {
@@ -218,8 +219,9 @@ function handleHashChange() {
 }
 
 function closeMobileMenu() {
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
+    // Suportar ambos os IDs
+    const menuToggle = document.getElementById('menuToggle') || document.getElementById('navbar-toggle');
+    const navMenu = document.getElementById('navMenu') || document.getElementById('navbar-nav');
     if (menuToggle && navMenu && menuToggle.classList.contains('active')) {
         menuToggle.classList.remove('active');
         navMenu.classList.remove('active');

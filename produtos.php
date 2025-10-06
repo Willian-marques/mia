@@ -15,7 +15,33 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Produtos - Mia Couro Legítimo</title>
+    <title>Catálogo de Produtos - Mia Couro Legítimo | Bolsas, Carteiras e Acessórios</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore nosso catálogo completo de produtos em couro legítimo. Bolsas, carteiras, necessaires, tags de bagagem e acessórios artesanais de alta qualidade.">
+    <meta name="keywords" content="catálogo couro, produtos em couro, bolsas artesanais, carteiras de couro, necessaire couro, acessórios couro, comprar couro legítimo">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miamianet.com.br/produtos">
+    <meta property="og:title" content="Catálogo de Produtos - Mia Couro Legítimo">
+    <meta property="og:description" content="Explore nosso catálogo completo de produtos artesanais em couro legítimo.">
+    <meta property="og:image" content="https://miamianet.com.br/img/default-product.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Catálogo de Produtos - Mia Couro Legítimo">
+    <meta name="twitter:description" content="Explore nosso catálogo de produtos artesanais em couro legítimo.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://miamianet.com.br/produtos">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="produtos-styles-clean.css">
     <link rel="stylesheet" href="responsive-global.css">
@@ -222,7 +248,9 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>

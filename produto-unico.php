@@ -45,7 +45,36 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($product['title']); ?> - MIA</title>
+    <title><?php echo htmlspecialchars($product['title']); ?> - Mia Couro Legítimo</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<?php echo htmlspecialchars(substr($product['description'], 0, 155)); ?>. Produto artesanal em couro legítimo de alta qualidade.">
+    <meta name="keywords" content="<?php echo htmlspecialchars($product['title']); ?>, couro legítimo, artesanal, <?php echo htmlspecialchars($product['category']); ?>">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://miamianet.com.br/produto-unico?id=<?php echo $product['id']; ?>">
+    <meta property="og:title" content="<?php echo htmlspecialchars($product['title']); ?> - Mia Couro Legítimo">
+    <meta property="og:description" content="<?php echo htmlspecialchars(substr($product['description'], 0, 155)); ?>">
+    <meta property="og:image" content="https://miamianet.com.br/<?php echo htmlspecialchars($product['images'][0]); ?>">
+    <meta property="product:price:amount" content="<?php echo $product['price']; ?>">
+    <meta property="product:price:currency" content="BRL">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo htmlspecialchars($product['title']); ?>">
+    <meta name="twitter:description" content="<?php echo htmlspecialchars(substr($product['description'], 0, 155)); ?>">
+    <meta name="twitter:image" content="https://miamianet.com.br/<?php echo htmlspecialchars($product['images'][0]); ?>">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://miamianet.com.br/produto-unico?id=<?php echo $product['id']; ?>">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css?v=20250924">
     <link rel="stylesheet" href="produto-premium-styles.css?v=20250924">
     <link rel="stylesheet" href="image-optimize.css?v=20250924">
@@ -594,6 +623,37 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             }
         }
     </style>
+    
+    <!-- JSON-LD Product Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "<?php echo htmlspecialchars($product['title']); ?>",
+      "image": [
+        <?php 
+        $imageCount = count($product['images']);
+        foreach($product['images'] as $index => $image) {
+            echo '"https://miamianet.com.br/' . htmlspecialchars($image) . '"';
+            if ($index < $imageCount - 1) echo ',';
+        }
+        ?>
+      ],
+      "description": "<?php echo htmlspecialchars($product['description']); ?>",
+      "brand": {
+        "@type": "Brand",
+        "name": "Mia Couro Legítimo"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://miamianet.com.br/produto-unico?id=<?php echo $product['id']; ?>",
+        "priceCurrency": "BRL",
+        "price": "<?php echo $product['price']; ?>",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition"
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -605,7 +665,9 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>

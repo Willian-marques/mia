@@ -22,6 +22,12 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $site_title; ?></title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-global.css">
     <style>
@@ -166,7 +172,9 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>

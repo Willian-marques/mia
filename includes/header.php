@@ -12,13 +12,21 @@ $current_page = isset($current_page) ? $current_page : '';
 
 // Verificar se as constantes estão definidas
 $site_name = defined('SITE_NAME') ? SITE_NAME : 'Mia Couro Legítimo';
+
+// Determinar o caminho base relativo
+$request_uri = $_SERVER['REQUEST_URI'];
+$script_name = $_SERVER['SCRIPT_NAME'];
+$base_path = str_replace('\\', '/', dirname($script_name));
+if ($base_path === '/') {
+    $base_path = '';
+}
 ?>
 
 <header class="site-header">
     <nav class="navbar">
         <div class="navbar-brand">
-            <a href="index.php">
-                <img src="img/MiaCourolegitimo 1.svg" alt="<?php echo $site_name; ?>" class="logo">
+            <a href="<?php echo $base_path; ?>/index.php" style="cursor: pointer;">
+                <img src="<?php echo $base_path; ?>/img/MiaCourolegitimo 1.svg" alt="<?php echo $site_name; ?>" class="logo">
             </a>
         </div>
 

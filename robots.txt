@@ -1,0 +1,18 @@
+# robots.txt para Mia Couro Legítimo
+
+User-agent: *
+Allow: /
+Disallow: /admin.php
+Disallow: /admin-mensagens.php
+Disallow: /admin_actions.php
+Disallow: /api.php
+Disallow: /config/
+Disallow: /data/
+Disallow: /debug*.php
+Disallow: /delete-message.php
+Disallow: /error_handler.php
+Disallow: /fix-admin-errors.php
+Disallow: /uploads/
+
+# Sitemap
+Sitemap: https://miamianet.com.br/sitemap.xml

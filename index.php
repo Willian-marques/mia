@@ -60,7 +60,7 @@ function getRecentProducts($limit = 5)
     return array_slice($produtos, 0, $limit);
 }
 
-$recentProducts = getRecentProducts(5);
+$recentProducts = getRecentProducts(4);
 
 ?>
 <!DOCTYPE html>
@@ -69,7 +69,41 @@ $recentProducts = getRecentProducts(5);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mia Couro Legítimo - Produtos Artesanais em Couro</title>
+    <title>Mia Couro Legítimo - Produtos Artesanais em Couro Genuíno</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Mia Couro Legítimo - Produtos artesanais em couro genuíno, feitos à mão por artesãos. Bolsas, carteiras, necessaires e acessórios em couro de alta qualidade.">
+    <meta name="keywords" content="couro legítimo, produtos artesanais, bolsas de couro, carteiras de couro, necessaire de couro, artesanato em couro, couro genuíno, acessórios de couro, Mia Couro">
+    <meta name="author" content="Mia Couro Legítimo">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Portuguese">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miamianet.com.br/">
+    <meta property="og:title" content="Mia Couro Legítimo - Produtos Artesanais em Couro Genuíno">
+    <meta property="og:description" content="Produtos artesanais em couro genuíno, feitos à mão por artesãos. Qualidade e exclusividade em cada peça.">
+    <meta property="og:image" content="https://miamianet.com.br/img/MiaCourolegitimo 1.svg">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Mia Couro Legítimo">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://miamianet.com.br/">
+    <meta name="twitter:title" content="Mia Couro Legítimo - Produtos Artesanais em Couro">
+    <meta name="twitter:description" content="Produtos artesanais em couro genuíno, feitos à mão por artesãos. Qualidade e exclusividade.">
+    <meta name="twitter:image" content="https://miamianet.com.br/img/MiaCourolegitimo 1.svg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://miamianet.com.br/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-global.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -277,26 +311,30 @@ $recentProducts = getRecentProducts(5);
 
     /* RESET COMPLETO - Seção de produtos dinâmicos */
     .all-products .products-grid-extended {
-        display: flex !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
         gap: 20px !important;
         padding: 20px 0 !important;
-        overflow-x: auto !important;
         max-width: 1200px !important;
         margin: 0 auto !important;
     }
 
     .all-products .product-card {
-        min-width: 280px !important;
-        width: 280px !important;
+        width: 100% !important;
         height: auto !important;
         background: #fcf8f1 !important;
         border-radius: 15px !important;
         overflow: hidden !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-        flex-shrink: 0 !important;
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    .all-products .product-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
     }
 
     .all-products .product-image {
@@ -346,16 +384,20 @@ $recentProducts = getRecentProducts(5);
 
     /* Responsividade simplificada */
     @media (max-width: 1200px) {
-        .all-products .product-card {
-            min-width: 250px !important;
-            width: 250px !important;
+        .all-products .products-grid-extended {
+            grid-template-columns: repeat(3, 1fr) !important;
         }
     }
 
     @media (max-width: 768px) {
-        .all-products .product-card {
-            min-width: 200px !important;
-            width: 200px !important;
+        .all-products .products-grid-extended {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .all-products .products-grid-extended {
+            grid-template-columns: 1fr !important;
         }
     }
 
@@ -387,13 +429,6 @@ $recentProducts = getRecentProducts(5);
             height: 220px !important;
         }
 
-    }
-
-    @media (max-width: 480px) {
-        .all-products .product-card {
-            min-width: 180px !important;
-            width: 180px !important;
-        }
     }
 
     /* Ocultar controles de carousel removidos */
@@ -633,6 +668,54 @@ $recentProducts = getRecentProducts(5);
         }
     }
     </style>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Mia Couro Legítimo",
+      "image": "https://miamianet.com.br/img/MiaCourolegitimo 1.svg",
+      "description": "Produtos artesanais em couro genuíno, feitos à mão por artesãos. Bolsas, carteiras, necessaires e acessórios em couro de alta qualidade.",
+      "url": "https://miamianet.com.br",
+      "telephone": "+55-11-99999-9999",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BR",
+        "addressLocality": "Brasil"
+      },
+      "sameAs": [
+        "https://www.instagram.com/mia.mianet"
+      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Mia Couro Legítimo",
+      "url": "https://miamianet.com.br",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://miamianet.com.br/produtos?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 </head>
 
 <body>
@@ -644,7 +727,9 @@ $recentProducts = getRecentProducts(5);
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>
@@ -776,8 +861,7 @@ $recentProducts = getRecentProducts(5);
                 <h2>Produtos</h2>
                 <a href="produtos" class="view-all">Todos os produtos</a>
             </div>
-            <div class="products-carousel">
-                <div class="products-grid-extended">
+            <div class="products-grid-extended">
                     <?php if (!empty($recentProducts)): ?>
                     <?php foreach ($recentProducts as $produto): ?>
                     <a href="/produto-unico?id=<?php echo $produto['id']; ?>"
@@ -812,7 +896,6 @@ $recentProducts = getRecentProducts(5);
                         <p>Nenhum produto encontrado.</p>
                     </div>
                     <?php endif; ?>
-                </div>
             </div>
         </div>
     </section>

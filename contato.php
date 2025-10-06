@@ -61,9 +61,33 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $site_title; ?></title>
-    <meta name="description"
-        content="Entre em contato com a Mia Couro Legítimo. WhatsApp, e-mail ou redes sociais. Estamos aqui para atendê-lo com excelência.">
+    <title>Contato - Mia Couro Legítimo | Fale Conosco</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Entre em contato com a Mia Couro Legítimo. WhatsApp, e-mail ou redes sociais. Estamos aqui para atendê-lo com excelência e tirar suas dúvidas.">
+    <meta name="keywords" content="contato mia couro, fale conosco, whatsapp, email, atendimento, suporte">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miamianet.com.br/contato">
+    <meta property="og:title" content="Contato - Mia Couro Legítimo">
+    <meta property="og:description" content="Entre em contato conosco. Estamos aqui para atendê-lo!">
+    <meta property="og:image" content="https://miamianet.com.br/img/MiaCourolegitimo 1.svg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Contato - Mia Couro Legítimo">
+    <meta name="twitter:description" content="Entre em contato conosco.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://miamianet.com.br/contato">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
+    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
+    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-global.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1105,7 +1129,9 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             <span></span>
         </div>
         <div class="logo">
-            <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            <a href="index.php" style="cursor: pointer; display: block;">
+                <img src="icon s/logotipo.svg" alt="Mia Couro Legítimo">
+            </a>
         </div>
         <nav class="nav-menu" id="navMenu">
             <div class="menu-title">Menu</div>
