@@ -1215,10 +1215,11 @@ $recentProducts = getRecentProducts(4);
 
             // Event listener para o botão hambúrguer
             menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
                 console.log('Clique no menu detectado!'); // Debug
 
-                const isActive = navMenu.classList.contains('active');
+                const isActive = menuToggle.classList.contains('active');
                 console.log('Menu está ativo:', isActive); // Debug
 
                 if (!isActive) {
@@ -1245,6 +1246,19 @@ $recentProducts = getRecentProducts(4);
 
                 } else {
                     // Fechar menu  
+                    console.log('Botão X clicado, fechando menu...'); // Debug
+                    closeMenu();
+                }
+            });
+
+            // Adicionar suporte para touch (mobile)
+            menuToggle.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const isActive = menuToggle.classList.contains('active');
+                if (isActive) {
+                    console.log('Touch no X detectado, fechando menu...'); // Debug
                     closeMenu();
                 }
             });

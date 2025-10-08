@@ -787,13 +787,13 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                         Personalização (opcional):
                     </label>
                     <input type="text" id="personalizationText" 
-                        placeholder="Digite as letras para personalizar (ex: ABC, João, etc.)"
+                        placeholder="Digite as letras para personalizar (ex: MIA)"
                         maxlength="20"
                         style="width: 100%; padding: 14px 16px; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 16px; font-family: 'Poppins', sans-serif; transition: border-color 0.3s ease;"
                         onfocus="this.style.borderColor='#520100'" 
                         onblur="this.style.borderColor='#E5E7EB'">
                     <small style="color: #6B7280; font-size: 14px; margin-top: 8px; display: block;">
-                        Máximo 20 caracteres. Deixe em branco se não quiser personalizar.
+                        Máximo 3 caracteres. Deixe em branco se não quiser personalizar.
                     </small>
                 </div>
 
