@@ -780,6 +780,23 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                     </div>
                 <?php endif; ?>
 
+                <!-- Campo de Personalização -->
+                <div class="personalization-field" style="margin-bottom: 32px;">
+                    <label for="personalizationText"
+                        style="color: #262523; font-size: 18px; font-weight: 500; display: block; margin-bottom: 12px;">
+                        Personalização (opcional):
+                    </label>
+                    <input type="text" id="personalizationText" 
+                        placeholder="Digite as letras para personalizar (ex: ABC, João, etc.)"
+                        maxlength="20"
+                        style="width: 100%; padding: 14px 16px; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 16px; font-family: 'Poppins', sans-serif; transition: border-color 0.3s ease;"
+                        onfocus="this.style.borderColor='#520100'" 
+                        onblur="this.style.borderColor='#E5E7EB'">
+                    <small style="color: #6B7280; font-size: 14px; margin-top: 8px; display: block;">
+                        Máximo 20 caracteres. Deixe em branco se não quiser personalizar.
+                    </small>
+                </div>
+
                 <button class="whatsapp-btn"
                     style="width: 100%; background: #25D366; color: white; border: none; padding: 16px 24px; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;"
                     onclick="sendToWhatsApp()">
@@ -1005,11 +1022,18 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
 
             const colorElement = document.querySelector('.color-option.selected');
             const sizeElement = document.querySelector('.size-option.selected');
+            const personalizationInput = document.getElementById('personalizationText');
 
             const color = colorElement ? colorElement.getAttribute('data-color') : 'padrão';
             const size = sizeElement ? sizeElement.getAttribute('data-size') : 'único';
+            const personalization = personalizationInput ? personalizationInput.value.trim() : '';
 
-            const message = `Olá! Tenho interesse no(a) ${productName} por ${price}. Cor: ${color}, Tamanho: ${size}.`;
+            let message = `Olá! Tenho interesse no(a) ${productName} por ${price}. Cor: ${color}, Tamanho: ${size}.`;
+            
+            if (personalization) {
+                message += ` Personalização: ${personalization}.`;
+            }
+
             const whatsappUrl = `https://wa.me/554197338289?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }

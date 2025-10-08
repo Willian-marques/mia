@@ -2582,7 +2582,7 @@ if ($logged_in) {
                                             <td><?php
                                             $categoryNames = [
                                                 'bolsas' => 'Bolsas',
-                                                'carteiras' => 'Carteiras',
+                                                'carteiras' => 'Dia a Dia',
                                                 'cases-capas' => 'Cases & Capas',
                                                 'escritorio' => 'Escritório',
                                                 'viagem' => 'Viagem',
