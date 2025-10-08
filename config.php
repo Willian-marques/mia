@@ -7,7 +7,7 @@ define('SITE_DESCRIPTION', 'Produtos artesanais em couro genuíno, feitos à mã
 
 // Detectar se está hospedado ou local
 $is_hosted = !in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']);
-$base_url = $is_hosted ? 'https://miajanet.com.br/' : 'http://localhost/VOUEXPLODIR/';
+$base_url = $is_hosted ? 'https://miamianet.com.br/' : 'http://localhost/mia/';
 
 define('SITE_URL', $base_url);
 define('ADMIN_URL', $base_url . 'admin.php');

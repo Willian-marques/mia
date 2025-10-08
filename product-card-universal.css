@@ -442,6 +442,25 @@ div.product-card {
     background: #fcf8f1 !important;
 }
 
+/* Remove qualquer pseudo-elemento que possa aparecer */
+.product-card::before,
+.product-card::after,
+.product-card *::before,
+.product-card *::after,
+.featured-products .product-card::before,
+.featured-products .product-card::after,
+.featured-products .product-card *::before,
+.featured-products .product-card *::after,
+.all-products .product-card::before,
+.all-products .product-card::after,
+.all-products .product-card *::before,
+.all-products .product-card *::after {
+    display: none !important;
+    content: '' !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
 /* LINKS DOS PRODUTOS */
 a .product-card,
 a.product-card,

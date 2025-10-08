@@ -380,19 +380,6 @@ $categoriaInicial = isset($_GET['categoria']) ? $_GET['categoria'] : null;
                                     <div class="product-description-container">
                                         <p><?php echo htmlspecialchars(substr($produto['description'], 0, 50) . '...'); ?></p>
                                     </div>
-                                    <div class="product-category-container">
-                                        <div class="product-category"><?php
-                                        $categoryNames = [
-                                            'bolsas' => 'Bolsas',
-                                            'carteiras' => 'Carteiras',
-                                            'cases-capas' => 'Cases & Capas',
-                                            'escritorio' => 'Escritório',
-                                            'viagem' => 'Viagem',
-                                            'acessorios' => 'Acessórios'
-                                        ];
-                                        echo htmlspecialchars($categoryNames[$produto['category']] ?? ucfirst($produto['category']));
-                                        ?></div>
-                                    </div>
                                     <div class="product-price-container">
                                         <div class="price-catalog">
                                             <?php if (!empty($produto['oldPrice'])): ?>
