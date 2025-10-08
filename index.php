@@ -408,30 +408,125 @@ $recentProducts = getRecentProducts(4);
     @media (max-width: 768px) {
         .all-products .products-grid-extended {
             grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+            padding: 20px 15px !important;
         }
         
         .featured-products .products-grid {
             grid-template-columns: repeat(2, 1fr) !important;
             gap: 20px !important;
+            padding: 0 15px !important;
         }
 
         .featured-products .product-card {
-            height: 400px !important;
+            height: 420px !important;
+            max-width: 100% !important;
         }
 
         .featured-products .product-image {
+            height: 240px !important;
+        }
+
+        .featured-products .product-info h3 {
+            font-size: 18px !important;
+        }
+
+        .featured-products .product-info p {
+            font-size: 15px !important;
+        }
+
+        .all-products .product-card {
+            height: auto !important;
+            min-height: 380px !important;
+        }
+
+        .all-products .product-image {
             height: 220px !important;
+        }
+
+        .all-products .product-info h3 {
+            font-size: 17px !important;
+        }
+
+        .all-products .product-info p {
+            font-size: 14px !important;
         }
     }
 
     @media (max-width: 480px) {
         .all-products .products-grid-extended {
             grid-template-columns: 1fr !important;
+            padding: 20px 15px !important;
+            gap: 25px !important;
         }
         
         .featured-products .products-grid {
             grid-template-columns: 1fr !important;
-            gap: 20px !important;
+            gap: 25px !important;
+            padding: 0 15px !important;
+        }
+
+        .featured-products .product-card {
+            height: 480px !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+        }
+
+        .featured-products .product-image {
+            height: 280px !important;
+        }
+
+        .featured-products .product-info {
+            padding: 20px 15px !important;
+        }
+
+        .featured-products .product-info h3 {
+            font-size: 20px !important;
+            height: auto !important;
+            min-height: 50px !important;
+        }
+
+        .featured-products .product-info p {
+            font-size: 16px !important;
+            height: auto !important;
+            min-height: 45px !important;
+        }
+
+        .featured-products .price {
+            margin-top: 15px !important;
+        }
+
+        .featured-products .old-price,
+        .featured-products .new-price,
+        .featured-products .current-price {
+            font-size: 20px !important;
+        }
+
+        .all-products .product-card {
+            height: auto !important;
+            min-height: 420px !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+        }
+
+        .all-products .product-image {
+            height: 260px !important;
+        }
+
+        .all-products .product-info {
+            padding: 18px 15px !important;
+        }
+
+        .all-products .product-info h3 {
+            font-size: 19px !important;
+        }
+
+        .all-products .product-info p {
+            font-size: 15px !important;
+        }
+
+        .all-products .price {
+            font-size: 18px !important;
         }
     }
 
@@ -1087,6 +1182,37 @@ $recentProducts = getRecentProducts(4);
             // Estado inicial do menu
             navMenu.style.display = 'none';
 
+            // Criar backdrop
+            let backdrop = document.createElement('div');
+            backdrop.id = 'menu-backdrop';
+            backdrop.style.cssText = `
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(3px);
+                z-index: 999;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            `;
+            document.body.appendChild(backdrop);
+
+            // Função para fechar o menu
+            function closeMenu() {
+                console.log('Fechando menu...'); // Debug
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                backdrop.style.opacity = '0';
+                
+                setTimeout(() => {
+                    navMenu.style.display = 'none';
+                    backdrop.style.display = 'none';
+                }, 400);
+            }
+
             // Event listener para o botão hambúrguer
             menuToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -1099,10 +1225,12 @@ $recentProducts = getRecentProducts(4);
                     // Abrir menu
                     console.log('Abrindo menu...'); // Debug
                     navMenu.style.display = 'flex';
+                    backdrop.style.display = 'block';
 
                     setTimeout(() => {
                         menuToggle.classList.add('active');
                         navMenu.classList.add('active');
+                        backdrop.style.opacity = '1';
 
                         // Forçar visibilidade dos elementos internos
                         const menuTitle = navMenu.querySelector('.menu-title');
@@ -1117,14 +1245,14 @@ $recentProducts = getRecentProducts(4);
 
                 } else {
                     // Fechar menu  
-                    console.log('Fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
+                    closeMenu();
                 }
+            });
+
+            // Fechar menu ao clicar no backdrop
+            backdrop.addEventListener('click', function() {
+                console.log('Clique no backdrop, fechando menu...'); // Debug
+                closeMenu();
             });
 
             // Fechar menu ao clicar nos links
@@ -1132,24 +1260,24 @@ $recentProducts = getRecentProducts(4);
             navLinks.forEach(link => {
                 link.addEventListener('click', function() {
                     console.log('Link clicado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
+                    closeMenu();
                 });
             });
 
             // Fechar menu ao clicar fora
             document.addEventListener('click', function(e) {
-                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && !backdrop.contains(e.target) && navMenu.classList
                     .contains('active')) {
                     console.log('Clique fora detectado, fechando menu...'); // Debug
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    setTimeout(() => {
-                        navMenu.style.display = 'none';
-                    }, 400);
+                    closeMenu();
+                }
+            });
+
+            // Fechar menu com tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    console.log('ESC pressionado, fechando menu...'); // Debug
+                    closeMenu();
                 }
             });
 
