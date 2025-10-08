@@ -6,6 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Estamos em manutenção</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="alternate icon" type="image/png" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
+    
     <style>
         body {
             background: #f2f2f2;

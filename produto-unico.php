@@ -71,9 +71,9 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
     <link rel="canonical" href="https://miamianet.com.br/produto-unico?id=<?php echo $product['id']; ?>">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
-    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
-    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="alternate icon" type="image/png" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
     
     <link rel="stylesheet" href="styles.css?v=20250924">
     <link rel="stylesheet" href="produto-premium-styles.css?v=20250924">

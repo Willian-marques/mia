@@ -100,9 +100,9 @@ $recentProducts = getRecentProducts(4);
     <link rel="canonical" href="https://miamianet.com.br/">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
-    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
-    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="alternate icon" type="image/png" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
     
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="hero-styles.css?v=<?php echo time(); ?>">
@@ -118,6 +118,28 @@ $recentProducts = getRecentProducts(4);
         left: 0 !important;
         right: 0 !important;
         z-index: 1000 !important;
+    }
+    
+    /* Garantir que o menu toggle seja clicável em mobile */
+    .menu-toggle {
+        position: relative !important;
+        z-index: 1100 !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    /* Menu mobile */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: flex !important;
+            pointer-events: auto !important;
+        }
+        
+        .nav-menu {
+            position: fixed !important;
+            z-index: 1050 !important;
+        }
     }
 
     /* Container principal com padding para header fixo */
@@ -1168,7 +1190,7 @@ $recentProducts = getRecentProducts(4);
     </footer>
 
     <script>
-    // Menu suave - Versão simplificada e funcional
+    // Menu suave - Versão otimizada para mobile
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Script carregado!'); // Debug
 
@@ -1206,68 +1228,72 @@ $recentProducts = getRecentProducts(4);
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 backdrop.style.opacity = '0';
+                document.body.style.overflow = '';
                 
                 setTimeout(() => {
                     navMenu.style.display = 'none';
                     backdrop.style.display = 'none';
                 }, 400);
             }
+            
+            // Função para abrir o menu
+            function openMenu() {
+                console.log('Abrindo menu...'); // Debug
+                navMenu.style.display = 'flex';
+                backdrop.style.display = 'block';
+                document.body.style.overflow = 'hidden';
 
-            // Event listener para o botão hambúrguer
-            menuToggle.addEventListener('click', function(e) {
+                setTimeout(() => {
+                    menuToggle.classList.add('active');
+                    navMenu.classList.add('active');
+                    backdrop.style.opacity = '1';
+
+                    // Forçar visibilidade dos elementos internos
+                    const menuTitle = navMenu.querySelector('.menu-title');
+                    const menuLinks = navMenu.querySelectorAll('a');
+
+                    if (menuTitle) menuTitle.style.opacity = '1';
+                    menuLinks.forEach(link => {
+                        link.style.opacity = '1';
+                        link.style.visibility = 'visible';
+                    });
+                }, 10);
+            }
+
+            // Event listener principal - suporta click e touch
+            function handleMenuToggle(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Clique no menu detectado!'); // Debug
+                console.log('Interação no menu detectada!'); // Debug
 
                 const isActive = menuToggle.classList.contains('active');
                 console.log('Menu está ativo:', isActive); // Debug
 
                 if (!isActive) {
-                    // Abrir menu
-                    console.log('Abrindo menu...'); // Debug
-                    navMenu.style.display = 'flex';
-                    backdrop.style.display = 'block';
-
-                    setTimeout(() => {
-                        menuToggle.classList.add('active');
-                        navMenu.classList.add('active');
-                        backdrop.style.opacity = '1';
-
-                        // Forçar visibilidade dos elementos internos
-                        const menuTitle = navMenu.querySelector('.menu-title');
-                        const menuLinks = navMenu.querySelectorAll('a');
-
-                        if (menuTitle) menuTitle.style.opacity = '1';
-                        menuLinks.forEach(link => {
-                            link.style.opacity = '1';
-                            link.style.visibility = 'visible';
-                        });
-                    }, 10);
-
+                    openMenu();
                 } else {
-                    // Fechar menu  
-                    console.log('Botão X clicado, fechando menu...'); // Debug
                     closeMenu();
                 }
-            });
+            }
 
-            // Adicionar suporte para touch (mobile)
-            menuToggle.addEventListener('touchend', function(e) {
+            // Adicionar event listeners
+            menuToggle.addEventListener('click', handleMenuToggle);
+            menuToggle.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                e.stopPropagation();
-                
-                const isActive = menuToggle.classList.contains('active');
-                if (isActive) {
-                    console.log('Touch no X detectado, fechando menu...'); // Debug
-                    closeMenu();
-                }
-            });
+                handleMenuToggle(e);
+            }, { passive: false });
 
             // Fechar menu ao clicar no backdrop
             backdrop.addEventListener('click', function() {
                 console.log('Clique no backdrop, fechando menu...'); // Debug
                 closeMenu();
             });
+            
+            backdrop.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                console.log('Touch no backdrop, fechando menu...'); // Debug
+                closeMenu();
+            }, { passive: false });
 
             // Fechar menu ao clicar nos links
             const navLinks = navMenu.querySelectorAll('a');
@@ -1280,8 +1306,7 @@ $recentProducts = getRecentProducts(4);
 
             // Fechar menu ao clicar fora
             document.addEventListener('click', function(e) {
-                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && !backdrop.contains(e.target) && navMenu.classList
-                    .contains('active')) {
+                if (!menuToggle.contains(e.target) && !navMenu.contains(e.target) && !backdrop.contains(e.target) && navMenu.classList.contains('active')) {
                     console.log('Clique fora detectado, fechando menu...'); // Debug
                     closeMenu();
                 }

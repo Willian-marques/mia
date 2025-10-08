@@ -24,9 +24,9 @@ $site_title = "Mensagem Enviada - Mia Couro Legítimo";
     <title><?php echo $site_title; ?></title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="icon s/logotipo.svg">
-    <link rel="alternate icon" type="image/png" href="icon s/logotipo.svg">
-    <link rel="apple-touch-icon" href="icon s/logotipo.svg">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="alternate icon" type="image/png" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
     
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-global.css">
