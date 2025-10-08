@@ -3,7 +3,7 @@
         "id": 3,
         "slug": "carteira-madrid",
         "title": "Carteira Madrid",
-        "category": "viagem",
+        "category": "carteiras",
         "price": 332,
         "oldPrice": null,
         "discount": null,
@@ -29,13 +29,13 @@
         "isFeatured": false,
         "isBestseller": false,
         "created_at": "2025-10-05 17:46:33",
-        "updated_at": "2025-10-06 15:36:30"
+        "updated_at": "2025-10-08 04:27:43"
     },
     "5": {
         "id": 5,
         "slug": "porta-carto",
         "title": "Porta cartão",
-        "category": "carteiras",
+        "category": "viagem",
         "price": 99,
         "oldPrice": null,
         "discount": null,
@@ -99,7 +99,7 @@
         "isFeatured": false,
         "isBestseller": false,
         "created_at": "2025-10-05 17:48:29",
-        "updated_at": "2025-10-06 15:36:46",
+        "updated_at": "2025-10-08 04:27:21",
         "colorImages": {
             "preto": [
                 "uploads\/1759680266_0_1.JPG",
@@ -138,7 +138,7 @@
         "slug": "necessaire-cristal",
         "title": "Necessaire cristal",
         "category": "carteiras",
-        "price": 80,
+        "price": 180,
         "oldPrice": null,
         "discount": null,
         "images": [
@@ -184,7 +184,7 @@
         "isFeatured": false,
         "isBestseller": false,
         "created_at": "2025-10-05 17:49:31",
-        "updated_at": "2025-10-06 15:37:03",
+        "updated_at": "2025-10-08 05:07:03",
         "colorImages": {
             "preto": [
                 "uploads\/1759680154_0_IMG_7114_VSCO.jpg",
@@ -393,14 +393,14 @@
             "Único"
         ],
         "description": "Conjunto com três nécessaires em diferentes tamanhos(P, M e G), confeccionadas em couro. Ideais para organizar objetos pessoais de forma prática, seja em viagens ou no dia a dia.",
-        "specifications": "Tamanho P: \r\nAltura: 15cm | Largura: 19cm | Profundidade: 5cm \r\nTamanho M:\r\nAltura: 17cm | Largura: 23cm | Profundidade: 7cm\r\nTamanho G:\r\nAltura: 19cm | Largura: 27cm  ZProfundidade: 9cm",
+        "specifications": "Tamanho P: \r\nAltura: 15cm | Largura: 19cm | Profundidade: 5cm \r\nTamanho M:\r\nAltura: 17cm | Largura: 23cm | Profundidade: 7cm\r\nTamanho G:\r\nAltura: 19cm | Largura: 27cm | Profundidade: 9cm",
         "status": "ativo",
         "stock": 1,
         "sales": 0,
         "isFeatured": false,
         "isBestseller": false,
         "created_at": "2025-10-06 15:35:49",
-        "updated_at": "2025-10-06 15:41:20",
+        "updated_at": "2025-10-08 05:06:29",
         "colorImages": {
             "preto": [
                 "uploads\/1759757930_0_1.JPG",
@@ -415,6 +415,137 @@
                 "uploads\/1759758056_0_3.JPG",
                 "uploads\/1759758067_0_4.JPG",
                 "uploads\/1759758080_0_5.JPG"
+            ]
+        }
+    },
+    "12": {
+        "id": 12,
+        "slug": "porta-vinho-duplo",
+        "title": "Porta Vinho Duplo",
+        "category": "carteiras",
+        "price": 332,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759892385_0_1.JPG",
+            "uploads\/1759892397_0_2.JPG",
+            "uploads\/1759892406_0_3.JPG",
+            "uploads\/1759892423_0_1.JPG",
+            "uploads\/1759892433_0_2.JPG",
+            "uploads\/1759892443_0_3.JPG"
+        ],
+        "colors": [
+            {
+                "name": "preto",
+                "color": "#000000",
+                "title": "Preto"
+            },
+            {
+                "name": "caramelo",
+                "color": "#D2691E",
+                "title": "Caramelo"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Porta-vinho em couro com capacidade para duas garrafas. Ideal para transportar vinhos com segurança em encontros, viagens ou como opção de presente.",
+        "specifications": "Altura: 36cm | Largura: 17,5cm | Profundidade: 9cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": false,
+        "isBestseller": false,
+        "created_at": "2025-10-08 04:59:45",
+        "updated_at": "2025-10-08 05:00:43",
+        "colorImages": {
+            "preto": [
+                "uploads\/1759892385_0_1.JPG",
+                "uploads\/1759892397_0_2.JPG",
+                "uploads\/1759892406_0_3.JPG"
+            ],
+            "caramelo": [
+                "uploads\/1759892423_0_1.JPG",
+                "uploads\/1759892433_0_2.JPG",
+                "uploads\/1759892443_0_3.JPG"
+            ]
+        }
+    },
+    "13": {
+        "id": 13,
+        "slug": "bolsa-zephira",
+        "title": "Bolsa Zephira",
+        "category": "bolsas",
+        "price": 389,
+        "oldPrice": null,
+        "discount": null,
+        "images": [
+            "uploads\/1759892546_0_1.JPG",
+            "uploads\/1759892612_0_2.JPG",
+            "uploads\/1759892624_0_3.JPG",
+            "uploads\/1759892635_0_4.JPG",
+            "uploads\/1759892649_0_5.JPG",
+            "uploads\/1759892672_0_1.JPG",
+            "uploads\/1759892682_0_2.JPG",
+            "uploads\/1759892693_0_3.JPG",
+            "uploads\/1759892704_0_4.JPG",
+            "uploads\/1759892715_0_5.JPG",
+            "uploads\/1759892728_0_1.JPG",
+            "uploads\/1759892737_0_2.JPG",
+            "uploads\/1759892746_0_3.JPG",
+            "uploads\/1759892756_0_4.JPG",
+            "uploads\/1759892769_0_5.JPG"
+        ],
+        "colors": [
+            {
+                "name": "grafite",
+                "color": "#4A5568",
+                "title": "Grafite"
+            },
+            {
+                "name": "champanhe",
+                "color": "#F7E7CE",
+                "title": "Champanhe"
+            },
+            {
+                "name": "pitaya",
+                "color": "#E91E63",
+                "title": "Pitaya"
+            }
+        ],
+        "sizes": [
+            "Único"
+        ],
+        "description": "Bolsa inteiramente em couro legítimo, personalizada com suas iniciais e acompanhada de alça regulável, adaptando-se a diferentes ocasiões. Seu design atemporal faz dela uma peça versátil, que transita com elegância do dia a dia às produções da noite.",
+        "specifications": "Altura: 13|Largura: 23cm|Profundidade: 6cm|Tamanho da alça: 60cm a 120cm",
+        "status": "ativo",
+        "stock": 1,
+        "sales": 0,
+        "isFeatured": true,
+        "isBestseller": false,
+        "created_at": "2025-10-08 05:02:26",
+        "updated_at": "2025-10-08 05:06:09",
+        "colorImages": {
+            "grafite": [
+                "uploads\/1759892546_0_1.JPG",
+                "uploads\/1759892612_0_2.JPG",
+                "uploads\/1759892624_0_3.JPG",
+                "uploads\/1759892635_0_4.JPG",
+                "uploads\/1759892649_0_5.JPG"
+            ],
+            "champanhe": [
+                "uploads\/1759892672_0_1.JPG",
+                "uploads\/1759892682_0_2.JPG",
+                "uploads\/1759892693_0_3.JPG",
+                "uploads\/1759892704_0_4.JPG",
+                "uploads\/1759892715_0_5.JPG"
+            ],
+            "pitaya": [
+                "uploads\/1759892728_0_1.JPG",
+                "uploads\/1759892737_0_2.JPG",
+                "uploads\/1759892746_0_3.JPG",
+                "uploads\/1759892756_0_4.JPG",
+                "uploads\/1759892769_0_5.JPG"
             ]
         }
     }
