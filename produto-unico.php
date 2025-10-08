@@ -283,14 +283,24 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
                 gap: 20px !important;
             }
 
+            .product-images {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
             .main-image {
                 height: 300px;
                 border-radius: 12px;
                 background: white;
+                width: 100% !important;
+                margin: 0 !important;
             }
 
             .main-image img {
-                object-fit: contain;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
             }
 
             .thumbnail {
@@ -300,7 +310,9 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             }
 
             .thumbnail img {
-                object-fit: contain;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
             }
 
             .thumbnail-images {
@@ -675,7 +687,7 @@ $produtosRelacionados = array_slice($produtosRelacionados, 0, 4);
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
+            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
         </nav>
     </header>
 

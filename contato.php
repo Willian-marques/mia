@@ -1139,7 +1139,7 @@ $site_title = getPageTitle('contato', 'Fale Conosco');
             <a href="produtos">Produtos</a>
             <a href="sobre">Sobre nós</a>
             <a href="contato" class="active">Contato</a>
-            <a href="produtos?filter=desconto" class="sale-link">Desconto</a>
+            <a href="produtos?filter=desconto" class="sale-link">Sale</a>
         </nav>
     </header>
 

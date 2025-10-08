@@ -105,6 +105,7 @@ $recentProducts = getRecentProducts(4);
     <link rel="apple-touch-icon" href="icon s/logotipo.svg">
     
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="hero-styles.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="responsive-global.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,6 +165,13 @@ $recentProducts = getRecentProducts(4);
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
+        background: linear-gradient(135deg, rgba(82, 1, 0, 0.3) 0%, rgba(82, 1, 0, 0.1) 100%),
+            url('img/hero-new.JPG') center/cover no-repeat !important;
+        background-size: cover !important;
+        background-position: center !important;
+        width: 100% !important;
+        height: 100vh !important;
+        min-height: 600px !important;
     }
 
     /* Ajustar layout do hero para colocar botão embaixo */
@@ -219,6 +227,7 @@ $recentProducts = getRecentProducts(4);
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 30px !important;
         justify-content: center !important;
+        justify-items: center !important;
         align-items: stretch !important;
         max-width: 1300px !important;
         margin: 0 auto !important;
@@ -317,6 +326,8 @@ $recentProducts = getRecentProducts(4);
         padding: 20px 0 !important;
         max-width: 1200px !important;
         margin: 0 auto !important;
+        justify-content: center !important;
+        justify-items: center !important;
     }
 
     .all-products .product-card {
@@ -387,37 +398,20 @@ $recentProducts = getRecentProducts(4);
         .all-products .products-grid-extended {
             grid-template-columns: repeat(3, 1fr) !important;
         }
-    }
-
-    @media (max-width: 768px) {
-        .all-products .products-grid-extended {
-            grid-template-columns: repeat(2, 1fr) !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .all-products .products-grid-extended {
-            grid-template-columns: 1fr !important;
-        }
-    }
-
-    @media (max-width: 1200px) {
+        
         .featured-products .products-grid {
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 20px !important;
         }
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 768px) {
+        .all-products .products-grid-extended {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
         .featured-products .products-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 20px !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .featured-products .products-grid {
-            grid-template-columns: 1fr !important;
             gap: 20px !important;
         }
 
@@ -428,7 +422,17 @@ $recentProducts = getRecentProducts(4);
         .featured-products .product-image {
             height: 220px !important;
         }
+    }
 
+    @media (max-width: 480px) {
+        .all-products .products-grid-extended {
+            grid-template-columns: 1fr !important;
+        }
+        
+        .featured-products .products-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+        }
     }
 
     /* Ocultar controles de carousel removidos */
@@ -835,11 +839,11 @@ $recentProducts = getRecentProducts(4);
         <div class="container">
             <div class="categories-grid">
                 <a href="produtos?filter=desconto" class="category-item">
-                    <img src="img/Nece_Marrom/nece_1.jpg" alt="Sale - Produtos com Sale">
+                    <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Sale - Produtos com Sale">
                     <h3>SALE</h3>
                 </a>
                 <a href="produtos?categoria=viagem" class="category-item">
-                    <img src="img/Passaporte_Marrom/passaporte_1.JPG" alt="Viagem - Acessórios para Viajar">
+                    <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Viagem - Acessórios para Viajar">
                     <h3>Viagem</h3>
                 </a>
                 <a href="produtos?categoria=bolsas" class="category-item">
@@ -847,7 +851,7 @@ $recentProducts = getRecentProducts(4);
                     <h3>Bolsa</h3>
                 </a>
                 <a href="produtos?categoria=carteiras" class="category-item">
-                    <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Produtos para o Dia a Dia">
+                    <img src="img/Nece_Preta/nece_1.jpg" alt="Produtos para o Dia a Dia">
                     <h3>Dia a dia</h3>
                 </a>
             </div>

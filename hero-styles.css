@@ -5,9 +5,9 @@
     min-height: 600px;
     max-height: 1080px;
     background: linear-gradient(135deg, rgba(82, 1, 0, 0.3) 0%, rgba(82, 1, 0, 0.1) 100%),
-        url('img/fundohero.png') center/cover no-repeat;
-    background-size: cover;
-    background-position: center;
+        url('img/hero-new.JPG') center/cover no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
     background-attachment: fixed;
     box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.50);
     position: relative;
