@@ -142,11 +142,18 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
 
         @media (max-width: 768px) {
             .about-hero {
-                padding: 60px 0 40px;
+                padding: 80px 20px 50px;
+                min-height: 200px;
             }
 
             .about-hero h1 {
                 font-size: 2rem;
+                line-height: 1.3;
+            }
+
+            .about-hero p {
+                font-size: 1rem;
+                line-height: 1.5;
             }
 
             .about-content {
@@ -189,16 +196,19 @@ $site_title = "Sobre Nós - MIA Couro Legítimo";
 
         @media (max-width: 480px) {
             .about-hero {
-                padding: 40px 0 30px;
+                padding: 100px 20px 50px;
+                min-height: 250px;
             }
 
             .about-hero h1 {
                 font-size: 1.5rem;
                 margin-bottom: 15px;
+                line-height: 1.3;
             }
 
             .about-hero p {
                 font-size: 0.9rem;
+                line-height: 1.5;
             }
 
             .about-content {

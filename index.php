@@ -1003,9 +1003,9 @@ $recentProducts = getRecentProducts(4);
     <section class="instagram-section">
         <div class="container">
             <h2>Siga-nos no Instagram</h2>
-            <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
-            <script src="https://elfsightcdn.com/platform.js" async></script>
-            <div class="elfsight-app-43035605-ffd1-4a99-ab47-1c3cd1217d8a" data-elfsight-app-lazy></div>
+                <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-3b2dd460-2d5f-4099-abe7-c67f2c5af34f" data-elfsight-app-lazy></div>
         </div>
     </section>
 
