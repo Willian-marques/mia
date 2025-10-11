@@ -183,7 +183,7 @@ if ($logged_in) {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
             z-index: 2;
         }
@@ -193,11 +193,11 @@ if ($logged_in) {
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            padding: 60px;
+            padding: 60px 50px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-glass);
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             position: relative;
             overflow: hidden;
         }
@@ -208,7 +208,7 @@ if ($logged_in) {
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: var(--primary);
             animation: shimmer 3s ease-in-out infinite;
         }
@@ -230,33 +230,34 @@ if ($logged_in) {
             color: var(--primary);
             margin-bottom: 50px;
             font-weight: 800;
-            font-size: 36px;
+            font-size: 32px;
             letter-spacing: -1px;
             text-shadow: 0 2px 10px rgba(82, 1, 0, 0.2);
             position: relative;
+            padding-top: 70px;
         }
 
         .login-form h1::after {
             content: '🔐';
             position: absolute;
-            top: -60px;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 48px;
+            font-size: 56px;
             filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
         }
 
         .form-group {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: var(--primary);
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
             opacity: 1;
@@ -264,7 +265,7 @@ if ($logged_in) {
 
         .form-group input {
             width: 100%;
-            padding: 18px 24px;
+            padding: 16px 20px;
             border: 2px solid var(--secondary);
             border-radius: var(--border-radius-sm);
             font-size: 16px;
@@ -292,7 +293,7 @@ if ($logged_in) {
 
         .btn {
             width: 100%;
-            padding: 20px 24px;
+            padding: 18px 24px;
             background: var(--primary);
             color: var(--white);
             border: none;
@@ -305,7 +306,7 @@ if ($logged_in) {
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .btn::before {
@@ -343,6 +344,8 @@ if ($logged_in) {
             border-radius: var(--border-radius-sm);
             border: 2px solid #f5c6cb;
             font-weight: 600;
+            font-size: 15px;
+            line-height: 1.5;
         }
 
         /* ADMIN LAYOUT */
@@ -1403,6 +1406,7 @@ if ($logged_in) {
 
             .admin-main {
                 margin-left: 0;
+                width: 100%;
             }
 
             .admin-header {
@@ -1417,14 +1421,51 @@ if ($logged_in) {
                 padding: 20px;
             }
 
+            /* LOGIN MOBILE */
+            .login-container {
+                padding: 20px 15px;
+            }
+
             .login-form {
-                padding: 30px;
-                margin: 15px;
+                padding: 40px 30px;
+                max-width: 100%;
+                border-radius: 20px;
             }
 
             .login-form h1 {
                 font-size: 28px;
                 margin-bottom: 40px;
+                padding-top: 65px;
+            }
+
+            .login-form h1::after {
+                font-size: 50px;
+                top: 0;
+            }
+
+            .form-group {
+                margin-bottom: 22px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+
+            .form-group input {
+                padding: 15px 18px;
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 16px 20px;
+                font-size: 15px;
+            }
+
+            .error {
+                font-size: 14px;
+                padding: 14px;
+                margin-bottom: 20px;
             }
 
             .stats-grid {
@@ -1664,13 +1705,50 @@ if ($logged_in) {
         }
 
         @media (max-width: 480px) {
+            /* LOGIN MOBILE PEQUENO */
+            .login-container {
+                padding: 15px 10px;
+            }
+
             .login-form {
-                padding: 25px;
-                margin: 10px;
+                padding: 35px 25px;
+                border-radius: 18px;
             }
 
             .login-form h1 {
                 font-size: 24px;
+                margin-bottom: 35px;
+                padding-top: 60px;
+            }
+
+            .login-form h1::after {
+                font-size: 45px;
+                top: 0;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .form-group input {
+                padding: 14px 16px;
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 15px 18px;
+                font-size: 14px;
+            }
+
+            .error {
+                font-size: 13px;
+                padding: 12px;
+                margin-bottom: 18px;
             }
 
             .header-title {
@@ -1843,6 +1921,52 @@ if ($logged_in) {
         }
 
         @media (max-width: 350px) {
+            /* LOGIN TELAS MUITO PEQUENAS */
+            .login-container {
+                padding: 10px 8px;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+                border-radius: 16px;
+            }
+
+            .login-form h1 {
+                font-size: 22px;
+                margin-bottom: 30px;
+                padding-top: 55px;
+            }
+
+            .login-form h1::after {
+                font-size: 40px;
+                top: 0;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group label {
+                font-size: 10px;
+                margin-bottom: 7px;
+            }
+
+            .form-group input {
+                padding: 13px 15px;
+                font-size: 15px;
+            }
+
+            .btn {
+                padding: 14px 16px;
+                font-size: 13px;
+            }
+
+            .error {
+                font-size: 12px;
+                padding: 11px;
+                margin-bottom: 16px;
+            }
+
             .highlights-section {
                 padding: 12px;
             }
@@ -3165,7 +3289,9 @@ if ($logged_in) {
                                     <div>
                                         <label style="display: block; margin-bottom: 8px; font-weight: 500;">Nome do Cliente
                                             *</label>
-                                        <input type="text" id="reviewNome" name="review_nome" required style="
+                                        <input type="text" id="reviewNome" name="review_nome" required 
+                                            oninput="updateIniciais()" 
+                                            style="
                                 width: 100%; 
                                 padding: 12px; 
                                 border: 1px solid #ddd; 
@@ -3192,100 +3318,41 @@ if ($logged_in) {
                                     </div>
                                 </div>
 
-                                <!-- Opções de Foto -->
+                                <!-- Avatar com Iniciais -->
                                 <div style="margin-bottom: 20px;">
                                     <label style="display: block; margin-bottom: 12px; font-weight: 500;">Avatar do
                                         Cliente</label>
-
-                                    <!-- Radio para escolher tipo de foto -->
-                                    <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                            <input type="radio" name="foto_tipo" value="iniciais" checked
-                                                onchange="toggleFotoOptions()">
-                                            <span>Usar iniciais do nome</span>
-                                        </label>
-                                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                            <input type="radio" name="foto_tipo" value="upload"
-                                                onchange="toggleFotoOptions()">
-                                            <span>Fazer upload de foto</span>
-                                        </label>
-                                    </div>
-
-                                    <!-- Seção para Iniciais (padrão) -->
-                                    <div id="iniciaisSection" style="
-                            background: #f8f9fa; 
-                            padding: 20px; 
-                            border-radius: 8px; 
-                            border: 1px solid #dee2e6;
-                        ">
+                                    
+                                    <input type="hidden" name="review_tipo_foto" value="iniciais">
+                                    <input type="hidden" id="corInicial" name="cor_inicial" value="#e91e63">
+                                    
+                                    <div style="
+                                        background: #f8f9fa; 
+                                        padding: 20px; 
+                                        border-radius: 8px; 
+                                        border: 1px solid #dee2e6;
+                                    ">
                                         <div style="display: flex; gap: 15px; align-items: center;">
-                                            <input type="hidden" id="corInicial" name="cor_inicial" value="#e91e63">
                                             <div>
-                                                <label
-                                                    style="display: block; margin-bottom: 5px; font-size: 14px;">Preview:</label>
+                                                <label style="display: block; margin-bottom: 5px; font-size: 14px;">Preview:</label>
                                                 <div id="previewIniciais" style="
-                                        width: 50px; 
-                                        height: 50px; 
-                                        background: #e91e63; 
-                                        border-radius: 50%; 
-                                        display: flex; 
-                                        align-items: center; 
-                                        justify-content: center; 
-                                        color: white; 
-                                        font-weight: bold; 
-                                        font-size: 18px;
-                                    ">MS</div>
+                                                    width: 50px; 
+                                                    height: 50px; 
+                                                    background: #e91e63; 
+                                                    border-radius: 50%; 
+                                                    display: flex; 
+                                                    align-items: center; 
+                                                    justify-content: center; 
+                                                    color: white; 
+                                                    font-weight: bold; 
+                                                    font-size: 18px;
+                                                ">MS</div>
                                             </div>
                                         </div>
                                         <small style="color: #666; margin-top: 10px; display: block;">
-                                            As iniciais serão geradas automaticamente a partir do nome (ex: Maria Silva =
-                                            MS)
+                                            As iniciais serão geradas automaticamente a partir do nome (ex: Maria Silva = MS)
                                         </small>
                                     </div>
-
-                                    <!-- Seção para Upload (oculta por padrão) -->
-                                    <div id="uploadSection" style="display: none;">
-                                        <div style="
-                                border: 2px dashed #ddd; 
-                                border-radius: 8px; 
-                                padding: 20px; 
-                                text-align: center; 
-                                cursor: pointer;
-                                background: white;
-                            " onclick="document.getElementById('avatarUpload').click()">
-                                            <div style="margin-bottom: 10px; font-size: 24px;"></div>
-                                            <p style="margin: 0; color: #666;">Clique para selecionar uma foto</p>
-                                            <small style="color: #999;">JPG, PNG, GIF ou WebP - máx. 2MB</small>
-                                        </div>
-
-                                        <!-- Preview da foto carregada -->
-                                        <div id="avatarPreview"
-                                            style="display: none; text-align: center; margin-top: 15px;">
-                                            <img id="previewImg" style="
-                                    width: 80px; 
-                                    height: 80px; 
-                                    border-radius: 50%; 
-                                    object-fit: cover; 
-                                    border: 3px solid #ddd;
-                                ">
-                                            <div style="margin-top: 10px;">
-                                                <button type="button" onclick="removeAvatar()" style="
-                                        background: #dc3545; 
-                                        color: white; 
-                                        border: none; 
-                                        padding: 5px 10px; 
-                                        border-radius: 4px; 
-                                        cursor: pointer; 
-                                        font-size: 12px;
-                                    ">Remover</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <input type="file" id="reviewFile" name="review_foto" accept="image/*"
-                                        onchange="previewAvatar(this)">
-                                    <input type="hidden" id="reviewFoto" name="review_foto_hidden">
-
                                 </div>
 
                                 <!-- Produto Relacionado -->
@@ -4546,60 +4613,23 @@ if ($logged_in) {
                         document.getElementById('reviewModal').style.display = 'block';
                     }
 
-                    async function saveReview() {
+                    function saveReview() {
                         const form = document.getElementById('reviewForm');
 
                         if (!form.checkValidity()) {
-                            notifications.warning('Campos Obrigatórios',
-                                'Por favor, preencha todos os campos obrigatórios.');
+                            alert('Por favor, preencha todos os campos obrigatórios.');
                             return;
                         }
 
                         const nome = document.getElementById('reviewNome').value.trim();
                         const texto = document.getElementById('reviewTexto').value.trim();
-                        const tipoFoto = document.getElementById('reviewTipoFoto').value;
 
                         if (!nome || !texto) {
-                            notifications.warning('Campos Obrigatórios', 'Nome e depoimento são obrigatórios.');
+                            alert('Nome e depoimento são obrigatórios.');
                             return;
                         }
 
-                        if (tipoFoto === 'upload') {
-                            const fileInput = document.getElementById('avatarUpload');
-
-                            if (!fileInput.files || fileInput.files.length === 0) {
-                                notifications.warning('Foto Obrigatória', 'Selecione uma foto ou escolha usar iniciais.');
-                                return;
-                            }
-
-                            try {
-                                notifications.info('Enviando...', 'Fazendo upload da foto...');
-
-                                const uploadData = new FormData();
-                                uploadData.append('action', 'upload-avatar');
-                                uploadData.append('avatar', fileInput.files[0]);
-
-                                const uploadResponse = await fetch('/admin_actions.php', {
-                                    method: 'POST',
-                                    body: uploadData
-                                });
-
-                                const uploadResult = await uploadResponse.json();
-
-                                if (!uploadResult.success) {
-                                    notifications.error('Erro no Upload', uploadResult.error);
-                                    return;
-                                }
-
-                                document.getElementById('reviewFoto').value = uploadResult.path;
-
-                            } catch (error) {
-                                notifications.error('Erro no Upload', 'Erro ao enviar a foto: ' + error.message);
-                                return;
-                            }
-                        }
-
-                        notifications.info('Salvando...', 'Salvando avaliação...');
+                        // Submeter o formulário diretamente
                         form.submit();
                     }
 
@@ -4618,26 +4648,8 @@ if ($logged_in) {
                     }
 
 
-                    function toggleFotoOptions() {
-                        const tipoFoto = document.querySelector('input[name="foto_tipo"]:checked').value;
-                        const iniciaisSection = document.getElementById('iniciaisSection');
-                        const uploadSection = document.getElementById('uploadSection');
-
-                        if (tipoFoto === 'iniciais') {
-                            iniciaisSection.style.display = 'block';
-                            uploadSection.style.display = 'none';
-                            document.getElementById('reviewTipoFoto').value = 'iniciais';
-                            updateIniciais();
-                        } else {
-                            iniciaisSection.style.display = 'none';
-                            uploadSection.style.display = 'block';
-                            document.getElementById('reviewTipoFoto').value = 'upload';
-                        }
-                    }
-
                     function updateIniciais() {
                         const nome = document.getElementById('reviewNome').value.trim();
-                        let cor = generateColorFromName(nome);
 
                         if (nome) {
                             const palavras = nome.split(' ').filter(p => p.length > 0);
@@ -4650,6 +4662,8 @@ if ($logged_in) {
                             }
 
                             const currentReviewId = document.getElementById('reviewId').value;
+                            let cor = document.getElementById('corInicial').value;
+                            
                             if (!currentReviewId) {
                                 cor = generateColorFromName(nome);
                                 document.getElementById('corInicial').value = cor;
@@ -4658,64 +4672,7 @@ if ($logged_in) {
                             const preview = document.getElementById('previewIniciais');
                             preview.textContent = iniciais;
                             preview.style.background = cor;
-
-                            document.getElementById('reviewFoto').value = JSON.stringify({
-                                tipo: 'iniciais',
-                                iniciais: iniciais,
-                                cor: cor
-                            });
                         }
-                    }
-
-                    function previewAvatar(input) {
-                        if (input.files && input.files[0]) {
-                            const file = input.files[0];
-
-                            // 🔹 Validação de tamanho
-                            if (file.size > 2 * 1024 * 1024) {
-                                notifications.warning('Arquivo Grande', 'A foto deve ter no máximo 2MB');
-                                input.value = '';
-                                return;
-                            }
-
-                            // 🔹 Validação de tipo
-                            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-                            if (!allowedTypes.includes(file.type.toLowerCase())) {
-                                notifications.warning('Formato Inválido', 'Use apenas JPG, PNG, GIF ou WebP');
-                                input.value = '';
-                                return;
-                            }
-
-                            // 🔹 Preview da imagem
-                            const reader = new FileReader();
-                            reader.onload = function (e) {
-                                const previewImg = document.getElementById('previewImg');
-                                if (previewImg) {
-                                    previewImg.src = e.target.result;
-                                    previewImg.onerror = () => previewImg.src = '/img/default-product.png';
-                                }
-
-                                const avatarPreview = document.getElementById('avatarPreview');
-                                if (avatarPreview) avatarPreview.style.display = 'block';
-
-                                // ✅ Usa o input hidden agora, não o de arquivo
-                                const hiddenInput = document.getElementById('reviewFoto');
-                                if (hiddenInput) hiddenInput.value = 'upload_pending';
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-
-
-                    function removeAvatar() {
-                        document.getElementById('avatarUpload').value = '';
-                        document.getElementById('avatarPreview').style.display = 'none';
-                        document.getElementById('reviewFoto').value = '';
-                    }
-
-                    function getRandomColor() {
-                        const colors = ['#e91e63', '#2196f3', '#9c27b0', '#ff9800', '#4caf50', '#f44336', '#607d8b', '#795548'];
-                        return colors[Math.floor(Math.random() * colors.length)];
                     }
 
                     function generateColorFromName(name) {
