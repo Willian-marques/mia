@@ -1,16 +1,5 @@
 [
     {
-        "id": "68e29a513dd1e",
-        "data_envio": "2025-10-05 18:18:25",
-        "nome": "efe",
-        "sobrenome": "efef",
-        "email": "boladinho576@gmail.com",
-        "telefone": "efefe",
-        "assunto": "orcamento",
-        "mensagem": "Socorro",
-        "status": "nova"
-    },
-    {
         "id": "68e3ca5855fa7",
         "data_envio": "2025-10-06 15:55:36",
         "nome": "Leonardo",
