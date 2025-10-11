@@ -867,9 +867,9 @@ $recentProducts = getRecentProducts(4);
         <div class="hero-content">
             <div class="hero-text-wrapper">
                 <div class="hero-text">
-                    <h1>Mianet</h1>
-                    <p>Explore nossa coleção de produtos em couro genuíno, feitos à mão por artesãos.</p>
-                    <button class="cta-button" onclick="window.location.href='produtos'">Explorar Produtos</button>
+                    <h1>Mia</h1>
+                    <p>Única, para quem também é!</p>
+                    <button class="cta-button" onclick="window.location.href='produtos'">EXPLORAR OS PRODUTOS</button>
                 </div>
             </div>
         </div>
@@ -956,7 +956,7 @@ $recentProducts = getRecentProducts(4);
         <div class="container">
             <div class="categories-grid">
                 <a href="produtos?filter=desconto" class="category-item">
-                    <img src="img/Carteira_Madrid/carteira_1.JPG" alt="Sale - Produtos com Sale">
+                    <img src="img/Nece_Preta/nece_1.jpg" alt="Sale - Produtos com Sale">
                     <h3>SALE</h3>
                 </a>
                 <a href="produtos?categoria=viagem" class="category-item">
@@ -968,7 +968,7 @@ $recentProducts = getRecentProducts(4);
                     <h3>Bolsa</h3>
                 </a>
                 <a href="produtos?categoria=carteiras" class="category-item">
-                    <img src="img/Nece_Preta/nece_1.jpg" alt="Produtos para o Dia a Dia">
+                    <img src="img/Cartao_Verde/cartao_1.JPG" alt="Produtos para o Dia a Dia">
                     <h3>Dia a dia</h3>
                 </a>
             </div>
