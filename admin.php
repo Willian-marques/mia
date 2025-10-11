@@ -575,6 +575,19 @@ if ($logged_in) {
         .reviews-section .table-header h2::before {
             content: '';
         }
+        
+        /* Garantir que o header de avaliações não fique fixo */
+        .reviews-section .table-header {
+            position: relative !important;
+            top: auto !important;
+            z-index: 1 !important;
+        }
+        
+        /* Garantir que o conteúdo da seção de avaliações seja visível */
+        .reviews-section.glass-card {
+            overflow: visible !important;
+            min-height: 200px !important;
+        }
 
         .add-btn {
             background: var(--secondary);
@@ -3021,8 +3034,8 @@ if ($logged_in) {
                     </div>
 
                     <!-- Seção Gerenciar Avaliações -->
-                    <div class="reviews-section glass-card" style="margin-top: 40px;">
-                        <div class="table-header">
+                    <div class="reviews-section glass-card" style="margin-top: 40px; overflow: visible !important; display: block !important; visibility: visible !important;">
+                        <div class="table-header" style="position: relative !important; top: auto !important;">
                             <h2>📝 Gerenciar Avaliações</h2>
                             <div style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-top: 5px;">
                                 Gerencie os depoimentos que aparecem na página inicial
@@ -3107,6 +3120,10 @@ if ($logged_in) {
                             }
 
                             file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                            
+                            // Redirecionar para evitar reenvio do formulário
+                            header('Location: admin.php?success=review_saved');
+                            exit;
                         }
 
 
@@ -3128,7 +3145,25 @@ if ($logged_in) {
                         ?>
 
                         <div
-                            style="background: var(--white); border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm); padding: 30px; margin-top: 0; border: 2px solid var(--secondary); border-top: none;">
+                            style="background: var(--white); border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm); padding: 30px; margin-top: 0; border: 2px solid var(--secondary); border-top: none; min-height: 300px; display: block !important; visibility: visible !important; opacity: 1 !important;">
+
+                            <!-- Mensagem de Sucesso -->
+                            <?php if (isset($_GET['success']) && $_GET['success'] == 'review_saved'): ?>
+                                <div style="
+                                    background: #d4edda;
+                                    color: #155724;
+                                    padding: 15px 20px;
+                                    border-radius: 8px;
+                                    margin-bottom: 20px;
+                                    border: 1px solid #c3e6cb;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 10px;
+                                ">
+                                    <span style="font-size: 20px;">✅</span>
+                                    <span style="font-weight: 500;">Avaliação salva com sucesso!</span>
+                                </div>
+                            <?php endif; ?>
 
                             <!-- Botão Adicionar -->
                             <div style="margin-bottom: 30px; text-align: right;">
@@ -3259,9 +3294,11 @@ if ($logged_in) {
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </div>
+                            <!-- FIM reviews-grid -->
                         </div>
+                        <!-- FIM div branca do conteúdo -->
                     </div>
-                </div>
+                    <!-- FIM reviews-section -->
 
                 <!-- Modal Avaliações -->
                 <div id="reviewModal" class="modal" style="display: none;">
@@ -3365,7 +3402,7 @@ if ($logged_in) {
                             border: 1px solid #ddd; 
                             border-radius: 6px;
                         ">
-                                        <option value="">Produto geral</option>
+                                        <option value="Produto geral">Produto geral</option>
                                         <?php foreach (getAllProdutos() as $produto): ?>
                                             <option value="<?php echo htmlspecialchars($produto['title']); ?>">
                                                 <?php echo htmlspecialchars($produto['title']); ?>
@@ -4567,21 +4604,39 @@ if ($logged_in) {
 
 
                     function openReviewModal() {
-                        document.getElementById('reviewModalTitle').textContent = 'Adicionar Nova Avaliação';
-                        document.getElementById('reviewForm').reset();
-                        document.getElementById('reviewId').value = '';
-                        document.getElementById('reviewAtivo').checked = true;
-                        document.getElementById('reviewEstrelas').value = '5';
+                        console.log('openReviewModal called');
+                        
+                        try {
+                            document.getElementById('reviewModalTitle').textContent = 'Adicionar Nova Avaliação';
+                            document.getElementById('reviewForm').reset();
+                            document.getElementById('reviewId').value = '';
+                            document.getElementById('reviewAtivo').checked = true;
+                            document.getElementById('reviewEstrelas').value = '5';
+                            
+                            // Resetar preview de iniciais
+                            const previewElement = document.getElementById('previewIniciais');
+                            if (previewElement) {
+                                previewElement.textContent = 'MS';
+                                previewElement.style.background = '#e91e63';
+                            }
+                            
+                            const corElement = document.getElementById('corInicial');
+                            if (corElement) {
+                                corElement.value = '#e91e63';
+                            }
 
-                        document.querySelector('input[name="foto_tipo"][value="iniciais"]').checked = true;
-                        document.getElementById('reviewTipoFoto').value = 'iniciais';
-
-                        toggleFotoOptions();
-
-                        document.getElementById('avatarUpload').value = '';
-                        document.getElementById('avatarPreview').style.display = 'none';
-
-                        document.getElementById('reviewModal').style.display = 'block';
+                            // Abrir modal
+                            const modal = document.getElementById('reviewModal');
+                            if (modal) {
+                                modal.style.display = 'block';
+                                console.log('Modal opened successfully');
+                            } else {
+                                console.error('Modal element not found!');
+                            }
+                        } catch (error) {
+                            console.error('Error opening modal:', error);
+                            alert('Erro ao abrir o formulário: ' + error.message);
+                        }
                     }
 
                     function closeReviewModal() {
@@ -4594,7 +4649,7 @@ if ($logged_in) {
 
                         const reviewItems = document.querySelectorAll('.review-item');
                         const targetReview = Array.from(reviewItems).find(item => {
-                            return item.querySelector('button[onclick*="' + reviewId + '"]');
+                            return item.querySelector('button[onclick*="editReview(' + reviewId + ')"]');
                         });
 
                         if (targetReview) {
@@ -4608,6 +4663,9 @@ if ($logged_in) {
                             document.getElementById('reviewTexto').value = avaliacao;
                             document.getElementById('reviewEstrelas').value = estrelas;
                             document.getElementById('reviewAtivo').checked = ativo;
+                            
+                            // Atualizar preview de iniciais
+                            updateIniciais();
                         }
 
                         document.getElementById('reviewModal').style.display = 'block';
@@ -4616,21 +4674,36 @@ if ($logged_in) {
                     function saveReview() {
                         const form = document.getElementById('reviewForm');
 
-                        if (!form.checkValidity()) {
-                            alert('Por favor, preencha todos os campos obrigatórios.');
-                            return;
-                        }
-
+                        // Validação básica
                         const nome = document.getElementById('reviewNome').value.trim();
                         const texto = document.getElementById('reviewTexto').value.trim();
+                        const estrelas = document.getElementById('reviewEstrelas').value;
+                        const produto = document.getElementById('reviewProduto').value;
 
-                        if (!nome || !texto) {
-                            alert('Nome e depoimento são obrigatórios.');
-                            return;
+                        if (!nome) {
+                            alert('Por favor, preencha o nome do cliente.');
+                            document.getElementById('reviewNome').focus();
+                            return false;
                         }
 
-                        // Submeter o formulário diretamente
+                        if (!texto) {
+                            alert('Por favor, preencha o texto da avaliação.');
+                            document.getElementById('reviewTexto').focus();
+                            return false;
+                        }
+
+                        if (!estrelas) {
+                            alert('Por favor, selecione a quantidade de estrelas.');
+                            return false;
+                        }
+
+                        // Produto é opcional - pode ser vazio para "Produto geral"
+                        // Removida validação obrigatória
+
+                        // Submeter o formulário
+                        console.log('Submetendo formulário de avaliação...');
                         form.submit();
+                        return true;
                     }
 
                     function deleteReview(reviewId) {
@@ -4818,6 +4891,21 @@ if ($logged_in) {
                                     }
                                 }, 1000);
                             });
+                        }
+                    });
+
+                    // Teste de diagnóstico para o modal de avaliações
+                    document.addEventListener('DOMContentLoaded', function() {
+                        console.log('=== DIAGNÓSTICO DO MODAL DE AVALIAÇÕES ===');
+                        console.log('Modal element:', document.getElementById('reviewModal'));
+                        console.log('Form element:', document.getElementById('reviewForm'));
+                        console.log('Button exists:', document.querySelector('button[onclick*="openReviewModal"]'));
+                        
+                        // Testar se a função existe
+                        if (typeof openReviewModal === 'function') {
+                            console.log('✅ Função openReviewModal está definida');
+                        } else {
+                            console.error('❌ Função openReviewModal NÃO está definida');
                         }
                     });
                 </script>
