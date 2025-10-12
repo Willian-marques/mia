@@ -10,6 +10,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+// Desabilitar cache para evitar problemas após redirect
+header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+
 $BASE = __DIR__;
 
 // caminhos ABSOLUTOS para tudo que era relativo
@@ -124,6 +129,9 @@ if ($logged_in) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Painel Administrativo - MIA</title>
     
     <!-- Favicon -->
@@ -3033,26 +3041,226 @@ if ($logged_in) {
                         </div>
                     </div>
 
-                    <!-- Seção Gerenciar Avaliações -->
-                    <div class="reviews-section glass-card" style="margin-top: 40px; overflow: visible !important; display: block !important; visibility: visible !important;">
-                        <div class="table-header" style="position: relative !important; top: auto !important;">
-                            <h2>📝 Gerenciar Avaliações</h2>
-                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-top: 5px;">
-                                Gerencie os depoimentos que aparecem na página inicial
-                            </div>
+                <!-- Modal Adicionar/Editar Produto -->
+                <div id="productModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalTitle">Adicionar Produto</h3>
+                            <span class="close" onclick="closeProductModal()">&times;</span>
                         </div>
+                        <div class="modal-body">
+                    $avaliacoes = [];
+                    if (file_exists($arquivo_avaliacoes)) {
+                        $avaliacoes = json_decode(file_get_contents($arquivo_avaliacoes), true) ?: [];
+                    }
 
-                        <?php
-                        $arquivo_avaliacoes = 'data/avaliacoes.json';
-                        $avaliacoes = [];
-                        if (file_exists($arquivo_avaliacoes)) {
-                            $conteudo = file_get_contents($arquivo_avaliacoes);
-                            $avaliacoes = json_decode($conteudo, true) ?: [];
+                    // Salvar/Editar avaliação
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_avaliacao'])) {
+                        if ($_POST['acao_avaliacao'] === 'salvar') {
+                            $id = !empty($_POST['avaliacao_id']) ? $_POST['avaliacao_id'] : (count($avaliacoes) > 0 ? max(array_keys($avaliacoes)) + 1 : 1);
+                            
+                            $nome = trim($_POST['avaliacao_nome']);
+                            $palavras = explode(' ', $nome);
+                            $iniciais = count($palavras) >= 2 
+                                ? strtoupper(substr($palavras[0], 0, 1) . substr($palavras[count($palavras)-1], 0, 1))
+                                : strtoupper(substr($palavras[0], 0, 2));
+                            
+                            $avaliacoes[$id] = [
+                                'id' => $id,
+                                'nome' => $nome,
+                                'avaliacao' => trim($_POST['avaliacao_texto']),
+                                'estrelas' => intval($_POST['avaliacao_estrelas']),
+                                'produto_relacionado' => $_POST['avaliacao_produto'],
+                                'ativo' => isset($_POST['avaliacao_ativo']),
+                                'foto' => 'iniciais',
+                                'tipo_foto' => 'iniciais',
+                                'iniciais' => $iniciais,
+                                'cor_inicial' => $_POST['avaliacao_cor'],
+                                'data_criacao' => date('Y-m-d'),
+                                'ordem' => $id
+                            ];
+                            
+                            file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                            
+                            // Reload para mostrar mudanças
+                            header('Location: admin.php?sucesso=avaliacao_salva&t=' . time() . '#avaliacoes');
+                            exit;
+                        } elseif ($_POST['acao_avaliacao'] === 'excluir') {
+                            $id = $_POST['avaliacao_id'];
+                            if (isset($avaliacoes[$id])) {
+                                unset($avaliacoes[$id]);
+                                file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                            }
+                            header('Location: admin.php?sucesso=avaliacao_excluida&t=' . time() . '#avaliacoes');
+                            exit;
                         }
+                    }
+                    
+                    // Recarregar após ação
+                    if (file_exists($arquivo_avaliacoes)) {
+                        $avaliacoes = json_decode(file_get_contents($arquivo_avaliacoes), true) ?: [];
+                    }
+                    ?>
 
-                        if (isset($_POST['action']) && $_POST['action'] == 'save_review') {
-                            $tipo_foto = $_POST['review_tipo_foto'] ?? 'iniciais';
-                            $foto_data = $_POST['review_foto'] ?? '';
+                    <div id="avaliacoes" class="glass-card" style="margin-top: 40px;">
+                        <div class="table-header">
+                            <h2>📝 Gerenciar Avaliações</h2>
+                            <p style="font-size: 14px; opacity: 0.9; margin: 5px 0 0 0;">Gerencie os depoimentos que aparecem na página inicial</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 30px; border-radius: 0 0 12px 12px;">
+                            
+                            <?php if (isset($_GET['sucesso'])): ?>
+                                <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+                                    <strong>✅ Sucesso!</strong> <?php 
+                                        echo $_GET['sucesso'] === 'avaliacao_salva' ? 'Avaliação salva com sucesso!' : 'Avaliação excluída!';
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div style="text-align: right; margin-bottom: 20px;">
+                                <button onclick="abrirModalAvaliacao()" style="background: #25D366; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;">
+                                    <i class="fas fa-plus"></i> Adicionar Avaliação
+                                </button>
+                            </div>
+                            
+                            <?php if (empty($avaliacoes)): ?>
+                                <div style="text-align: center; padding: 60px 20px; color: #999;">
+                                    <i class="fas fa-star" style="font-size: 64px; opacity: 0.3; margin-bottom: 20px;"></i>
+                                    <h3 style="color: #666; margin: 0;">Nenhuma avaliação cadastrada</h3>
+                                    <p>Clique em "Adicionar Avaliação" para criar a primeira.</p>
+                                </div>
+                            <?php else: ?>
+                                <div style="display: grid; gap: 20px;">
+                                    <?php foreach ($avaliacoes as $av): ?>
+                                        <div style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; background: #f8f9fa; <?php echo !$av['ativo'] ? 'opacity: 0.6;' : ''; ?>">
+                                            <div style="display: flex; gap: 20px;">
+                                                <!-- Avatar -->
+                                                <div style="width: 60px; height: 60px; border-radius: 50%; background: <?php echo htmlspecialchars($av['cor_inicial']); ?>; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; flex-shrink: 0;">
+                                                    <?php echo htmlspecialchars($av['iniciais']); ?>
+                                                </div>
+                                                
+                                                <!-- Conteúdo -->
+                                                <div style="flex: 1;">
+                                                    <h4 style="margin: 0 0 8px 0; color: #520100; font-size: 18px;">
+                                                        <?php echo htmlspecialchars($av['nome']); ?>
+                                                        <?php if (!$av['ativo']): ?>
+                                                            <span style="background: #dc3545; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 10px;">INATIVO</span>
+                                                        <?php endif; ?>
+                                                    </h4>
+                                                    
+                                                    <div style="margin: 8px 0;">
+                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                            <i class="fas fa-star" style="color: <?php echo $i <= $av['estrelas'] ? '#ffc107' : '#e0e0e0'; ?>; font-size: 16px;"></i>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                    
+                                                    <p style="margin: 12px 0; color: #666; font-size: 14px;">
+                                                        <strong>Produto:</strong> <?php echo htmlspecialchars($av['produto_relacionado']); ?> | 
+                                                        <strong>Data:</strong> <?php echo date('d/m/Y', strtotime($av['data_criacao'])); ?>
+                                                    </p>
+                                                    
+                                                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #520100; margin: 12px 0;">
+                                                        <em>"<?php echo htmlspecialchars($av['avaliacao']); ?>"</em>
+                                                    </div>
+                                                    
+                                                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                                        <button onclick='editarAvaliacao(<?php echo json_encode($av); ?>)' style="background: #8A4D99; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                                                            <i class="fas fa-edit"></i> Editar
+                                                        </button>
+                                                        <button onclick="excluirAvaliacao(<?php echo $av['id']; ?>)" style="background: #dc3545; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">
+                                                            <i class="fas fa-trash"></i> Excluir
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Modal Avaliação -->
+                    <div id="modalAvaliacao" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 12px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                            <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 20px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                                <h3 id="tituloModalAvaliacao" style="margin: 0; color: white; font-size: 20px;">Adicionar Avaliação</h3>
+                                <button onclick="fecharModalAvaliacao()" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">&times;</button>
+                            </div>
+                            
+                            <form method="POST" style="padding: 30px;">
+                                <input type="hidden" name="acao_avaliacao" value="salvar">
+                                <input type="hidden" name="avaliacao_id" id="avaliacaoId">
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Nome do Cliente *</label>
+                                    <input type="text" name="avaliacao_nome" id="avaliacaoNome" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;" oninput="atualizarPreviewIniciais()">
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Texto da Avaliação *</label>
+                                    <textarea name="avaliacao_texto" id="avaliacaoTexto" required rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; resize: vertical;"></textarea>
+                                </div>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Estrelas *</label>
+                                        <select name="avaliacao_estrelas" id="avaliacaoEstrelas" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                            <option value="4">⭐⭐⭐⭐ (4)</option>
+                                            <option value="3">⭐⭐⭐ (3)</option>
+                                            <option value="2">⭐⭐ (2)</option>
+                                            <option value="1">⭐ (1)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Cor do Avatar</label>
+                                        <input type="color" name="avaliacao_cor" id="avaliacaoCor" value="#e91e63" style="width: 100%; height: 44px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;" oninput="atualizarPreviewIniciais()">
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Produto Relacionado</label>
+                                    <select name="avaliacao_produto" id="avaliacaoProduto" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                                        <option value="Produto geral">Produto geral</option>
+                                        <?php foreach ($produtos as $prod): ?>
+                                            <option value="<?php echo htmlspecialchars($prod['nome']); ?>"><?php echo htmlspecialchars($prod['nome']); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                        <input type="checkbox" name="avaliacao_ativo" id="avaliacaoAtivo" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                        <span style="font-weight: 600; color: #333;">Avaliação ativa (visível no site)</span>
+                                    </label>
+                                </div>
+                                
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                    <p style="margin: 0 0 10px 0; font-weight: 600; color: #666; font-size: 13px;">Preview do Avatar:</p>
+                                    <div id="previewAvatar" style="width: 50px; height: 50px; border-radius: 50%; background: #e91e63; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">MS</div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                                    <button type="button" onclick="fecharModalAvaliacao()" style="background: #6c757d; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Cancelar</button>
+                                    <button type="submit" style="background: #520100; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Salvar Avaliação</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                <!-- Modal Adicionar/Editar Produto -->
+                <div id="productModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalTitle">Adicionar Produto</h3>
+                            <span class="close" onclick="closeProductModal()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="productForm">
+                                <input type="hidden" id="productId" name="productId">
 
                             if ($tipo_foto === 'iniciais') {
                                 $nome_partes = explode(' ', trim($_POST['review_nome']));
@@ -3119,14 +3327,14 @@ if ($logged_in) {
                                 $success_message = "Avaliação adicionada com sucesso!";
                             }
 
-                            file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-                            
-                            // Redirecionar para evitar reenvio do formulário
-                            header('Location: admin.php?success=review_saved');
-                            exit;
-                        }
-
-
+            file_put_contents($arquivo_avaliacoes, json_encode($avaliacoes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            
+            // Redirecionar para evitar reenvio do formulário
+            // Adicionar timestamp para evitar cache
+            $timestamp = time();
+            header('Location: admin.php?success=review_saved&t=' . $timestamp . '#reviews-section');
+            exit;
+        }
                         if (isset($_POST['action']) && $_POST['action'] == 'delete_review') {
                             $review_id = $_POST['review_id'];
                             if (isset($avaliacoes[$review_id])) {
@@ -3164,6 +3372,17 @@ if ($logged_in) {
                                     <span style="font-weight: 500;">Avaliação salva com sucesso!</span>
                                 </div>
                             <?php endif; ?>
+
+                            <!-- DEBUG: Mostrar quantas avaliações foram carregadas -->
+                            <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin-bottom: 20px; border-radius: 6px; font-size: 12px;">
+                                <strong>🔍 DEBUG:</strong> 
+                                <?php 
+                                echo "Total de avaliações carregadas: " . count($avaliacoes) . "<br>";
+                                echo "Array keys: " . implode(', ', array_keys($avaliacoes)) . "<br>";
+                                echo "Arquivo existe: " . (file_exists($arquivo_avaliacoes) ? 'SIM' : 'NÃO') . "<br>";
+                                echo "GET params: " . http_build_query($_GET) . "<br>";
+                                ?>
+                            </div>
 
                             <!-- Botão Adicionar -->
                             <div style="margin-bottom: 30px; text-align: right;">
@@ -3434,7 +3653,7 @@ if ($logged_in) {
                     border-radius: 6px; 
                     cursor: pointer;
                 ">Cancelar</button>
-                            <button type="button" onclick="saveReview()" style="
+                            <button type="button" id="btnSalvarAvaliacao" onclick="saveReview(event)" style="
                     background: #520100; 
                     color: white; 
                     padding: 10px 20px; 
@@ -4602,191 +4821,6 @@ if ($logged_in) {
                         });
                     });
 
-
-                    function openReviewModal() {
-                        console.log('openReviewModal called');
-                        
-                        try {
-                            document.getElementById('reviewModalTitle').textContent = 'Adicionar Nova Avaliação';
-                            document.getElementById('reviewForm').reset();
-                            document.getElementById('reviewId').value = '';
-                            document.getElementById('reviewAtivo').checked = true;
-                            document.getElementById('reviewEstrelas').value = '5';
-                            
-                            // Resetar preview de iniciais
-                            const previewElement = document.getElementById('previewIniciais');
-                            if (previewElement) {
-                                previewElement.textContent = 'MS';
-                                previewElement.style.background = '#e91e63';
-                            }
-                            
-                            const corElement = document.getElementById('corInicial');
-                            if (corElement) {
-                                corElement.value = '#e91e63';
-                            }
-
-                            // Abrir modal
-                            const modal = document.getElementById('reviewModal');
-                            if (modal) {
-                                modal.style.display = 'block';
-                                console.log('Modal opened successfully');
-                            } else {
-                                console.error('Modal element not found!');
-                            }
-                        } catch (error) {
-                            console.error('Error opening modal:', error);
-                            alert('Erro ao abrir o formulário: ' + error.message);
-                        }
-                    }
-
-                    function closeReviewModal() {
-                        document.getElementById('reviewModal').style.display = 'none';
-                    }
-
-                    function editReview(reviewId) {
-                        document.getElementById('reviewModalTitle').textContent = 'Editar Avaliação';
-                        document.getElementById('reviewId').value = reviewId;
-
-                        const reviewItems = document.querySelectorAll('.review-item');
-                        const targetReview = Array.from(reviewItems).find(item => {
-                            return item.querySelector('button[onclick*="editReview(' + reviewId + ')"]');
-                        });
-
-                        if (targetReview) {
-                            const nome = targetReview.querySelector('h4').textContent.trim().replace(/INATIVO/g, '').trim();
-                            const avaliacao = targetReview.querySelector('[style*="border-left: 4px solid"]').textContent
-                                .replace(/"/g, '').trim();
-                            const estrelas = targetReview.querySelectorAll('[style*="color: rgb(255, 193, 7)"]').length;
-                            const ativo = !targetReview.querySelector('[style*="INATIVO"]');
-
-                            document.getElementById('reviewNome').value = nome;
-                            document.getElementById('reviewTexto').value = avaliacao;
-                            document.getElementById('reviewEstrelas').value = estrelas;
-                            document.getElementById('reviewAtivo').checked = ativo;
-                            
-                            // Atualizar preview de iniciais
-                            updateIniciais();
-                        }
-
-                        document.getElementById('reviewModal').style.display = 'block';
-                    }
-
-                    function saveReview() {
-                        const form = document.getElementById('reviewForm');
-
-                        // Validação básica
-                        const nome = document.getElementById('reviewNome').value.trim();
-                        const texto = document.getElementById('reviewTexto').value.trim();
-                        const estrelas = document.getElementById('reviewEstrelas').value;
-                        const produto = document.getElementById('reviewProduto').value;
-
-                        if (!nome) {
-                            alert('Por favor, preencha o nome do cliente.');
-                            document.getElementById('reviewNome').focus();
-                            return false;
-                        }
-
-                        if (!texto) {
-                            alert('Por favor, preencha o texto da avaliação.');
-                            document.getElementById('reviewTexto').focus();
-                            return false;
-                        }
-
-                        if (!estrelas) {
-                            alert('Por favor, selecione a quantidade de estrelas.');
-                            return false;
-                        }
-
-                        // Produto é opcional - pode ser vazio para "Produto geral"
-                        // Removida validação obrigatória
-
-                        // Submeter o formulário
-                        console.log('Submetendo formulário de avaliação...');
-                        form.submit();
-                        return true;
-                    }
-
-                    function deleteReview(reviewId) {
-                        if (confirm('Tem certeza que deseja excluir esta avaliação? Esta ação não pode ser desfeita.')) {
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.innerHTML = `
-                <input type="hidden" name="action" value="delete_review">
-                <input type="hidden" name="review_id" value="${reviewId}">
-            `;
-                            document.body.appendChild(form);
-                            notifications.info('Excluindo...', 'Excluindo avaliação...');
-                            form.submit();
-                        }
-                    }
-
-
-                    function updateIniciais() {
-                        const nome = document.getElementById('reviewNome').value.trim();
-
-                        if (nome) {
-                            const palavras = nome.split(' ').filter(p => p.length > 0);
-                            let iniciais = '';
-
-                            if (palavras.length >= 2) {
-                                iniciais = (palavras[0][0] + palavras[palavras.length - 1][0]).toUpperCase();
-                            } else if (palavras.length === 1) {
-                                iniciais = palavras[0].substring(0, 2).toUpperCase();
-                            }
-
-                            const currentReviewId = document.getElementById('reviewId').value;
-                            let cor = document.getElementById('corInicial').value;
-                            
-                            if (!currentReviewId) {
-                                cor = generateColorFromName(nome);
-                                document.getElementById('corInicial').value = cor;
-                            }
-
-                            const preview = document.getElementById('previewIniciais');
-                            preview.textContent = iniciais;
-                            preview.style.background = cor;
-                        }
-                    }
-
-                    function generateColorFromName(name) {
-                        const colors = [
-                            '#e91e63',
-                            '#2196f3',
-                            '#9c27b0',
-                            '#ff9800',
-                            '#4caf50',
-                            '#f44336',
-                            '#607d8b',
-                            '#795548',
-                            '#00bcd4',
-                            '#ff5722',
-                            '#3f51b5',
-                            '#8bc34a',
-                            '#ffc107',
-                            '#e91e63',
-                            '#673ab7',
-                            '#009688'
-                        ];
-
-                        let hash = 0;
-                        for (let i = 0; i < name.length; i++) {
-                            const char = name.charCodeAt(i);
-                            hash = ((hash << 5) - hash) + char;
-                            hash = hash & hash;
-                        }
-
-                        const index = Math.abs(hash) % colors.length;
-                        return colors[index];
-                    }
-
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const nomeInput = document.getElementById('reviewNome');
-                        if (nomeInput) {
-                            nomeInput.addEventListener('input', updateIniciais);
-                        }
-
-                    });
-
                     function toggleSidebar() {
                         const sidebar = document.querySelector('.admin-sidebar');
                         const overlay = document.querySelector('.sidebar-overlay');
@@ -4891,21 +4925,6 @@ if ($logged_in) {
                                     }
                                 }, 1000);
                             });
-                        }
-                    });
-
-                    // Teste de diagnóstico para o modal de avaliações
-                    document.addEventListener('DOMContentLoaded', function() {
-                        console.log('=== DIAGNÓSTICO DO MODAL DE AVALIAÇÕES ===');
-                        console.log('Modal element:', document.getElementById('reviewModal'));
-                        console.log('Form element:', document.getElementById('reviewForm'));
-                        console.log('Button exists:', document.querySelector('button[onclick*="openReviewModal"]'));
-                        
-                        // Testar se a função existe
-                        if (typeof openReviewModal === 'function') {
-                            console.log('✅ Função openReviewModal está definida');
-                        } else {
-                            console.error('❌ Função openReviewModal NÃO está definida');
                         }
                     });
                 </script>
