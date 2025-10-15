@@ -172,6 +172,12 @@ if ($logged_in) {
         html {
             scroll-behavior: smooth;
         }
+        
+        /* Prevenir scroll ao clicar em botões */
+        button:focus,
+        button:active {
+            outline: none;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -610,6 +616,9 @@ if ($logged_in) {
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: relative;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
         .add-btn::before {
@@ -621,6 +630,7 @@ if ($logged_in) {
             background: var(--primary);
             text-decoration: none;
             color: var(--white);
+            transform: translateY(-2px);
         }
 
         table {
@@ -2702,7 +2712,7 @@ if ($logged_in) {
                             <div style="display: flex; gap: 15px; align-items: center;">
                                 <input type="text" id="searchProducts" class="search-bar" placeholder="Buscar produtos..."
                                     onkeyup="filterProducts()">
-                                <a href="#" class="add-btn" onclick="openAddProductModal()">+ Adicionar Produto</a>
+                                <button type="button" class="add-btn" onclick="openAddProductModal(event)">+ Adicionar Produto</button>
                             </div>
                         </div>
 
@@ -2758,9 +2768,9 @@ if ($logged_in) {
                                                 <div class="action-btns">
                                                     <a href="/produto-unico.php?id=<?php echo $produto['id']; ?>"
                                                         target="_blank" class="view-btn" title="Visualizar produto">Ver</a>
-                                                    <a href="#" class="edit-btn"
-                                                        onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
-                                                    <button class="delete-btn"
+                                                    <button type="button" class="edit-btn"
+                                                        onclick="editProduct(<?php echo $produto['id']; ?>, event)">Editar</button>
+                                                    <button type="button" class="delete-btn"
                                                         onclick="deleteProduct(<?php echo $produto['id']; ?>)">Excluir</button>
                                                 </div>
                                             </td>
@@ -4107,7 +4117,13 @@ if ($logged_in) {
                         }
                     }
 
-                    function openAddProductModal() {
+                    function openAddProductModal(e) {
+                        // Prevenir scroll para o topo
+                        if (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                        
                         document.getElementById('modalTitle').textContent = 'Adicionar Novo Produto';
                         document.getElementById('productForm').reset();
                         document.getElementById('productId').value = '';
@@ -4139,7 +4155,13 @@ if ($logged_in) {
                         document.getElementById('productModal').style.display = 'block';
                     }
 
-                    function editProduct(id) {
+                    function editProduct(id, e) {
+                        // Prevenir scroll para o topo
+                        if (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                        
                         currentProductId = id;
                         document.getElementById('modalTitle').textContent = 'Editar Produto';
 
