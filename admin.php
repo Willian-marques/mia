@@ -6,7 +6,28 @@ ini_set('display_errors', '0');
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/php-error.log');
 
+// Detectar se está em HTTPS
+$is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
+    || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    || (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+
+// Configurar sessão
 if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_name('PHPSESSID');
+    
+    $session_params = [
+        'path' => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ];
+    
+    // Apenas usar secure=true se estiver realmente em HTTPS
+    if ($is_https) {
+        $session_params['secure'] = true;
+    }
+    
+    session_set_cookie_params($session_params);
     session_start();
 }
 
@@ -3051,14 +3072,7 @@ if ($logged_in) {
                         </div>
                     </div>
 
-                <!-- Modal Adicionar/Editar Produto -->
-                <div id="productModal" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalTitle">Adicionar Produto</h3>
-                            <span class="close" onclick="closeProductModal()">&times;</span>
-                        </div>
-                        <div class="modal-body">
+                <?php
                     $avaliacoes = [];
                     if (file_exists($arquivo_avaliacoes)) {
                         $avaliacoes = json_decode(file_get_contents($arquivo_avaliacoes), true) ?: [];
@@ -3143,12 +3157,23 @@ if ($logged_in) {
                             <?php else: ?>
                                 <div style="display: grid; gap: 20px;">
                                     <?php foreach ($avaliacoes as $av): ?>
-                                        <div style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; background: #f8f9fa; <?php echo !$av['ativo'] ? 'opacity: 0.6;' : ''; ?>">
+                                <div style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; background: #f8f9fa; <?php echo !$av['ativo'] ? 'opacity: 0.6;' : ''; ?>">
                                             <div style="display: flex; gap: 20px;">
                                                 <!-- Avatar -->
-                                                <div style="width: 60px; height: 60px; border-radius: 50%; background: <?php echo htmlspecialchars($av['cor_inicial']); ?>; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; flex-shrink: 0;">
-                                                    <?php echo htmlspecialchars($av['iniciais']); ?>
-                                                </div>
+                                                <?php 
+                                                    // Garantir que sempre use iniciais se não houver foto ou se tipo_foto for 'iniciais' ou null
+                                                    $usar_iniciais = empty($av['tipo_foto']) || $av['tipo_foto'] === 'iniciais' || $av['foto'] === 'iniciais';
+                                                    $cor_avatar = !empty($av['cor_inicial']) ? $av['cor_inicial'] : '#e91e63';
+                                                    $iniciais_avatar = !empty($av['iniciais']) ? $av['iniciais'] : strtoupper(substr($av['nome'], 0, 2));
+                                                ?>
+                                                
+                                                <?php if ($usar_iniciais): ?>
+                                                    <div style="width: 60px; height: 60px; border-radius: 50%; background: <?php echo htmlspecialchars($cor_avatar); ?>; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; flex-shrink: 0;">
+                                                        <?php echo htmlspecialchars($iniciais_avatar); ?>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <img src="<?php echo htmlspecialchars($av['foto']); ?>" alt="<?php echo htmlspecialchars($av['nome']); ?>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                                                <?php endif; ?>
                                                 
                                                 <!-- Conteúdo -->
                                                 <div style="flex: 1;">
@@ -3261,17 +3286,7 @@ if ($logged_in) {
                         </div>
                     </div>
 
-                <!-- Modal Adicionar/Editar Produto -->
-                <div id="productModal" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalTitle">Adicionar Produto</h3>
-                            <span class="close" onclick="closeProductModal()">&times;</span>
-                        </div>
-                        <div class="modal-body">
-                            <form id="productForm">
-                                <input type="hidden" id="productId" name="productId">
-
+                <?php
                             if ($tipo_foto === 'iniciais') {
                                 $nome_partes = explode(' ', trim($_POST['review_nome']));
                                 $iniciais = '';
@@ -3344,7 +3359,7 @@ if ($logged_in) {
             $timestamp = time();
             header('Location: admin.php?success=review_saved&t=' . $timestamp . '#reviews-section');
             exit;
-        }
+        
                         if (isset($_POST['action']) && $_POST['action'] == 'delete_review') {
                             $review_id = $_POST['review_id'];
                             if (isset($avaliacoes[$review_id])) {
@@ -3431,7 +3446,15 @@ if ($logged_in) {
                                 <?php echo $avaliacao['ativo'] ? '' : 'opacity: 0.6; border-color: #dc3545;'; ?>
                             ">
                                             <div style="flex-shrink: 0;">
-                                                <?php if (($avaliacao['tipo_foto'] ?? 'upload') === 'iniciais'): ?>
+                                                <?php 
+                                                    // Se tipo_foto for null, vazio ou 'iniciais', usar iniciais
+                                                    $usar_iniciais = empty($avaliacao['tipo_foto']) || 
+                                                                     $avaliacao['tipo_foto'] === 'iniciais' || 
+                                                                     $avaliacao['foto'] === 'iniciais' ||
+                                                                     empty($avaliacao['foto']) ||
+                                                                     strlen($avaliacao['foto']) <= 3; // Se foto tem 2-3 caracteres, provavelmente são iniciais
+                                                ?>
+                                                <?php if ($usar_iniciais): ?>
                                                     <!-- Avatar com iniciais -->
                                                     <div style="
                                             width: 60px; 
@@ -3446,7 +3469,19 @@ if ($logged_in) {
                                             font-size: 22px;
                                             border: 2px solid #ddd;
                                         ">
-                                                        <?php echo htmlspecialchars($avaliacao['iniciais'] ?? 'XX'); ?>
+                                                        <?php 
+                                                            // Se iniciais não existir, gerar das primeiras letras do nome
+                                                            $iniciais = $avaliacao['iniciais'] ?? '';
+                                                            if (empty($iniciais)) {
+                                                                $palavras = explode(' ', $avaliacao['nome']);
+                                                                if (count($palavras) >= 2) {
+                                                                    $iniciais = strtoupper(substr($palavras[0], 0, 1) . substr(end($palavras), 0, 1));
+                                                                } else {
+                                                                    $iniciais = strtoupper(substr($avaliacao['nome'], 0, 2));
+                                                                }
+                                                            }
+                                                            echo htmlspecialchars($iniciais);
+                                                        ?>
                                                     </div>
                                                 <?php else: ?>
                                                     <!-- Foto carregada -->
@@ -4118,6 +4153,7 @@ if ($logged_in) {
                     }
 
                     function openAddProductModal(e) {
+                        console.log('🔵 openAddProductModal chamado');
                         // Prevenir scroll para o topo
                         if (e) {
                             e.preventDefault();
@@ -4154,8 +4190,12 @@ if ($logged_in) {
 
                         document.getElementById('productModal').style.display = 'block';
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.openAddProductModal = openAddProductModal;
 
                     function editProduct(id, e) {
+                        console.log('🟡 editProduct chamado com ID:', id);
                         // Prevenir scroll para o topo
                         if (e) {
                             e.preventDefault();
@@ -4166,7 +4206,7 @@ if ($logged_in) {
                         document.getElementById('modalTitle').textContent = 'Editar Produto';
 
                         console.log('Tentando carregar produto ID:', id);
-                        const url = `/admin_actions.php?action=get&productId=${id}`;
+                        const url = `./admin_actions.php?action=get&productId=${id}`;
                         console.log('URL da requisição:', url);
 
                         fetch(url, {
@@ -4311,9 +4351,17 @@ if ($logged_in) {
                                 alert(mensagem);
                                 notifications.error('Erro ao Carregar', 'Não foi possível carregar os dados do produto. Verifique o console para mais detalhes.');
                             });
-                    } function closeProductModal() {
+                    }
+                    
+                    // Tornar a função globalmente acessível
+                    window.editProduct = editProduct;
+
+                    function closeProductModal() {
                         document.getElementById('productModal').style.display = 'none';
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.closeProductModal = closeProductModal;
 
                     function saveProduct() {
                         const form = document.getElementById('productForm');
@@ -4388,9 +4436,10 @@ if ($logged_in) {
                         saveBtn.textContent = 'Salvando...';
                         saveBtn.disabled = true;
 
-                        fetch('/admin_actions.php', {
+                        fetch('./admin_actions.php', {
                             method: 'POST',
-                            body: formData
+                            body: formData,
+                            credentials: 'include'
                         })
                             .then(response => {
                                 console.log('Response status:', response.status);
@@ -4427,16 +4476,21 @@ if ($logged_in) {
                                 saveBtn.disabled = false;
                             });
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.saveProduct = saveProduct;
 
                     function deleteProduct(id) {
+                        console.log('🔴 deleteProduct chamado com ID:', id);
                         if (confirm('Tem certeza que deseja excluir este produto?\n\nEsta ação não pode ser desfeita!')) {
                             const formData = new FormData();
                             formData.append('action', 'delete');
                             formData.append('productId', id);
 
-                            fetch('/admin_actions.php', {
+                            fetch('./admin_actions.php', {
                                 method: 'POST',
-                                body: formData
+                                body: formData,
+                                credentials: 'include'
                             })
                                 .then(response => response.json())
                                 .then(data => {
@@ -4454,6 +4508,9 @@ if ($logged_in) {
                                 });
                         }
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.deleteProduct = deleteProduct;
 
                     document.getElementById('productImages').addEventListener('change', function (e) {
                         const files = Array.from(e.target.files);
@@ -4705,7 +4762,7 @@ if ($logged_in) {
                     }
 
                     function testConnection() {
-                        const url = 'https://miamianet.com.br/admin_actions.php?action=test';
+                        const url = './admin_actions.php?action=test';
 
                         fetch(url, {
                             method: 'GET',
@@ -4740,7 +4797,7 @@ if ($logged_in) {
                                 alert(
                                     'Falha no teste de conexão:\n' +
                                     err.message +
-                                    '\n\nDica: verifique se /admin_actions.php NÃO está sendo reescrito e se o Nginx está forçando HTTPS no proxy.'
+                                    '\n\nDica: verifique se o arquivo admin_actions.php está acessível e se a sessão está ativa.'
                                 );
                             });
                     }
@@ -4850,6 +4907,9 @@ if ($logged_in) {
                         sidebar.classList.toggle('open');
                         overlay.classList.toggle('show');
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.toggleSidebar = toggleSidebar;
 
                     function closeSidebar() {
                         const sidebar = document.querySelector('.admin-sidebar');
@@ -4858,6 +4918,9 @@ if ($logged_in) {
                         sidebar.classList.remove('open');
                         overlay.classList.remove('show');
                     }
+                    
+                    // Tornar a função globalmente acessível
+                    window.closeSidebar = closeSidebar;
 
                     document.querySelectorAll('.nav-link').forEach(link => {
                         link.addEventListener('click', () => {
