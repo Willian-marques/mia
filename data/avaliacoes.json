@@ -1,16 +1,74 @@
 {
-    "1": {
+<<<<<<< HEAD
+    "17": {
+        "nome": "Maria Silva",
+        "foto": "iniciais",
+        "tipo_foto": "iniciais",
+        "iniciais": "MS",
+        "cor_inicial": "#e91e63",
+        "avaliacao": "e",
+        "estrelas": 2,
+        "produto_relacionado": "Produto geral",
+        "ativo": true,
+        "data_criacao": "2025-10-11",
+        "ordem": 5,
+        "id": 17
+    },
+    "18": {
+        "nome": "Maria Silva",
+        "foto": "iniciais",
+        "tipo_foto": "iniciais",
+        "iniciais": "MS",
+        "cor_inicial": "#795548",
+        "avaliacao": "e",
+        "estrelas": 5,
+        "produto_relacionado": "Produto geral",
+        "ativo": true,
+        "data_criacao": "2025-10-11",
+        "ordem": 18,
+        "id": 18
+    },
+    "3": {
+        "nome": "João Santos",
+        "foto": "iniciais",
+        "tipo_foto": "iniciais",
+        "iniciais": "JS",
+        "cor_inicial": "#ff5722",
+        "avaliacao": "wdw",
+        "estrelas": 5,
+        "produto_relacionado": "Necessaire cristal",
+        "ativo": true,
+        "data_criacao": "2025-10-11",
+        "ordem": 3,
+        "id": 3
+    },
+    "4": {
+        "nome": "João Santos",
+        "foto": "iniciais",
+        "tipo_foto": "iniciais",
+        "iniciais": "JS",
+        "cor_inicial": "#ff5722",
+        "avaliacao": "wdw",
+        "estrelas": 5,
+        "produto_relacionado": "Necessaire cristal",
+        "ativo": true,
+        "data_criacao": "2025-10-11",
+        "ordem": 4,
+        "id": 4
+=======
+    "5": {
+        "id": "5",
         "nome": "Bianca Pujol",
+        "avaliacao": "Eu não estou sabendo lidar com a perfeição dessa bolsa. Couro macio, tamanho perfeito, cor maravilhosa, da vontade de colocar um travesseiro na cama pra não separar nem na hora de dormir.",
+        "estrelas": 5,
+        "produto_relacionado": "Bolsa Zephira",
+        "ativo": true,
         "foto": "iniciais",
         "tipo_foto": "iniciais",
         "iniciais": "BP",
-        "cor_inicial": "#e91e63",
-        "avaliacao": "Eu não estou sabendo lidar com a perfeição dessa bolsa. Couro macio, tamanho perfeito, cor maravilhosa, da vontade de colocar um travesseiro na cama pra não separar nem na hora de dormir.",
-        "estrelas": 5,
-        "produto_relacionado": "Bolsa Premium",
-        "ativo": true,
-        "data_criacao": "2025-10-15",
-        "ordem": 1,
-        "id": 1
+        "cor_inicial": "#d5cbc8",
+        "data_criacao": "2025-10-11",
+        "ordem": "5"
+>>>>>>> c83ebdaa9e7bf1a86db19060e9534532c3d382c9
     }
 }

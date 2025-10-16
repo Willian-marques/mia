@@ -11,35 +11,31 @@ ini_set('max_execution_time', 600);
 ini_set('max_input_time', 600);
 ini_set('memory_limit', '512M');
 
-// Detectar se está em HTTPS
-$is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
-    || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-    || (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
-    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+// 🔥 Força o PHP a usar o mesmo nome de sessão que o painel usa
+session_name('PHPSESSID');
 
-// Configurar sessão
-if (session_status() === PHP_SESSION_NONE) {
-    session_name('PHPSESSID');
-    
-    $session_params = [
-        'path' => '/',
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ];
-    
-    // Apenas usar secure=true se estiver realmente em HTTPS
-    if ($is_https) {
-        $session_params['secure'] = true;
-    }
-    
-    session_set_cookie_params($session_params);
-    session_start();
+// 🔥 Define o caminho da sessão para a raiz do site (não só /admin)
+session_set_cookie_params([
+    'path' => '/',
+    'secure' => true,         // importante para HTTPS
+    'httponly' => true,
+    'samesite' => 'None'      // necessário para cookies entre HTTPS
+]);
+
+// 🔥 Corrige HTTPS atrás do proxy (Nginx)
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
 }
 
+// Inicia a sessão
+session_start();
+
 // Log para debug
-error_log("admin_actions.php - Action: " . ($_POST['action'] ?? $_GET['action'] ?? 'none') . 
-          " | Logged: " . (isset($_SESSION['admin_logged']) ? 'yes' : 'no') . 
-          " | HTTPS: " . ($is_https ? 'yes' : 'no'));
+if (!isset($_SESSION['admin_logged'])) {
+    error_log("⚠ Sessão não encontrada no admin_actions.php. Cookies: " . json_encode($_COOKIE));
+} else {
+    error_log("✅ Sessão reconhecida no admin_actions.php. Usuário logado.");
+}
 
 // Limpa qualquer saída antes de mandar JSON
 ob_clean();
@@ -58,20 +54,10 @@ if ($action === null) {
 header('Content-Type: application/json; charset=utf-8');
 
 // Verificar se está logado (exceto para action=test que é para verificar conectividade)
-if ($action !== 'test' && $action !== 'test1' && $action !== 'connection_test') {
-    if (!isset($_SESSION['admin_logged']) || !$_SESSION['admin_logged']) {
-        http_response_code(403);
-        echo json_encode([
-            'error' => 'Acesso negado - sessão não encontrada', 
-            'code' => 403,
-            'debug' => [
-                'session_id' => session_id(),
-                'has_session' => isset($_SESSION['admin_logged']),
-                'cookies' => isset($_COOKIE['PHPSESSID']) ? 'yes' : 'no'
-            ]
-        ]);
-        exit;
-    }
+if ($action !== 'test' && (!isset($_SESSION['admin_logged']) || !$_SESSION['admin_logged'])) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Acesso negado', 'code' => 403]);
+    exit;
 }
 
 try {
