@@ -1,6 +1,12 @@
 RewriteEngine On
+# --- Admin estáticos: se pedirem /admin/{img,js,css,fonts,assets}/...,
+#     serve a mesma coisa na raiz (/img, /js, /css, /fonts, /assets)
+RewriteRule ^admin/(img|images|js|css|fonts|assets)/(.*)$ /$1/$2 [L]
 SetEnvIf X-Forwarded-Proto https HTTPS=on
+RewriteRule ^uploads/ - [L]
 
+RewriteCond %{REQUEST_URI} ^/uploads/
+RewriteRule ^ - [L]
 
 # Ignorar arquivos estáticos primeiro (não reescrever)
 RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|gif|svg|css|js|ico|woff|woff2|ttf|eot)$ [NC]

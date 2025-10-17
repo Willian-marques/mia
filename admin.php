@@ -122,15 +122,16 @@ if ($logged_in) {
 <html lang="pt-br">
 
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - MIA</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="alternate icon" type="image/png" href="img/logo.png">
     <link rel="apple-touch-icon" href="img/logo.png">
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
@@ -2557,7 +2558,7 @@ if ($logged_in) {
                             <div style="display: flex; gap: 15px; align-items: center;">
                                 <input type="text" id="searchProducts" class="search-bar" placeholder="Buscar produtos..."
                                     onkeyup="filterProducts()">
-                                <a href="#" class="add-btn" onclick="openAddProductModal()">+ Adicionar Produto</a>
+                                <a href="#" class="add-btn" onclick="return openAddModal(event)">Adicionar</a>
                             </div>
                         </div>
 
@@ -2614,7 +2615,7 @@ if ($logged_in) {
                                                     <a href="/produto-unico.php?id=<?php echo $produto['id']; ?>"
                                                         target="_blank" class="view-btn" title="Visualizar produto">Ver</a>
                                                     <a href="#" class="edit-btn"
-                                                        onclick="editProduct(<?php echo $produto['id']; ?>)">Editar</a>
+                                                        onclick="return editProduct(<?php echo $produto['id']; ?>, event)">Editar</a>
                                                     <button class="delete-btn"
                                                         onclick="deleteProduct(<?php echo $produto['id']; ?>)">Excluir</button>
                                                 </div>
@@ -3573,7 +3574,7 @@ if ($logged_in) {
                                         <div class="image-upload"
                                             onclick="document.getElementById('productImages').click()">
                                             <p>📸 Clique para adicionar imagens</p>
-                                            <small>Suporte: JPG, PNG, WebP (máx. 10MB cada) - Mínimo 1 imagem</small>
+                                            <small>Suporte: JPG, PNG, WebP (máx. 50MB cada) - Mínimo 1 imagem</small>
                                             <input type="file" id="productImages" accept="image/*" multiple>
                                         </div>
                                         <div id="imagePreview" class="image-preview"></div>
@@ -3784,7 +3785,8 @@ if ($logged_in) {
                         }
                     }
 
-                    function openAddProductModal() {
+                    function openAddModal(e) {
+                        if (e) e.preventDefault();
                         document.getElementById('modalTitle').textContent = 'Adicionar Novo Produto';
                         document.getElementById('productForm').reset();
                         document.getElementById('productId').value = '';
@@ -3814,159 +3816,166 @@ if ($logged_in) {
                         updateColorCounter();
 
                         document.getElementById('productModal').style.display = 'block';
+
+                        return false; // impede a navegação pro "#"
                     }
+                    window.openAddModal = openAddModal;
 
-                    function editProduct(id) {
-                        currentProductId = id;
-                        document.getElementById('modalTitle').textContent = 'Editar Produto';
+                    function editProduct(id, e) {
+                        if (e) e.preventDefault();
+                            currentProductId = id;
+                            document.getElementById('modalTitle').textContent = 'Editar Produto';
 
-                        console.log('Tentando carregar produto ID:', id);
-                        const url = `/admin_actions.php?action=get&productId=${id}`;
-                        console.log('URL da requisição:', url);
+                            console.log('Tentando carregar produto ID:', id);
+                            const url = `/admin_actions.php?action=get&productId=${id}`;
+                            console.log('URL da requisição:', url);
 
-                        fetch(url, {
-                            method: 'GET',
-                            credentials: 'include', // envia cookies da sessão
-                            headers: {
-                                'Cache-Control': 'no-cache'
-                            }
-                        })
-
-                            .then(response => {
-                                console.log('Status da resposta:', response.status);
-                                console.log('URL final:', response.url);
-
-                                if (!response.ok) {
-                                    throw new Error(`Erro HTTP ${response.status}: ${response.statusText}`);
-                                }
-                                return response.text();
-                            })
-                            .then(text => {
-                                console.log('Resposta recebida:', text);
-                                try {
-                                    // Verificar se a resposta é válida antes de fazer parse
-                                    if (!text || text.trim() === '') {
-                                        throw new Error('Resposta vazia do servidor');
-                                    }
-
-                                    // Remover possíveis caracteres invisíveis
-                                    const cleanText = text.trim().replace(/^\uFEFF/, '');
-                                    console.log('Texto limpo:', cleanText);
-
-                                    const data = JSON.parse(cleanText);
-                                    if (data.success) {
-                                        const product = data.product;
-                                        document.getElementById('productId').value = product.id;
-                                        document.getElementById('productName').value = product.title;
-                                        document.getElementById('productCategory').value = product.category;
-                                        document.getElementById('productDescription').value = product.description || '';
-                                        document.getElementById('productSpecifications').value = product.specifications ||
-                                            '';
-                                        const hasDiscount = product.oldPrice && product.oldPrice > 0;
-                                        if (hasDiscount) {
-                                            document.getElementById('productPrice').value = product.oldPrice;
-                                            document.getElementById('productOldPrice').value = product.price;
-                                        } else {
-                                            document.getElementById('productPrice').value = product.price;
-                                        }
-
-                                        document.getElementById('productStatus').value = product.status;
-                                        document.getElementById('productStock').value = product.stock || 0;
-                                        document.getElementById('productSales').value = product.sales || 0;
-                                        document.getElementById('isFeatured').checked = product.isFeatured || false;
-                                        document.getElementById('isBestseller').checked = product.isBestseller || false;
-
-                                        document.getElementById('hasDiscount').checked = hasDiscount;
-                                        if (hasDiscount) {
-                                            document.getElementById('discountSection').style.display = 'block';
-                                            calculateDiscountPreview();
-                                        } else {
-                                            document.getElementById('discountSection').style.display = 'none';
-                                        }
-
-                                        document.querySelectorAll('.color-option').forEach(option => {
-                                            option.classList.remove('active');
-                                        });
-                                        if (product.colors && product.colors.length > 0) {
-                                            product.colors.forEach(color => {
-                                                const colorOption = document.querySelector(
-                                                    `.color-option[data-color="${color.name}"]`);
-                                                if (colorOption) {
-                                                    colorOption.classList.add('active');
-                                                }
-                                            });
-                                        } else {
-                                            document.querySelector('.color-option[data-color="preto"]').classList.add(
-                                                'active');
-                                        }
-                                        updateColorCounter();
-
-                                        // Verificar se o produto usa imagens por cor
-                                        const hasColorImages = product.colorImages && Object.keys(product.colorImages).length > 0;
-
-                                        if (hasColorImages) {
-                                            // Produto tem imagens por cor
-                                            document.getElementById('simpleImageUpload').style.display = 'none';
-                                            document.getElementById('colorImageUpload').style.display = 'block';
-                                            useColorSpecificImages = true;
-
-                                            // Carregar imagens por cor
-                                            window.colorImages = {};
-                                            Object.entries(product.colorImages).forEach(([colorName, images]) => {
-                                                window.colorImages[colorName] = images.map(img => img); // Strings de path
-                                            });
-                                            window.existingColorImages = JSON.parse(JSON.stringify(product.colorImages));
-
-                                            renderColorImageSections();
-                                        } else {
-                                            // Produto usa modo simples de imagens
-                                            document.getElementById('simpleImageUpload').style.display = 'block';
-                                            document.getElementById('colorImageUpload').style.display = 'none';
-                                            useColorSpecificImages = false;
-
-                                            loadExistingImages(product.images || []);
-                                        }
-
-                                        // Verificar automaticamente se deve ativar modo por cor baseado nas cores selecionadas
-                                        setTimeout(() => {
-                                            checkAndToggleImageMode();
-                                        }, 100);
-
-                                        document.getElementById('imageError').style.display = 'none';
-
-                                        document.getElementById('productModal').style.display = 'block';
-                                    } else {
-                                        notifications.error('Erro ao Carregar',
-                                            'Não foi possível carregar os dados do produto: ' + data.error);
-                                    }
-                                } catch (e) {
-                                    console.error('JSON Parse Error:', e);
-                                    console.error('Resposta completa:', text);
-                                    console.error('Primeiro 500 caracteres:', text.substring(0, 500));
-
-                                    let errorMsg = `Erro de JSON Parse:\n`;
-                                    errorMsg += `Erro: ${e.message}\n`;
-                                    errorMsg += `Tipo de erro: ${e.name}\n`;
-                                    errorMsg += `Resposta (primeiros 200 caracteres): ${text.substring(0, 200)}\n`;
-                                    errorMsg += `Tamanho da resposta: ${text.length} caracteres`;
-
-                                    alert(errorMsg);
-                                    notifications.error('Erro JSON', 'Resposta inválida do servidor. Verifique o console.');
+                            fetch(url, {
+                                method: 'GET',
+                                credentials: 'include', // envia cookies da sessão
+                                headers: {
+                                    'Cache-Control': 'no-cache'
                                 }
                             })
-                            .catch(error => {
-                                console.error('Erro ao carregar produto:', error);
-                                console.error('Stack trace:', error.stack);
 
-                                let mensagem = `Erro ao carregar produto:\n`;
-                                mensagem += `ID do produto: ${id}\n`;
-                                mensagem += `Erro: ${error.message}\n`;
-                                mensagem += `URL tentada: ./admin_actions.php?action=get&productId=${id}`;
+                                .then(response => {
+                                    console.log('Status da resposta:', response.status);
+                                    console.log('URL final:', response.url);
 
-                                alert(mensagem);
-                                notifications.error('Erro ao Carregar', 'Não foi possível carregar os dados do produto. Verifique o console para mais detalhes.');
-                            });
-                    } function closeProductModal() {
+                                    if (!response.ok) {
+                                        throw new Error(`Erro HTTP ${response.status}: ${response.statusText}`);
+                                    }
+                                    return response.text();
+                                })
+                                .then(text => {
+                                    console.log('Resposta recebida:', text);
+                                    try {
+                                        // Verificar se a resposta é válida antes de fazer parse
+                                        if (!text || text.trim() === '') {
+                                            throw new Error('Resposta vazia do servidor');
+                                        }
+
+                                        // Remover possíveis caracteres invisíveis
+                                        const cleanText = text.trim().replace(/^\uFEFF/, '');
+                                        console.log('Texto limpo:', cleanText);
+
+                                        const data = JSON.parse(cleanText);
+                                        if (data.success) {
+                                            const product = data.product;
+                                            document.getElementById('productId').value = product.id;
+                                            document.getElementById('productName').value = product.title;
+                                            document.getElementById('productCategory').value = product.category;
+                                            document.getElementById('productDescription').value = product.description || '';
+                                            document.getElementById('productSpecifications').value = product.specifications ||
+                                                '';
+                                            const hasDiscount = product.oldPrice && product.oldPrice > 0;
+                                            if (hasDiscount) {
+                                                document.getElementById('productPrice').value = product.oldPrice;
+                                                document.getElementById('productOldPrice').value = product.price;
+                                            } else {
+                                                document.getElementById('productPrice').value = product.price;
+                                            }
+
+                                            document.getElementById('productStatus').value = product.status;
+                                            document.getElementById('productStock').value = product.stock || 0;
+                                            document.getElementById('productSales').value = product.sales || 0;
+                                            document.getElementById('isFeatured').checked = product.isFeatured || false;
+                                            document.getElementById('isBestseller').checked = product.isBestseller || false;
+
+                                            document.getElementById('hasDiscount').checked = hasDiscount;
+                                            if (hasDiscount) {
+                                                document.getElementById('discountSection').style.display = 'block';
+                                                calculateDiscountPreview();
+                                            } else {
+                                                document.getElementById('discountSection').style.display = 'none';
+                                            }
+
+                                            document.querySelectorAll('.color-option').forEach(option => {
+                                                option.classList.remove('active');
+                                            });
+                                            if (product.colors && product.colors.length > 0) {
+                                                product.colors.forEach(color => {
+                                                    const colorOption = document.querySelector(
+                                                        `.color-option[data-color="${color.name}"]`);
+                                                    if (colorOption) {
+                                                        colorOption.classList.add('active');
+                                                    }
+                                                });
+                                            } else {
+                                                document.querySelector('.color-option[data-color="preto"]').classList.add(
+                                                    'active');
+                                            }
+                                            updateColorCounter();
+
+                                            // Verificar se o produto usa imagens por cor
+                                            const hasColorImages = product.colorImages && Object.keys(product.colorImages).length > 0;
+
+                                            if (hasColorImages) {
+                                                // Produto tem imagens por cor
+                                                document.getElementById('simpleImageUpload').style.display = 'none';
+                                                document.getElementById('colorImageUpload').style.display = 'block';
+                                                useColorSpecificImages = true;
+
+                                                // Carregar imagens por cor
+                                                window.colorImages = {};
+                                                Object.entries(product.colorImages).forEach(([colorName, images]) => {
+                                                    window.colorImages[colorName] = images.map(img => img); // Strings de path
+                                                });
+                                                window.existingColorImages = JSON.parse(JSON.stringify(product.colorImages));
+
+                                                renderColorImageSections();
+                                            } else {
+                                                // Produto usa modo simples de imagens
+                                                document.getElementById('simpleImageUpload').style.display = 'block';
+                                                document.getElementById('colorImageUpload').style.display = 'none';
+                                                useColorSpecificImages = false;
+
+                                                loadExistingImages(product.images || []);
+                                            }
+
+                                            // Verificar automaticamente se deve ativar modo por cor baseado nas cores selecionadas
+                                            setTimeout(() => {
+                                                checkAndToggleImageMode();
+                                            }, 100);
+
+                                            document.getElementById('imageError').style.display = 'none';
+
+                                            document.getElementById('productModal').style.display = 'block';
+                                        } else {
+                                            notifications.error('Erro ao Carregar',
+                                                'Não foi possível carregar os dados do produto: ' + data.error);
+                                        }
+                                    } catch (e) {
+                                        console.error('JSON Parse Error:', e);
+                                        console.error('Resposta completa:', text);
+                                        console.error('Primeiro 500 caracteres:', text.substring(0, 500));
+
+                                        let errorMsg = `Erro de JSON Parse:\n`;
+                                        errorMsg += `Erro: ${e.message}\n`;
+                                        errorMsg += `Tipo de erro: ${e.name}\n`;
+                                        errorMsg += `Resposta (primeiros 200 caracteres): ${text.substring(0, 200)}\n`;
+                                        errorMsg += `Tamanho da resposta: ${text.length} caracteres`;
+
+                                        alert(errorMsg);
+                                        notifications.error('Erro JSON', 'Resposta inválida do servidor. Verifique o console.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao carregar produto:', error);
+                                    console.error('Stack trace:', error.stack);
+
+                                    let mensagem = `Erro ao carregar produto:\n`;
+                                    mensagem += `ID do produto: ${id}\n`;
+                                    mensagem += `Erro: ${error.message}\n`;
+                                    mensagem += `URL tentada: ./admin_actions.php?action=get&productId=${id}`;
+
+                                    alert(mensagem);
+                                    notifications.error('Erro ao Carregar', 'Não foi possível carregar os dados do produto. Verifique o console para mais detalhes.');
+                                });
+                    }
+                    window.editProduct = editProduct;
+
+                    function closeProductModal() {
                         document.getElementById('productModal').style.display = 'none';
                     }
 
@@ -4114,28 +4123,52 @@ if ($logged_in) {
                         const files = Array.from(e.target.files);
                         const preview = document.getElementById('imagePreview');
 
-                        files.forEach(file => {
-                            if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) {
-                                selectedImages.push(file);
+                        // limite de quantidade de imagens
+                        const maxImages = 5;
+                        // limite de tamanho por imagem (50 MB)
+                        const maxSize = 50 * 1024 * 1024;
 
-                                const reader = new FileReader();
-                                reader.onload = function (e) {
-                                    const previewItem = document.createElement('div');
-                                    previewItem.className = 'preview-item';
-                                    previewItem.innerHTML = `
-                            <img src="${e.target.result}" alt="Preview">
-                            <button type="button" class="remove-image" onclick="removeImage(${selectedImages.length - 1})">×</button>
-                        `;
-                                    preview.appendChild(previewItem);
-                                };
-                                reader.readAsDataURL(file);
-                            } else {
-                                notifications.warning('Arquivo Inválido',
-                                    `O arquivo "${file.name}" não é válido. Apenas imagens até 10MB são permitidas.`
-                                );
+                        // se já tiver imagens selecionadas, soma com as novas
+                        const totalImages = selectedImages.length + files.length;
+                        if (totalImages > maxImages) {
+                            notifications.warning(
+                                'Limite de imagens excedido',
+                                `Você pode adicionar no máximo ${maxImages} imagens por produto.`
+                            );
+                            return;
+                        }
+
+                        files.forEach((file, index) => {
+                            if (!file.type.startsWith('image/')) {
+                                notifications.warning('Arquivo inválido', `O arquivo "${file.name}" não é uma imagem.`);
+                                return;
                             }
+
+                            if (file.size > maxSize) {
+                                notifications.warning(
+                                    'Arquivo muito grande',
+                                    `O arquivo "${file.name}" ultrapassa o limite de ${(maxSize / (1024 * 1024)).toFixed(0)} MB.`
+                                );
+                                return;
+                            }
+
+                            // adiciona ao array de imagens
+                            selectedImages.push(file);
+
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                const previewItem = document.createElement('div');
+                                previewItem.className = 'preview-item';
+                                previewItem.innerHTML = `
+                <img src="${e.target.result}" alt="Preview">
+                <button type="button" class="remove-image" onclick="removeImage(${selectedImages.length - 1})">×</button>
+            `;
+                                preview.appendChild(previewItem);
+                            };
+                            reader.readAsDataURL(file);
                         });
                     });
+
 
                     function removeImage(index) {
                         selectedImages.splice(index, 1);
@@ -4174,20 +4207,37 @@ if ($logged_in) {
                         selectedImages = [];
 
                         existingImages.forEach((imagePath, index) => {
+                            // Normaliza:
+                            // - se já for http(s), usa como está
+                            // - se vier "uploads/..." ou "/uploads/...", vira "/uploads/..."
+                            let finalPath;
+                            if (/^https?:\/\//i.test(imagePath)) {
+                                finalPath = imagePath.replace('://miamianet.com.br/admin/', '://miamianet.com.br/');
+                            } else {
+                                const clean = imagePath.replace(/^\/+/, ''); // remove barras iniciais
+                                finalPath = '/' + clean; // garante uma barra
+                                if (!finalPath.startsWith('/uploads/')) {
+                                    finalPath = '/uploads/' + clean.replace(/^uploads\/?/, '');
+                                }
+                            }
+
                             const previewItem = document.createElement('div');
                             previewItem.className = 'preview-item existing-image';
                             previewItem.innerHTML = `
-                <img src="${imagePath.startsWith('/') ? imagePath : '/' + imagePath}" 
-                    alt="Imagem existente" 
-                    onerror="this.src='/img/default-product.png'">
-                <button type="button" class="remove-image" onclick="removeExistingImage(${index}, '${imagePath}')">×</button>
-                <span class="image-type">Existente</span>
-            `;
+                            <img src="${finalPath}"
+                                alt="Imagem existente"
+                                onerror="this.src='/img/default-product.png'">
+                            <button type="button" class="remove-image"
+                                    onclick="removeExistingImage(${index}, '${finalPath}')">×</button>
+                            <span class="image-type">Existente</span>
+                            `;
                             preview.appendChild(previewItem);
                         });
 
                         window.existingImages = existingImages.slice();
                     }
+
+
 
                     // ============================================
                     // FUNÇÕES PARA IMAGENS POR COR

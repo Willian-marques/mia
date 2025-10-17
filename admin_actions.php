@@ -497,6 +497,24 @@ function getProduct()
         $product['colors'] = $product['colors'] ?? [];
         $product['sizes'] = $product['sizes'] ?? [];
 
+        // 🔧 Corrigir caminhos das imagens (garante /uploads/)
+        if (!empty($product['images'])) {
+            $baseUrl = 'https://miamianet.com.br'; // 🔧 ajusta conforme teu domínio real
+            $product['images'] = array_map(function ($img) use ($baseUrl) {
+                // Remove possíveis barras duplicadas
+                $img = ltrim($img, '/');
+
+                // Se for caminho relativo (sem http)
+                if (!preg_match('#^https?://#', $img)) {
+                    return $baseUrl . '/uploads/' . basename($img);
+                }
+
+                // Se já for URL completa, mantém
+                return $img;
+            }, $product['images']);
+        }
+
+
         // Limpar buffer e enviar JSON
         ob_clean();
         echo json_encode(['success' => true, 'product' => $product], JSON_UNESCAPED_UNICODE);
@@ -507,6 +525,7 @@ function getProduct()
         echo json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE);
     }
 }
+
 
 // Função para fazer upload de avatar
 function uploadAvatar()
