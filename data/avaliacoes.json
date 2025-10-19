@@ -1,1 +1,14 @@
-[]
+[{
+        "id": "5",
+        "nome": "Bianca Pujol",
+        "avaliacao": "Eu não estou sabendo lidar com a perfeição dessa bolsa. Couro macio, tamanho perfeito, cor maravilhosa, da vontade de colocar um travesseiro na cama pra não separar nem na hora de dormir.",
+        "estrelas": 5,
+        "produto_relacionado": "Bolsa Zephira",
+        "ativo": true,
+        "foto": "iniciais",
+        "tipo_foto": "iniciais",
+        "iniciais": "BP",
+        "cor_inicial": "#d5cbc8",
+        "data_criacao": "2025-10-11",
+        "ordem": "5"
+    }]

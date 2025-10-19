@@ -1026,8 +1026,8 @@ $recentProducts = getRecentProducts(4);
         <div class="container">
             <h2>Siga-nos no Instagram</h2>
                 <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-3b2dd460-2d5f-4099-abe7-c67f2c5af34f" data-elfsight-app-lazy></div>
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-e6aba1ab-3e31-4d05-805f-8148720ba898" data-elfsight-app-lazy></div>
         </div>
     </section>
 
@@ -1075,7 +1075,7 @@ $recentProducts = getRecentProducts(4);
                         <div class="testimonial-info">
                             <h4>Equipe MIA</h4>
                             <div class="rating">
-                                <span>★★★★★</span>
+                                <span>★★★★</span>
                             </div>
                         </div>
                     </div>

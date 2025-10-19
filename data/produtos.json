@@ -549,39 +549,5 @@
                 "uploads\/1759892769_0_5.JPG"
             ]
         }
-    },
-    "14": {
-        "id": 14,
-        "slug": "a",
-        "title": "ab",
-        "category": "carteiras",
-        "price": 0.11,
-        "oldPrice": null,
-        "discount": null,
-        "images": [
-            "uploads\/1760714601_0_2.JPG",
-            "uploads\/1760714641_0_2.JPG",
-            "uploads\/1760714697_0_2.JPG",
-            "uploads\/1760714697_1_1.JPG"
-        ],
-        "colors": [
-            {
-                "name": "preto",
-                "color": "#000000",
-                "title": "Preto"
-            }
-        ],
-        "sizes": [
-            "Único"
-        ],
-        "description": "ab",
-        "specifications": "ab",
-        "status": "ativo",
-        "stock": 11,
-        "sales": 0,
-        "isFeatured": false,
-        "isBestseller": false,
-        "created_at": "2025-10-17 17:23:21",
-        "updated_at": "2025-10-17 17:24:57"
     }
 }
